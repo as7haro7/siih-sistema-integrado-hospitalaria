@@ -1,0 +1,6547 @@
+openapi: 3.0.3
+info:
+  title: SIIH API
+  version: 1.0.0
+  description: API del Sistema Integrado de Información Hospitalaria (SIIH)
+paths:
+  /api/v1/auditoria/:
+    get:
+      operationId: v1_auditoria_list
+      description: |-
+        Consulta de registros de auditoría (solo lectura, solo Admin).
+
+        GET /api/v1/auditoria/ → Listar registros (filtrable por tabla, usuario, tipo)
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      - in: query
+        name: tabla_afectada
+        schema:
+          type: string
+      - in: query
+        name: tipo_operacion
+        schema:
+          type: string
+          enum:
+          - EDICION
+          - ELIMINACION
+          - INSERCION
+          - LECTURA
+        description: |-
+          * `INSERCION` - Inserción
+          * `LECTURA` - Lectura
+          * `EDICION` - Edición
+          * `ELIMINACION` - Eliminación
+      - in: query
+        name: usuario_accion
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAuditoriaSistemaList'
+          description: ''
+  /api/v1/auditoria/{id_auditoria}/:
+    get:
+      operationId: v1_auditoria_retrieve
+      description: |-
+        Consulta de registros de auditoría (solo lectura, solo Admin).
+
+        GET /api/v1/auditoria/ → Listar registros (filtrable por tabla, usuario, tipo)
+      parameters:
+      - in: path
+        name: id_auditoria
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Registro de auditoría.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditoriaSistema'
+          description: ''
+  /api/v1/auth/login/:
+    post:
+      operationId: v1_auth_login_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/v1/auth/refresh/:
+    post:
+      operationId: v1_auth_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/v1/camas/:
+    get:
+      operationId: v1_camas_list
+      description: |-
+        CRUD de camas.
+
+        GET /api/v1/camas/disponibles/ → Camas con estado 'Disponible'
+      parameters:
+      - in: query
+        name: estado_cama
+        schema:
+          type: string
+          enum:
+          - Disponible
+          - Mantenimiento
+          - Ocupada
+        description: |-
+          * `Disponible` - Disponible
+          * `Ocupada` - Ocupada
+          * `Mantenimiento` - Mantenimiento
+      - in: query
+        name: nro_habitacion
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCamaList'
+          description: ''
+    post:
+      operationId: v1_camas_create
+      description: |-
+        CRUD de camas.
+
+        GET /api/v1/camas/disponibles/ → Camas con estado 'Disponible'
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CamaRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CamaRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CamaRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cama'
+          description: ''
+  /api/v1/camas/{id_cama}/:
+    get:
+      operationId: v1_camas_retrieve
+      description: |-
+        CRUD de camas.
+
+        GET /api/v1/camas/disponibles/ → Camas con estado 'Disponible'
+      parameters:
+      - in: path
+        name: id_cama
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Cama.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cama'
+          description: ''
+    put:
+      operationId: v1_camas_update
+      description: |-
+        CRUD de camas.
+
+        GET /api/v1/camas/disponibles/ → Camas con estado 'Disponible'
+      parameters:
+      - in: path
+        name: id_cama
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Cama.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CamaRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CamaRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CamaRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cama'
+          description: ''
+    patch:
+      operationId: v1_camas_partial_update
+      description: |-
+        CRUD de camas.
+
+        GET /api/v1/camas/disponibles/ → Camas con estado 'Disponible'
+      parameters:
+      - in: path
+        name: id_cama
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Cama.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCamaRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCamaRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCamaRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cama'
+          description: ''
+    delete:
+      operationId: v1_camas_destroy
+      description: |-
+        CRUD de camas.
+
+        GET /api/v1/camas/disponibles/ → Camas con estado 'Disponible'
+      parameters:
+      - in: path
+        name: id_cama
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Cama.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/camas/disponibles/:
+    get:
+      operationId: v1_camas_disponibles_retrieve
+      description: Lista camas disponibles.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cama'
+          description: ''
+  /api/v1/citas/:
+    get:
+      operationId: v1_citas_list
+      description: |-
+        CRUD de citas.
+
+        GET  /api/v1/citas/        → Listar (filtrable por fecha, médico, estado)
+        POST /api/v1/citas/        → Crear cita (valida solapamiento)
+        PATCH /api/v1/citas/{id}/  → Cambiar estado
+      parameters:
+      - in: query
+        name: estado_cita
+        schema:
+          type: string
+          enum:
+          - Atendida
+          - Cancelada
+          - Confirmada
+          - No Asistio
+          - Pendiente
+        description: |-
+          * `Pendiente` - Pendiente
+          * `Confirmada` - Confirmada
+          * `Atendida` - Atendida
+          * `Cancelada` - Cancelada
+          * `No Asistio` - No Asistió
+      - in: query
+        name: fecha_cita
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: id_medico
+        schema:
+          type: integer
+      - in: query
+        name: id_paciente
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Qué campo usar para ordenar los resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Un término de búsqueda.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCitaList'
+          description: ''
+    post:
+      operationId: v1_citas_create
+      description: |-
+        CRUD de citas.
+
+        GET  /api/v1/citas/        → Listar (filtrable por fecha, médico, estado)
+        POST /api/v1/citas/        → Crear cita (valida solapamiento)
+        PATCH /api/v1/citas/{id}/  → Cambiar estado
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CitaRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CitaRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CitaRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cita'
+          description: ''
+  /api/v1/citas/{id_cita}/:
+    get:
+      operationId: v1_citas_retrieve
+      description: |-
+        CRUD de citas.
+
+        GET  /api/v1/citas/        → Listar (filtrable por fecha, médico, estado)
+        POST /api/v1/citas/        → Crear cita (valida solapamiento)
+        PATCH /api/v1/citas/{id}/  → Cambiar estado
+      parameters:
+      - in: path
+        name: id_cita
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Cita.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cita'
+          description: ''
+    put:
+      operationId: v1_citas_update
+      description: |-
+        CRUD de citas.
+
+        GET  /api/v1/citas/        → Listar (filtrable por fecha, médico, estado)
+        POST /api/v1/citas/        → Crear cita (valida solapamiento)
+        PATCH /api/v1/citas/{id}/  → Cambiar estado
+      parameters:
+      - in: path
+        name: id_cita
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Cita.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CitaUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CitaUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CitaUpdateRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitaUpdate'
+          description: ''
+    patch:
+      operationId: v1_citas_partial_update
+      description: |-
+        CRUD de citas.
+
+        GET  /api/v1/citas/        → Listar (filtrable por fecha, médico, estado)
+        POST /api/v1/citas/        → Crear cita (valida solapamiento)
+        PATCH /api/v1/citas/{id}/  → Cambiar estado
+      parameters:
+      - in: path
+        name: id_cita
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Cita.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCitaUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCitaUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCitaUpdateRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitaUpdate'
+          description: ''
+    delete:
+      operationId: v1_citas_destroy
+      description: |-
+        CRUD de citas.
+
+        GET  /api/v1/citas/        → Listar (filtrable por fecha, médico, estado)
+        POST /api/v1/citas/        → Crear cita (valida solapamiento)
+        PATCH /api/v1/citas/{id}/  → Cambiar estado
+      parameters:
+      - in: path
+        name: id_cita
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Cita.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/compras/:
+    get:
+      operationId: v1_compras_list
+      description: |-
+        Gestión de compras.
+
+        POST /api/v1/compras/ → Registra compra + lote + detalle en una operación.
+      parameters:
+      - in: query
+        name: id_proveedor
+        schema:
+          type: integer
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCompraList'
+          description: ''
+    post:
+      operationId: v1_compras_create
+      description: |-
+        Crea COMPRA + LOTE_MEDICAMENTO + COMPRA_DETALLE en una transacción.
+        El trigger trg_lote_incrementa_stock se encarga de actualizar stock_actual.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompraCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CompraCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CompraCreateRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompraCreate'
+          description: ''
+  /api/v1/compras/{id_compra}/:
+    get:
+      operationId: v1_compras_retrieve
+      description: |-
+        Gestión de compras.
+
+        POST /api/v1/compras/ → Registra compra + lote + detalle en una operación.
+      parameters:
+      - in: path
+        name: id_compra
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Compra.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Compra'
+          description: ''
+    put:
+      operationId: v1_compras_update
+      description: |-
+        Gestión de compras.
+
+        POST /api/v1/compras/ → Registra compra + lote + detalle en una operación.
+      parameters:
+      - in: path
+        name: id_compra
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Compra.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompraRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CompraRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CompraRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Compra'
+          description: ''
+    patch:
+      operationId: v1_compras_partial_update
+      description: |-
+        Gestión de compras.
+
+        POST /api/v1/compras/ → Registra compra + lote + detalle en una operación.
+      parameters:
+      - in: path
+        name: id_compra
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Compra.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCompraRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCompraRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCompraRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Compra'
+          description: ''
+    delete:
+      operationId: v1_compras_destroy
+      description: |-
+        Gestión de compras.
+
+        POST /api/v1/compras/ → Registra compra + lote + detalle en una operación.
+      parameters:
+      - in: path
+        name: id_compra
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Compra.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/emergencias/:
+    get:
+      operationId: v1_emergencias_list
+      description: |-
+        CRUD de emergencias.
+
+        GET  /api/v1/emergencias/   → Listar
+        POST /api/v1/emergencias/   → Registrar ingreso + triage
+      parameters:
+      - in: query
+        name: id_medico_guardia
+        schema:
+          type: integer
+      - in: query
+        name: nivel_triage
+        schema:
+          type: string
+          enum:
+          - Amarillo
+          - Azul
+          - Naranja
+          - Rojo
+          - Verde
+        description: |-
+          * `Rojo` - Rojo
+          * `Naranja` - Naranja
+          * `Amarillo` - Amarillo
+          * `Verde` - Verde
+          * `Azul` - Azul
+      - name: ordering
+        required: false
+        in: query
+        description: Qué campo usar para ordenar los resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedEmergenciaList'
+          description: ''
+    post:
+      operationId: v1_emergencias_create
+      description: |-
+        CRUD de emergencias.
+
+        GET  /api/v1/emergencias/   → Listar
+        POST /api/v1/emergencias/   → Registrar ingreso + triage
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmergenciaRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EmergenciaRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EmergenciaRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Emergencia'
+          description: ''
+  /api/v1/emergencias/{id_emergencia}/:
+    get:
+      operationId: v1_emergencias_retrieve
+      description: |-
+        CRUD de emergencias.
+
+        GET  /api/v1/emergencias/   → Listar
+        POST /api/v1/emergencias/   → Registrar ingreso + triage
+      parameters:
+      - in: path
+        name: id_emergencia
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Emergencia.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Emergencia'
+          description: ''
+    put:
+      operationId: v1_emergencias_update
+      description: |-
+        CRUD de emergencias.
+
+        GET  /api/v1/emergencias/   → Listar
+        POST /api/v1/emergencias/   → Registrar ingreso + triage
+      parameters:
+      - in: path
+        name: id_emergencia
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Emergencia.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmergenciaRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EmergenciaRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EmergenciaRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Emergencia'
+          description: ''
+    patch:
+      operationId: v1_emergencias_partial_update
+      description: |-
+        CRUD de emergencias.
+
+        GET  /api/v1/emergencias/   → Listar
+        POST /api/v1/emergencias/   → Registrar ingreso + triage
+      parameters:
+      - in: path
+        name: id_emergencia
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Emergencia.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEmergenciaRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedEmergenciaRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEmergenciaRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Emergencia'
+          description: ''
+    delete:
+      operationId: v1_emergencias_destroy
+      description: |-
+        CRUD de emergencias.
+
+        GET  /api/v1/emergencias/   → Listar
+        POST /api/v1/emergencias/   → Registrar ingreso + triage
+      parameters:
+      - in: path
+        name: id_emergencia
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Emergencia.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/especialidades/:
+    get:
+      operationId: v1_especialidades_list
+      description: CRUD de especialidades (Admin).
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Qué campo usar para ordenar los resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Un término de búsqueda.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedEspecialidadList'
+          description: ''
+    post:
+      operationId: v1_especialidades_create
+      description: CRUD de especialidades (Admin).
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EspecialidadRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EspecialidadRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EspecialidadRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Especialidad'
+          description: ''
+  /api/v1/especialidades/{id_especialidad}/:
+    get:
+      operationId: v1_especialidades_retrieve
+      description: CRUD de especialidades (Admin).
+      parameters:
+      - in: path
+        name: id_especialidad
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Especialidad.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Especialidad'
+          description: ''
+    put:
+      operationId: v1_especialidades_update
+      description: CRUD de especialidades (Admin).
+      parameters:
+      - in: path
+        name: id_especialidad
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Especialidad.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EspecialidadRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EspecialidadRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EspecialidadRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Especialidad'
+          description: ''
+    patch:
+      operationId: v1_especialidades_partial_update
+      description: CRUD de especialidades (Admin).
+      parameters:
+      - in: path
+        name: id_especialidad
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Especialidad.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEspecialidadRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedEspecialidadRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEspecialidadRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Especialidad'
+          description: ''
+    delete:
+      operationId: v1_especialidades_destroy
+      description: CRUD de especialidades (Admin).
+      parameters:
+      - in: path
+        name: id_especialidad
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Especialidad.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/examenes/:
+    get:
+      operationId: v1_examenes_list
+      description: |-
+        Gestión de exámenes de laboratorio.
+
+        PATCH /api/v1/examenes/{id}/resultado/ → Cargar resultado (Técnico Lab)
+      parameters:
+      - in: query
+        name: estado_examen
+        schema:
+          type: string
+          enum:
+          - Completado
+          - En Proceso
+          - Pendiente
+        description: |-
+          * `Pendiente` - Pendiente
+          * `En Proceso` - En Proceso
+          * `Completado` - Completado
+      - in: query
+        name: id_historial
+        schema:
+          type: integer
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedExamenLaboratorioList'
+          description: ''
+    post:
+      operationId: v1_examenes_create
+      description: |-
+        Gestión de exámenes de laboratorio.
+
+        PATCH /api/v1/examenes/{id}/resultado/ → Cargar resultado (Técnico Lab)
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExamenLaboratorioRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ExamenLaboratorioRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ExamenLaboratorioRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExamenLaboratorio'
+          description: ''
+  /api/v1/examenes/{id_examen}/:
+    get:
+      operationId: v1_examenes_retrieve
+      description: |-
+        Gestión de exámenes de laboratorio.
+
+        PATCH /api/v1/examenes/{id}/resultado/ → Cargar resultado (Técnico Lab)
+      parameters:
+      - in: path
+        name: id_examen
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Examen de laboratorio.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExamenLaboratorio'
+          description: ''
+    put:
+      operationId: v1_examenes_update
+      description: |-
+        Gestión de exámenes de laboratorio.
+
+        PATCH /api/v1/examenes/{id}/resultado/ → Cargar resultado (Técnico Lab)
+      parameters:
+      - in: path
+        name: id_examen
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Examen de laboratorio.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExamenLaboratorioRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ExamenLaboratorioRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ExamenLaboratorioRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExamenLaboratorio'
+          description: ''
+    patch:
+      operationId: v1_examenes_partial_update
+      description: |-
+        Gestión de exámenes de laboratorio.
+
+        PATCH /api/v1/examenes/{id}/resultado/ → Cargar resultado (Técnico Lab)
+      parameters:
+      - in: path
+        name: id_examen
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Examen de laboratorio.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedExamenLaboratorioRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedExamenLaboratorioRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedExamenLaboratorioRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExamenLaboratorio'
+          description: ''
+    delete:
+      operationId: v1_examenes_destroy
+      description: |-
+        Gestión de exámenes de laboratorio.
+
+        PATCH /api/v1/examenes/{id}/resultado/ → Cargar resultado (Técnico Lab)
+      parameters:
+      - in: path
+        name: id_examen
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Examen de laboratorio.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/examenes/{id_examen}/resultado/:
+    patch:
+      operationId: v1_examenes_resultado_partial_update
+      description: |-
+        Carga resultado y cambia estado del examen.
+        Solo para Técnico de Laboratorio.
+      parameters:
+      - in: path
+        name: id_examen
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Examen de laboratorio.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedExamenLaboratorioRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedExamenLaboratorioRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedExamenLaboratorioRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExamenLaboratorio'
+          description: ''
+  /api/v1/facturas/:
+    get:
+      operationId: v1_facturas_list
+      description: |-
+        Gestión de facturas.
+
+        POST /api/v1/facturas/consolidar/ → Consolida cargos en una factura
+        POST /api/v1/facturas/{id}/pagos/ → Registra un pago
+      parameters:
+      - in: query
+        name: estado_pago
+        schema:
+          type: string
+          enum:
+          - Anulado
+          - Pagado
+          - Parcial
+          - Pendiente
+        description: |-
+          * `Pendiente` - Pendiente
+          * `Parcial` - Parcial
+          * `Pagado` - Pagado
+          * `Anulado` - Anulado
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFacturaList'
+          description: ''
+    post:
+      operationId: v1_facturas_create
+      description: |-
+        Gestión de facturas.
+
+        POST /api/v1/facturas/consolidar/ → Consolida cargos en una factura
+        POST /api/v1/facturas/{id}/pagos/ → Registra un pago
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacturaRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FacturaRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FacturaRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Factura'
+          description: ''
+  /api/v1/facturas/{id_factura}/:
+    get:
+      operationId: v1_facturas_retrieve
+      description: |-
+        Gestión de facturas.
+
+        POST /api/v1/facturas/consolidar/ → Consolida cargos en una factura
+        POST /api/v1/facturas/{id}/pagos/ → Registra un pago
+      parameters:
+      - in: path
+        name: id_factura
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Factura.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Factura'
+          description: ''
+    put:
+      operationId: v1_facturas_update
+      description: |-
+        Gestión de facturas.
+
+        POST /api/v1/facturas/consolidar/ → Consolida cargos en una factura
+        POST /api/v1/facturas/{id}/pagos/ → Registra un pago
+      parameters:
+      - in: path
+        name: id_factura
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Factura.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacturaRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FacturaRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FacturaRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Factura'
+          description: ''
+    patch:
+      operationId: v1_facturas_partial_update
+      description: |-
+        Gestión de facturas.
+
+        POST /api/v1/facturas/consolidar/ → Consolida cargos en una factura
+        POST /api/v1/facturas/{id}/pagos/ → Registra un pago
+      parameters:
+      - in: path
+        name: id_factura
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Factura.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFacturaRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFacturaRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFacturaRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Factura'
+          description: ''
+    delete:
+      operationId: v1_facturas_destroy
+      description: |-
+        Gestión de facturas.
+
+        POST /api/v1/facturas/consolidar/ → Consolida cargos en una factura
+        POST /api/v1/facturas/{id}/pagos/ → Registra un pago
+      parameters:
+      - in: path
+        name: id_factura
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Factura.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/facturas/{id_factura}/pagos/:
+    post:
+      operationId: v1_facturas_pagos_create
+      description: |-
+        Registra un pago parcial o total.
+        El trigger trg_pago_actualiza_factura recalcula el estado automáticamente.
+      parameters:
+      - in: path
+        name: id_factura
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Factura.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacturaRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FacturaRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FacturaRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Factura'
+          description: ''
+  /api/v1/facturas/{id_factura}/pagos-lista/:
+    get:
+      operationId: v1_facturas_pagos_lista_retrieve
+      description: Lista todos los pagos de una factura.
+      parameters:
+      - in: path
+        name: id_factura
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Factura.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Factura'
+          description: ''
+  /api/v1/facturas/config-impuesto/:
+    get:
+      operationId: v1_facturas_config_impuesto_list
+      description: CRUD de configuraciones de impuesto (Admin).
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Qué campo usar para ordenar los resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Un término de búsqueda.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedConfigImpuestoList'
+          description: ''
+    post:
+      operationId: v1_facturas_config_impuesto_create
+      description: CRUD de configuraciones de impuesto (Admin).
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigImpuestoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ConfigImpuestoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ConfigImpuestoRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigImpuesto'
+          description: ''
+  /api/v1/facturas/config-impuesto/{id_impuesto}/:
+    get:
+      operationId: v1_facturas_config_impuesto_retrieve
+      description: CRUD de configuraciones de impuesto (Admin).
+      parameters:
+      - in: path
+        name: id_impuesto
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Configuración de
+          impuesto.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigImpuesto'
+          description: ''
+    put:
+      operationId: v1_facturas_config_impuesto_update
+      description: CRUD de configuraciones de impuesto (Admin).
+      parameters:
+      - in: path
+        name: id_impuesto
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Configuración de
+          impuesto.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigImpuestoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ConfigImpuestoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ConfigImpuestoRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigImpuesto'
+          description: ''
+    patch:
+      operationId: v1_facturas_config_impuesto_partial_update
+      description: CRUD de configuraciones de impuesto (Admin).
+      parameters:
+      - in: path
+        name: id_impuesto
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Configuración de
+          impuesto.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedConfigImpuestoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedConfigImpuestoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedConfigImpuestoRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigImpuesto'
+          description: ''
+    delete:
+      operationId: v1_facturas_config_impuesto_destroy
+      description: CRUD de configuraciones de impuesto (Admin).
+      parameters:
+      - in: path
+        name: id_impuesto
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Configuración de
+          impuesto.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/facturas/consolidar/:
+    post:
+      operationId: v1_facturas_consolidar_create
+      description: |-
+        Consolida todos los cargos de un historial/hospitalización
+        en una factura (RF-08).
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacturaRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FacturaRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FacturaRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Factura'
+          description: ''
+  /api/v1/historiales/:
+    get:
+      operationId: v1_historiales_list
+      description: |-
+        Gestión de historiales clínicos.
+
+        POST /api/v1/historiales/                 → Crear historial
+        POST /api/v1/historiales/{id}/recetas/    → Emitir receta
+        POST /api/v1/historiales/{id}/examenes/   → Solicitar examen
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Qué campo usar para ordenar los resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Un término de búsqueda.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedHistorialClinicoList'
+          description: ''
+    post:
+      operationId: v1_historiales_create
+      description: |-
+        Gestión de historiales clínicos.
+
+        POST /api/v1/historiales/                 → Crear historial
+        POST /api/v1/historiales/{id}/recetas/    → Emitir receta
+        POST /api/v1/historiales/{id}/examenes/   → Solicitar examen
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistorialClinicoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/HistorialClinicoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/HistorialClinicoRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistorialClinico'
+          description: ''
+  /api/v1/historiales/{id_historial}/:
+    get:
+      operationId: v1_historiales_retrieve
+      description: |-
+        Gestión de historiales clínicos.
+
+        POST /api/v1/historiales/                 → Crear historial
+        POST /api/v1/historiales/{id}/recetas/    → Emitir receta
+        POST /api/v1/historiales/{id}/examenes/   → Solicitar examen
+      parameters:
+      - in: path
+        name: id_historial
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Historial clínico.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistorialClinico'
+          description: ''
+    put:
+      operationId: v1_historiales_update
+      description: |-
+        Gestión de historiales clínicos.
+
+        POST /api/v1/historiales/                 → Crear historial
+        POST /api/v1/historiales/{id}/recetas/    → Emitir receta
+        POST /api/v1/historiales/{id}/examenes/   → Solicitar examen
+      parameters:
+      - in: path
+        name: id_historial
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Historial clínico.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistorialClinicoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/HistorialClinicoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/HistorialClinicoRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistorialClinico'
+          description: ''
+    patch:
+      operationId: v1_historiales_partial_update
+      description: |-
+        Gestión de historiales clínicos.
+
+        POST /api/v1/historiales/                 → Crear historial
+        POST /api/v1/historiales/{id}/recetas/    → Emitir receta
+        POST /api/v1/historiales/{id}/examenes/   → Solicitar examen
+      parameters:
+      - in: path
+        name: id_historial
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Historial clínico.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedHistorialClinicoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedHistorialClinicoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedHistorialClinicoRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistorialClinico'
+          description: ''
+    delete:
+      operationId: v1_historiales_destroy
+      description: |-
+        Gestión de historiales clínicos.
+
+        POST /api/v1/historiales/                 → Crear historial
+        POST /api/v1/historiales/{id}/recetas/    → Emitir receta
+        POST /api/v1/historiales/{id}/examenes/   → Solicitar examen
+      parameters:
+      - in: path
+        name: id_historial
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Historial clínico.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/historiales/{id_historial}/examenes/:
+    post:
+      operationId: v1_historiales_examenes_create
+      description: Solicita un examen de laboratorio asociado a este historial.
+      parameters:
+      - in: path
+        name: id_historial
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Historial clínico.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistorialClinicoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/HistorialClinicoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/HistorialClinicoRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistorialClinico'
+          description: ''
+  /api/v1/historiales/{id_historial}/recetas/:
+    post:
+      operationId: v1_historiales_recetas_create
+      description: Emite una receta médica (RECETA_DETALLE) asociada a este historial.
+      parameters:
+      - in: path
+        name: id_historial
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Historial clínico.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistorialClinicoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/HistorialClinicoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/HistorialClinicoRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistorialClinico'
+          description: ''
+  /api/v1/horarios-medicos/:
+    get:
+      operationId: v1_horarios_medicos_list
+      description: CRUD de horarios médicos.
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Qué campo usar para ordenar los resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Un término de búsqueda.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedHorarioMedicoList'
+          description: ''
+    post:
+      operationId: v1_horarios_medicos_create
+      description: CRUD de horarios médicos.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HorarioMedicoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/HorarioMedicoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/HorarioMedicoRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HorarioMedico'
+          description: ''
+  /api/v1/horarios-medicos/{id_horario}/:
+    get:
+      operationId: v1_horarios_medicos_retrieve
+      description: CRUD de horarios médicos.
+      parameters:
+      - in: path
+        name: id_horario
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Horario médico.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HorarioMedico'
+          description: ''
+    put:
+      operationId: v1_horarios_medicos_update
+      description: CRUD de horarios médicos.
+      parameters:
+      - in: path
+        name: id_horario
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Horario médico.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HorarioMedicoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/HorarioMedicoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/HorarioMedicoRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HorarioMedico'
+          description: ''
+    patch:
+      operationId: v1_horarios_medicos_partial_update
+      description: CRUD de horarios médicos.
+      parameters:
+      - in: path
+        name: id_horario
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Horario médico.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedHorarioMedicoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedHorarioMedicoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedHorarioMedicoRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HorarioMedico'
+          description: ''
+    delete:
+      operationId: v1_horarios_medicos_destroy
+      description: CRUD de horarios médicos.
+      parameters:
+      - in: path
+        name: id_horario
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Horario médico.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/hospitalizaciones/:
+    get:
+      operationId: v1_hospitalizaciones_list
+      description: |-
+        Gestión de hospitalizaciones.
+
+        POST /api/v1/hospitalizaciones/         → Crear internación
+        POST /api/v1/hospitalizaciones/{id}/alta/ → Dar de alta
+      parameters:
+      - in: query
+        name: estado_internacion
+        schema:
+          type: string
+          enum:
+          - Activo
+          - Alta
+          - Trasladado
+        description: |-
+          * `Activo` - Activo
+          * `Alta` - Alta
+          * `Trasladado` - Trasladado
+      - in: query
+        name: id_medico_responsable
+        schema:
+          type: integer
+      - in: query
+        name: id_paciente
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Qué campo usar para ordenar los resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedHospitalizacionList'
+          description: ''
+    post:
+      operationId: v1_hospitalizaciones_create
+      description: |-
+        Gestión de hospitalizaciones.
+
+        POST /api/v1/hospitalizaciones/         → Crear internación
+        POST /api/v1/hospitalizaciones/{id}/alta/ → Dar de alta
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HospitalizacionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/HospitalizacionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/HospitalizacionRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hospitalizacion'
+          description: ''
+  /api/v1/hospitalizaciones/{id_hospitalizacion}/:
+    get:
+      operationId: v1_hospitalizaciones_retrieve
+      description: |-
+        Gestión de hospitalizaciones.
+
+        POST /api/v1/hospitalizaciones/         → Crear internación
+        POST /api/v1/hospitalizaciones/{id}/alta/ → Dar de alta
+      parameters:
+      - in: path
+        name: id_hospitalizacion
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Hospitalización.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hospitalizacion'
+          description: ''
+    put:
+      operationId: v1_hospitalizaciones_update
+      description: |-
+        Gestión de hospitalizaciones.
+
+        POST /api/v1/hospitalizaciones/         → Crear internación
+        POST /api/v1/hospitalizaciones/{id}/alta/ → Dar de alta
+      parameters:
+      - in: path
+        name: id_hospitalizacion
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Hospitalización.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HospitalizacionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/HospitalizacionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/HospitalizacionRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hospitalizacion'
+          description: ''
+    patch:
+      operationId: v1_hospitalizaciones_partial_update
+      description: |-
+        Gestión de hospitalizaciones.
+
+        POST /api/v1/hospitalizaciones/         → Crear internación
+        POST /api/v1/hospitalizaciones/{id}/alta/ → Dar de alta
+      parameters:
+      - in: path
+        name: id_hospitalizacion
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Hospitalización.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedHospitalizacionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedHospitalizacionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedHospitalizacionRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hospitalizacion'
+          description: ''
+    delete:
+      operationId: v1_hospitalizaciones_destroy
+      description: |-
+        Gestión de hospitalizaciones.
+
+        POST /api/v1/hospitalizaciones/         → Crear internación
+        POST /api/v1/hospitalizaciones/{id}/alta/ → Dar de alta
+      parameters:
+      - in: path
+        name: id_hospitalizacion
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Hospitalización.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/hospitalizaciones/{id_hospitalizacion}/alta/:
+    post:
+      operationId: v1_hospitalizaciones_alta_create
+      description: |-
+        Da de alta al paciente: registra fecha_egreso, cambia estado
+        a 'Alta'. El trigger de la BD libera la cama automáticamente.
+      parameters:
+      - in: path
+        name: id_hospitalizacion
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Hospitalización.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HospitalizacionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/HospitalizacionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/HospitalizacionRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hospitalizacion'
+          description: ''
+  /api/v1/lotes-medicamentos/:
+    get:
+      operationId: v1_lotes_medicamentos_list
+      description: CRUD de lotes de medicamentos.
+      parameters:
+      - in: query
+        name: id_medicamento
+        schema:
+          type: integer
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLoteMedicamentoList'
+          description: ''
+    post:
+      operationId: v1_lotes_medicamentos_create
+      description: CRUD de lotes de medicamentos.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoteMedicamentoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoteMedicamentoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoteMedicamentoRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoteMedicamento'
+          description: ''
+  /api/v1/lotes-medicamentos/{id_lote}/:
+    get:
+      operationId: v1_lotes_medicamentos_retrieve
+      description: CRUD de lotes de medicamentos.
+      parameters:
+      - in: path
+        name: id_lote
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Lote de medicamento.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoteMedicamento'
+          description: ''
+    put:
+      operationId: v1_lotes_medicamentos_update
+      description: CRUD de lotes de medicamentos.
+      parameters:
+      - in: path
+        name: id_lote
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Lote de medicamento.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoteMedicamentoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoteMedicamentoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoteMedicamentoRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoteMedicamento'
+          description: ''
+    patch:
+      operationId: v1_lotes_medicamentos_partial_update
+      description: CRUD de lotes de medicamentos.
+      parameters:
+      - in: path
+        name: id_lote
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Lote de medicamento.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLoteMedicamentoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLoteMedicamentoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLoteMedicamentoRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoteMedicamento'
+          description: ''
+    delete:
+      operationId: v1_lotes_medicamentos_destroy
+      description: CRUD de lotes de medicamentos.
+      parameters:
+      - in: path
+        name: id_lote
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Lote de medicamento.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/medicamentos/:
+    get:
+      operationId: v1_medicamentos_list
+      description: |-
+        CRUD de medicamentos.
+
+        GET /api/v1/medicamentos/alertas/ → Stock bajo + lotes por vencer
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Un término de búsqueda.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMedicamentoList'
+          description: ''
+    post:
+      operationId: v1_medicamentos_create
+      description: |-
+        CRUD de medicamentos.
+
+        GET /api/v1/medicamentos/alertas/ → Stock bajo + lotes por vencer
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MedicamentoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MedicamentoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MedicamentoRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medicamento'
+          description: ''
+  /api/v1/medicamentos/{id_medicamento}/:
+    get:
+      operationId: v1_medicamentos_retrieve
+      description: |-
+        CRUD de medicamentos.
+
+        GET /api/v1/medicamentos/alertas/ → Stock bajo + lotes por vencer
+      parameters:
+      - in: path
+        name: id_medicamento
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Medicamento.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medicamento'
+          description: ''
+    put:
+      operationId: v1_medicamentos_update
+      description: |-
+        CRUD de medicamentos.
+
+        GET /api/v1/medicamentos/alertas/ → Stock bajo + lotes por vencer
+      parameters:
+      - in: path
+        name: id_medicamento
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Medicamento.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MedicamentoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MedicamentoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MedicamentoRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medicamento'
+          description: ''
+    patch:
+      operationId: v1_medicamentos_partial_update
+      description: |-
+        CRUD de medicamentos.
+
+        GET /api/v1/medicamentos/alertas/ → Stock bajo + lotes por vencer
+      parameters:
+      - in: path
+        name: id_medicamento
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Medicamento.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMedicamentoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMedicamentoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMedicamentoRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medicamento'
+          description: ''
+    delete:
+      operationId: v1_medicamentos_destroy
+      description: |-
+        CRUD de medicamentos.
+
+        GET /api/v1/medicamentos/alertas/ → Stock bajo + lotes por vencer
+      parameters:
+      - in: path
+        name: id_medicamento
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Medicamento.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/medicamentos/alertas/:
+    get:
+      operationId: v1_medicamentos_alertas_retrieve
+      description: |-
+        Devuelve medicamentos con stock bajo y lotes próximos a vencer.
+        RF-06: alertas de inventario.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medicamento'
+          description: ''
+  /api/v1/medicos/:
+    get:
+      operationId: v1_medicos_list
+      description: |-
+        CRUD de médicos.
+
+        GET /api/v1/medicos/{id}/disponibilidad/?fecha=YYYY-MM-DD
+      parameters:
+      - in: query
+        name: id_especialidad
+        schema:
+          type: integer
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMedicoListList'
+          description: ''
+    post:
+      operationId: v1_medicos_create
+      description: |-
+        CRUD de médicos.
+
+        GET /api/v1/medicos/{id}/disponibilidad/?fecha=YYYY-MM-DD
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MedicoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MedicoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MedicoRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medico'
+          description: ''
+  /api/v1/medicos/{id_medico}/:
+    get:
+      operationId: v1_medicos_retrieve
+      description: |-
+        CRUD de médicos.
+
+        GET /api/v1/medicos/{id}/disponibilidad/?fecha=YYYY-MM-DD
+      parameters:
+      - in: path
+        name: id_medico
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Médico.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medico'
+          description: ''
+    put:
+      operationId: v1_medicos_update
+      description: |-
+        CRUD de médicos.
+
+        GET /api/v1/medicos/{id}/disponibilidad/?fecha=YYYY-MM-DD
+      parameters:
+      - in: path
+        name: id_medico
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Médico.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MedicoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MedicoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MedicoRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medico'
+          description: ''
+    patch:
+      operationId: v1_medicos_partial_update
+      description: |-
+        CRUD de médicos.
+
+        GET /api/v1/medicos/{id}/disponibilidad/?fecha=YYYY-MM-DD
+      parameters:
+      - in: path
+        name: id_medico
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Médico.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMedicoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMedicoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMedicoRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medico'
+          description: ''
+    delete:
+      operationId: v1_medicos_destroy
+      description: |-
+        CRUD de médicos.
+
+        GET /api/v1/medicos/{id}/disponibilidad/?fecha=YYYY-MM-DD
+      parameters:
+      - in: path
+        name: id_medico
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Médico.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/medicos/{id_medico}/disponibilidad/:
+    get:
+      operationId: v1_medicos_disponibilidad_retrieve
+      description: |-
+        Consulta horarios libres del médico para una fecha dada.
+        Cruza HORARIO_MEDICO con CITA existentes para esa fecha.
+
+        Query params:
+            fecha (str): Fecha en formato YYYY-MM-DD (obligatorio).
+      parameters:
+      - in: path
+        name: id_medico
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Médico.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medico'
+          description: ''
+  /api/v1/pacientes/:
+    get:
+      operationId: v1_pacientes_list
+      description: |-
+        CRUD de pacientes.
+
+        GET    /api/v1/pacientes/                → Listar
+        POST   /api/v1/pacientes/                → Registrar
+        GET    /api/v1/pacientes/{id}/            → Detalle
+        PATCH  /api/v1/pacientes/{id}/            → Editar
+        GET    /api/v1/pacientes/{id}/historial/  → Historial clínico completo
+        POST   /api/v1/pacientes/{id}/baja/       → Dar de baja
+      parameters:
+      - in: query
+        name: estado_baja
+        schema:
+          type: string
+          enum:
+          - Activo
+          - Baja
+        description: |-
+          * `Activo` - Activo
+          * `Baja` - Baja
+      - name: ordering
+        required: false
+        in: query
+        description: Qué campo usar para ordenar los resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Un término de búsqueda.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPacienteListList'
+          description: ''
+    post:
+      operationId: v1_pacientes_create
+      description: |-
+        CRUD de pacientes.
+
+        GET    /api/v1/pacientes/                → Listar
+        POST   /api/v1/pacientes/                → Registrar
+        GET    /api/v1/pacientes/{id}/            → Detalle
+        PATCH  /api/v1/pacientes/{id}/            → Editar
+        GET    /api/v1/pacientes/{id}/historial/  → Historial clínico completo
+        POST   /api/v1/pacientes/{id}/baja/       → Dar de baja
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PacienteRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PacienteRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PacienteRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paciente'
+          description: ''
+  /api/v1/pacientes/{id_paciente}/:
+    get:
+      operationId: v1_pacientes_retrieve
+      description: |-
+        CRUD de pacientes.
+
+        GET    /api/v1/pacientes/                → Listar
+        POST   /api/v1/pacientes/                → Registrar
+        GET    /api/v1/pacientes/{id}/            → Detalle
+        PATCH  /api/v1/pacientes/{id}/            → Editar
+        GET    /api/v1/pacientes/{id}/historial/  → Historial clínico completo
+        POST   /api/v1/pacientes/{id}/baja/       → Dar de baja
+      parameters:
+      - in: path
+        name: id_paciente
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Paciente.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paciente'
+          description: ''
+    put:
+      operationId: v1_pacientes_update
+      description: |-
+        CRUD de pacientes.
+
+        GET    /api/v1/pacientes/                → Listar
+        POST   /api/v1/pacientes/                → Registrar
+        GET    /api/v1/pacientes/{id}/            → Detalle
+        PATCH  /api/v1/pacientes/{id}/            → Editar
+        GET    /api/v1/pacientes/{id}/historial/  → Historial clínico completo
+        POST   /api/v1/pacientes/{id}/baja/       → Dar de baja
+      parameters:
+      - in: path
+        name: id_paciente
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Paciente.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PacienteRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PacienteRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PacienteRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paciente'
+          description: ''
+    patch:
+      operationId: v1_pacientes_partial_update
+      description: |-
+        CRUD de pacientes.
+
+        GET    /api/v1/pacientes/                → Listar
+        POST   /api/v1/pacientes/                → Registrar
+        GET    /api/v1/pacientes/{id}/            → Detalle
+        PATCH  /api/v1/pacientes/{id}/            → Editar
+        GET    /api/v1/pacientes/{id}/historial/  → Historial clínico completo
+        POST   /api/v1/pacientes/{id}/baja/       → Dar de baja
+      parameters:
+      - in: path
+        name: id_paciente
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Paciente.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPacienteRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPacienteRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPacienteRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paciente'
+          description: ''
+    delete:
+      operationId: v1_pacientes_destroy
+      description: |-
+        CRUD de pacientes.
+
+        GET    /api/v1/pacientes/                → Listar
+        POST   /api/v1/pacientes/                → Registrar
+        GET    /api/v1/pacientes/{id}/            → Detalle
+        PATCH  /api/v1/pacientes/{id}/            → Editar
+        GET    /api/v1/pacientes/{id}/historial/  → Historial clínico completo
+        POST   /api/v1/pacientes/{id}/baja/       → Dar de baja
+      parameters:
+      - in: path
+        name: id_paciente
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Paciente.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/pacientes/{id_paciente}/baja/:
+    post:
+      operationId: v1_pacientes_baja_create
+      description: Registra la baja de un paciente (crea REGISTRO_BAJA, trigger actualiza
+        estado).
+      parameters:
+      - in: path
+        name: id_paciente
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Paciente.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BajaCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BajaCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BajaCreateRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BajaCreate'
+          description: ''
+  /api/v1/pacientes/{id_paciente}/historial/:
+    get:
+      operationId: v1_pacientes_historial_retrieve
+      description: Devuelve el historial clínico completo del paciente (RF-02).
+      parameters:
+      - in: path
+        name: id_paciente
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Paciente.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paciente'
+          description: ''
+  /api/v1/proveedores/:
+    get:
+      operationId: v1_proveedores_list
+      description: CRUD de proveedores.
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Qué campo usar para ordenar los resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Un término de búsqueda.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProveedorList'
+          description: ''
+    post:
+      operationId: v1_proveedores_create
+      description: CRUD de proveedores.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProveedorRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProveedorRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProveedorRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proveedor'
+          description: ''
+  /api/v1/proveedores/{id_proveedor}/:
+    get:
+      operationId: v1_proveedores_retrieve
+      description: CRUD de proveedores.
+      parameters:
+      - in: path
+        name: id_proveedor
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Proveedor.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proveedor'
+          description: ''
+    put:
+      operationId: v1_proveedores_update
+      description: CRUD de proveedores.
+      parameters:
+      - in: path
+        name: id_proveedor
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Proveedor.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProveedorRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProveedorRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProveedorRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proveedor'
+          description: ''
+    patch:
+      operationId: v1_proveedores_partial_update
+      description: CRUD de proveedores.
+      parameters:
+      - in: path
+        name: id_proveedor
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Proveedor.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProveedorRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProveedorRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProveedorRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proveedor'
+          description: ''
+    delete:
+      operationId: v1_proveedores_destroy
+      description: CRUD de proveedores.
+      parameters:
+      - in: path
+        name: id_proveedor
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Proveedor.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/recetas/:
+    get:
+      operationId: v1_recetas_list
+      description: |-
+        Gestión de recetas médicas / despacho.
+
+        GET  /api/v1/recetas/pendientes/     → Cola de despacho
+        POST /api/v1/recetas/{id}/despachar/ → Despachar receta (FIFO)
+      parameters:
+      - in: query
+        name: estado_despacho
+        schema:
+          type: string
+          enum:
+          - Entregado
+          - Pendiente
+          - Sin Stock
+        description: |-
+          * `Pendiente` - Pendiente
+          * `Entregado` - Entregado
+          * `Sin Stock` - Sin Stock
+      - in: query
+        name: id_historial
+        schema:
+          type: integer
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRecetaDetalleList'
+          description: ''
+    post:
+      operationId: v1_recetas_create
+      description: |-
+        Gestión de recetas médicas / despacho.
+
+        GET  /api/v1/recetas/pendientes/     → Cola de despacho
+        POST /api/v1/recetas/{id}/despachar/ → Despachar receta (FIFO)
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecetaDetalleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RecetaDetalleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecetaDetalleRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecetaDetalle'
+          description: ''
+  /api/v1/recetas/{id_detalle_receta}/:
+    get:
+      operationId: v1_recetas_retrieve
+      description: |-
+        Gestión de recetas médicas / despacho.
+
+        GET  /api/v1/recetas/pendientes/     → Cola de despacho
+        POST /api/v1/recetas/{id}/despachar/ → Despachar receta (FIFO)
+      parameters:
+      - in: path
+        name: id_detalle_receta
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Detalle de receta.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecetaDetalle'
+          description: ''
+    put:
+      operationId: v1_recetas_update
+      description: |-
+        Gestión de recetas médicas / despacho.
+
+        GET  /api/v1/recetas/pendientes/     → Cola de despacho
+        POST /api/v1/recetas/{id}/despachar/ → Despachar receta (FIFO)
+      parameters:
+      - in: path
+        name: id_detalle_receta
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Detalle de receta.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecetaDetalleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RecetaDetalleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecetaDetalleRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecetaDetalle'
+          description: ''
+    patch:
+      operationId: v1_recetas_partial_update
+      description: |-
+        Gestión de recetas médicas / despacho.
+
+        GET  /api/v1/recetas/pendientes/     → Cola de despacho
+        POST /api/v1/recetas/{id}/despachar/ → Despachar receta (FIFO)
+      parameters:
+      - in: path
+        name: id_detalle_receta
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Detalle de receta.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRecetaDetalleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRecetaDetalleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRecetaDetalleRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecetaDetalle'
+          description: ''
+    delete:
+      operationId: v1_recetas_destroy
+      description: |-
+        Gestión de recetas médicas / despacho.
+
+        GET  /api/v1/recetas/pendientes/     → Cola de despacho
+        POST /api/v1/recetas/{id}/despachar/ → Despachar receta (FIFO)
+      parameters:
+      - in: path
+        name: id_detalle_receta
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Detalle de receta.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/recetas/{id_detalle_receta}/despachar/:
+    post:
+      operationId: v1_recetas_despachar_create
+      description: |-
+        Despacha una receta: valida stock FIFO y cambia estado a 'Entregado'.
+        El trigger trg_receta_descuenta_stock hace el descuento real en la BD.
+      parameters:
+      - in: path
+        name: id_detalle_receta
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Detalle de receta.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecetaDetalleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RecetaDetalleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecetaDetalleRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecetaDetalle'
+          description: ''
+  /api/v1/recetas/pendientes/:
+    get:
+      operationId: v1_recetas_pendientes_retrieve
+      description: 'Cola de despacho: recetas con estado ''Pendiente''.'
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecetaDetalle'
+          description: ''
+  /api/v1/reportes/consumo-medicamentos/:
+    get:
+      operationId: v1_reportes_consumo_medicamentos_retrieve
+      description: |-
+        Reporte: consumo mensual de medicamentos.
+
+        Query params:
+            formato: 'json' (default), 'excel', 'csv'
+            fecha_inicio: YYYY-MM-DD
+            fecha_fin: YYYY-MM-DD
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/v1/reportes/ingresos/:
+    get:
+      operationId: v1_reportes_ingresos_retrieve
+      description: |-
+        Reporte: ingresos financieros consolidados por período.
+
+        Query params:
+            formato: 'json' (default), 'excel', 'csv'
+            fecha_inicio: YYYY-MM-DD
+            fecha_fin: YYYY-MM-DD
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/v1/reportes/pacientes-por-especialidad/:
+    get:
+      operationId: v1_reportes_pacientes_por_especialidad_retrieve
+      description: |-
+        Reporte: cantidad de pacientes atendidos por especialidad.
+
+        Query params:
+            formato: 'json' (default), 'excel', 'csv'
+            fecha_inicio: YYYY-MM-DD (default: hace 30 días)
+            fecha_fin: YYYY-MM-DD (default: hoy)
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/v1/tarifas-habitacion/:
+    get:
+      operationId: v1_tarifas_habitacion_list
+      description: CRUD de tarifas de habitación (Admin).
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Qué campo usar para ordenar los resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Un término de búsqueda.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTarifaHabitacionList'
+          description: ''
+    post:
+      operationId: v1_tarifas_habitacion_create
+      description: CRUD de tarifas de habitación (Admin).
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TarifaHabitacionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TarifaHabitacionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TarifaHabitacionRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TarifaHabitacion'
+          description: ''
+  /api/v1/tarifas-habitacion/{id_tarifa}/:
+    get:
+      operationId: v1_tarifas_habitacion_retrieve
+      description: CRUD de tarifas de habitación (Admin).
+      parameters:
+      - in: path
+        name: id_tarifa
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Tarifa de habitación.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TarifaHabitacion'
+          description: ''
+    put:
+      operationId: v1_tarifas_habitacion_update
+      description: CRUD de tarifas de habitación (Admin).
+      parameters:
+      - in: path
+        name: id_tarifa
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Tarifa de habitación.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TarifaHabitacionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TarifaHabitacionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TarifaHabitacionRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TarifaHabitacion'
+          description: ''
+    patch:
+      operationId: v1_tarifas_habitacion_partial_update
+      description: CRUD de tarifas de habitación (Admin).
+      parameters:
+      - in: path
+        name: id_tarifa
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Tarifa de habitación.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTarifaHabitacionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTarifaHabitacionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTarifaHabitacionRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TarifaHabitacion'
+          description: ''
+    delete:
+      operationId: v1_tarifas_habitacion_destroy
+      description: CRUD de tarifas de habitación (Admin).
+      parameters:
+      - in: path
+        name: id_tarifa
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este Tarifa de habitación.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/usuarios/:
+    get:
+      operationId: v1_usuarios_list
+      description: |-
+        CRUD de usuarios del sistema (solo Admin).
+
+        GET    /api/v1/usuarios/          → Listar usuarios
+        POST   /api/v1/usuarios/          → Crear usuario
+        GET    /api/v1/usuarios/{id}/     → Detalle
+        PATCH  /api/v1/usuarios/{id}/     → Editar
+        DELETE /api/v1/usuarios/{id}/     → Desactivar
+        PATCH  /api/v1/usuarios/{id}/roles/ → Asignar roles
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Qué campo usar para ordenar los resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Un número de página dentro del conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Un término de búsqueda.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserList'
+          description: ''
+    post:
+      operationId: v1_usuarios_create
+      description: |-
+        CRUD de usuarios del sistema (solo Admin).
+
+        GET    /api/v1/usuarios/          → Listar usuarios
+        POST   /api/v1/usuarios/          → Crear usuario
+        GET    /api/v1/usuarios/{id}/     → Detalle
+        PATCH  /api/v1/usuarios/{id}/     → Editar
+        DELETE /api/v1/usuarios/{id}/     → Desactivar
+        PATCH  /api/v1/usuarios/{id}/roles/ → Asignar roles
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCreate'
+          description: ''
+  /api/v1/usuarios/{id}/:
+    get:
+      operationId: v1_usuarios_retrieve
+      description: |-
+        CRUD de usuarios del sistema (solo Admin).
+
+        GET    /api/v1/usuarios/          → Listar usuarios
+        POST   /api/v1/usuarios/          → Crear usuario
+        GET    /api/v1/usuarios/{id}/     → Detalle
+        PATCH  /api/v1/usuarios/{id}/     → Editar
+        DELETE /api/v1/usuarios/{id}/     → Desactivar
+        PATCH  /api/v1/usuarios/{id}/roles/ → Asignar roles
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este usuario.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: v1_usuarios_update
+      description: |-
+        CRUD de usuarios del sistema (solo Admin).
+
+        GET    /api/v1/usuarios/          → Listar usuarios
+        POST   /api/v1/usuarios/          → Crear usuario
+        GET    /api/v1/usuarios/{id}/     → Detalle
+        PATCH  /api/v1/usuarios/{id}/     → Editar
+        DELETE /api/v1/usuarios/{id}/     → Desactivar
+        PATCH  /api/v1/usuarios/{id}/roles/ → Asignar roles
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este usuario.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: v1_usuarios_partial_update
+      description: |-
+        CRUD de usuarios del sistema (solo Admin).
+
+        GET    /api/v1/usuarios/          → Listar usuarios
+        POST   /api/v1/usuarios/          → Crear usuario
+        GET    /api/v1/usuarios/{id}/     → Detalle
+        PATCH  /api/v1/usuarios/{id}/     → Editar
+        DELETE /api/v1/usuarios/{id}/     → Desactivar
+        PATCH  /api/v1/usuarios/{id}/roles/ → Asignar roles
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este usuario.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: v1_usuarios_destroy
+      description: En vez de eliminar, desactiva al usuario.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este usuario.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/usuarios/{id}/roles/:
+    patch:
+      operationId: v1_usuarios_roles_partial_update
+      description: Asigna roles (Groups) al usuario, reemplazando los anteriores.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Un valor de entero único que identifique este usuario.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+components:
+  schemas:
+    AuditoriaSistema:
+      type: object
+      properties:
+        id_auditoria:
+          type: integer
+          readOnly: true
+        usuario_accion:
+          type: string
+          maxLength: 100
+        tabla_afectada:
+          type: string
+          maxLength: 50
+        id_registro_afectado:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        tipo_operacion:
+          $ref: '#/components/schemas/TipoOperacionEnum'
+        valores_anteriores:
+          type: string
+          nullable: true
+        valores_nuevos:
+          type: string
+          nullable: true
+        fecha_hora_evento:
+          type: string
+          format: date-time
+          readOnly: true
+        direccion_ip:
+          type: string
+          nullable: true
+          maxLength: 45
+      required:
+      - fecha_hora_evento
+      - id_auditoria
+      - id_registro_afectado
+      - tabla_afectada
+      - tipo_operacion
+      - usuario_accion
+    BajaCreate:
+      type: object
+      description: Serializer para el endpoint de baja de paciente.
+      properties:
+        motivo_baja:
+          type: string
+    BajaCreateRequest:
+      type: object
+      description: Serializer para el endpoint de baja de paciente.
+      properties:
+        motivo_baja:
+          type: string
+    Cama:
+      type: object
+      properties:
+        id_cama:
+          type: integer
+          readOnly: true
+        nro_habitacion:
+          type: string
+          maxLength: 20
+        nro_cama:
+          type: string
+          maxLength: 20
+        id_tarifa:
+          type: integer
+        tipo_habitacion:
+          type: string
+          readOnly: true
+        costo_por_dia:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          readOnly: true
+        estado_cama:
+          $ref: '#/components/schemas/EstadoCamaEnum'
+      required:
+      - costo_por_dia
+      - id_cama
+      - id_tarifa
+      - nro_cama
+      - nro_habitacion
+      - tipo_habitacion
+    CamaRequest:
+      type: object
+      properties:
+        nro_habitacion:
+          type: string
+          minLength: 1
+          maxLength: 20
+        nro_cama:
+          type: string
+          minLength: 1
+          maxLength: 20
+        id_tarifa:
+          type: integer
+        estado_cama:
+          $ref: '#/components/schemas/EstadoCamaEnum'
+      required:
+      - id_tarifa
+      - nro_cama
+      - nro_habitacion
+    Cita:
+      type: object
+      properties:
+        id_cita:
+          type: integer
+          readOnly: true
+        id_paciente:
+          type: integer
+        paciente_nombre:
+          type: string
+          readOnly: true
+        id_medico:
+          type: integer
+        medico_nombre:
+          type: string
+          readOnly: true
+        fecha_cita:
+          type: string
+          format: date
+        hora_cita:
+          type: string
+          format: time
+        estado_cita:
+          $ref: '#/components/schemas/EstadoCitaEnum'
+      required:
+      - fecha_cita
+      - hora_cita
+      - id_cita
+      - id_medico
+      - id_paciente
+      - medico_nombre
+      - paciente_nombre
+    CitaRequest:
+      type: object
+      properties:
+        id_paciente:
+          type: integer
+        id_medico:
+          type: integer
+        fecha_cita:
+          type: string
+          format: date
+        hora_cita:
+          type: string
+          format: time
+        estado_cita:
+          $ref: '#/components/schemas/EstadoCitaEnum'
+      required:
+      - fecha_cita
+      - hora_cita
+      - id_medico
+      - id_paciente
+    CitaUpdate:
+      type: object
+      description: Solo permite cambiar el estado de la cita.
+      properties:
+        estado_cita:
+          $ref: '#/components/schemas/EstadoCitaEnum'
+    CitaUpdateRequest:
+      type: object
+      description: Solo permite cambiar el estado de la cita.
+      properties:
+        estado_cita:
+          $ref: '#/components/schemas/EstadoCitaEnum'
+    Compra:
+      type: object
+      properties:
+        id_compra:
+          type: integer
+          readOnly: true
+        id_proveedor:
+          type: integer
+        proveedor_nombre:
+          type: string
+          readOnly: true
+        fecha_compra:
+          type: string
+          format: date
+        numero_factura_compra:
+          type: string
+          nullable: true
+          maxLength: 50
+        total_compra:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        detalles:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompraDetalle'
+          readOnly: true
+      required:
+      - detalles
+      - fecha_compra
+      - id_compra
+      - id_proveedor
+      - proveedor_nombre
+    CompraCreate:
+      type: object
+      description: |-
+        Serializer para registrar una compra con su lote asociado.
+        Crea: COMPRA + LOTE_MEDICAMENTO + COMPRA_DETALLE en una sola operación.
+      properties:
+        id_proveedor:
+          type: integer
+        fecha_compra:
+          type: string
+          format: date
+        numero_factura_compra:
+          type: string
+        id_medicamento:
+          type: integer
+        numero_lote:
+          type: string
+        cantidad:
+          type: integer
+          minimum: 1
+        precio_compra_unitario:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        fecha_vencimiento:
+          type: string
+          format: date
+      required:
+      - cantidad
+      - fecha_compra
+      - fecha_vencimiento
+      - id_medicamento
+      - id_proveedor
+      - precio_compra_unitario
+    CompraCreateRequest:
+      type: object
+      description: |-
+        Serializer para registrar una compra con su lote asociado.
+        Crea: COMPRA + LOTE_MEDICAMENTO + COMPRA_DETALLE en una sola operación.
+      properties:
+        id_proveedor:
+          type: integer
+        fecha_compra:
+          type: string
+          format: date
+        numero_factura_compra:
+          type: string
+        id_medicamento:
+          type: integer
+        numero_lote:
+          type: string
+        cantidad:
+          type: integer
+          minimum: 1
+        precio_compra_unitario:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        fecha_vencimiento:
+          type: string
+          format: date
+      required:
+      - cantidad
+      - fecha_compra
+      - fecha_vencimiento
+      - id_medicamento
+      - id_proveedor
+      - precio_compra_unitario
+    CompraDetalle:
+      type: object
+      properties:
+        id_compra_detalle:
+          type: integer
+          readOnly: true
+        id_lote:
+          type: integer
+        cantidad:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        precio_unitario:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        subtotal_linea:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          readOnly: true
+          nullable: true
+      required:
+      - cantidad
+      - id_compra_detalle
+      - id_lote
+      - precio_unitario
+      - subtotal_linea
+    CompraDetalleRequest:
+      type: object
+      properties:
+        id_lote:
+          type: integer
+        cantidad:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        precio_unitario:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - cantidad
+      - id_lote
+      - precio_unitario
+    CompraRequest:
+      type: object
+      properties:
+        id_proveedor:
+          type: integer
+        fecha_compra:
+          type: string
+          format: date
+        numero_factura_compra:
+          type: string
+          nullable: true
+          maxLength: 50
+        total_compra:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - fecha_compra
+      - id_proveedor
+    ConfigImpuesto:
+      type: object
+      properties:
+        id_impuesto:
+          type: integer
+          readOnly: true
+        descripcion:
+          type: string
+          maxLength: 100
+        porcentaje:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+      required:
+      - descripcion
+      - id_impuesto
+      - porcentaje
+    ConfigImpuestoRequest:
+      type: object
+      properties:
+        descripcion:
+          type: string
+          minLength: 1
+          maxLength: 100
+        porcentaje:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+      required:
+      - descripcion
+      - porcentaje
+    DiaSemanaEnum:
+      enum:
+      - Lunes
+      - Martes
+      - Miercoles
+      - Jueves
+      - Viernes
+      - Sabado
+      - Domingo
+      type: string
+      description: |-
+        * `Lunes` - Lunes
+        * `Martes` - Martes
+        * `Miercoles` - Miércoles
+        * `Jueves` - Jueves
+        * `Viernes` - Viernes
+        * `Sabado` - Sábado
+        * `Domingo` - Domingo
+    Emergencia:
+      type: object
+      properties:
+        id_emergencia:
+          type: integer
+          readOnly: true
+        id_paciente:
+          type: integer
+        paciente_nombre:
+          type: string
+          readOnly: true
+        id_medico_guardia:
+          type: integer
+        medico_nombre:
+          type: string
+          readOnly: true
+        fecha_hora_ingreso:
+          type: string
+          format: date-time
+        nivel_triage:
+          $ref: '#/components/schemas/NivelTriageEnum'
+        descripcion_urgencia:
+          type: string
+          nullable: true
+        destino_paciente:
+          type: string
+          nullable: true
+          maxLength: 100
+      required:
+      - fecha_hora_ingreso
+      - id_emergencia
+      - id_medico_guardia
+      - id_paciente
+      - medico_nombre
+      - nivel_triage
+      - paciente_nombre
+    EmergenciaRequest:
+      type: object
+      properties:
+        id_paciente:
+          type: integer
+        id_medico_guardia:
+          type: integer
+        fecha_hora_ingreso:
+          type: string
+          format: date-time
+        nivel_triage:
+          $ref: '#/components/schemas/NivelTriageEnum'
+        descripcion_urgencia:
+          type: string
+          nullable: true
+        destino_paciente:
+          type: string
+          nullable: true
+          maxLength: 100
+      required:
+      - fecha_hora_ingreso
+      - id_medico_guardia
+      - id_paciente
+      - nivel_triage
+    Especialidad:
+      type: object
+      properties:
+        id_especialidad:
+          type: integer
+          readOnly: true
+        nombre_especialidad:
+          type: string
+          maxLength: 100
+      required:
+      - id_especialidad
+      - nombre_especialidad
+    EspecialidadRequest:
+      type: object
+      properties:
+        nombre_especialidad:
+          type: string
+          minLength: 1
+          maxLength: 100
+      required:
+      - nombre_especialidad
+    EstadoBajaEnum:
+      enum:
+      - Activo
+      - Baja
+      type: string
+      description: |-
+        * `Activo` - Activo
+        * `Baja` - Baja
+    EstadoCamaEnum:
+      enum:
+      - Disponible
+      - Ocupada
+      - Mantenimiento
+      type: string
+      description: |-
+        * `Disponible` - Disponible
+        * `Ocupada` - Ocupada
+        * `Mantenimiento` - Mantenimiento
+    EstadoCitaEnum:
+      enum:
+      - Pendiente
+      - Confirmada
+      - Atendida
+      - Cancelada
+      - No Asistio
+      type: string
+      description: |-
+        * `Pendiente` - Pendiente
+        * `Confirmada` - Confirmada
+        * `Atendida` - Atendida
+        * `Cancelada` - Cancelada
+        * `No Asistio` - No Asistió
+    EstadoDespachoEnum:
+      enum:
+      - Pendiente
+      - Entregado
+      - Sin Stock
+      type: string
+      description: |-
+        * `Pendiente` - Pendiente
+        * `Entregado` - Entregado
+        * `Sin Stock` - Sin Stock
+    EstadoExamenEnum:
+      enum:
+      - Pendiente
+      - En Proceso
+      - Completado
+      type: string
+      description: |-
+        * `Pendiente` - Pendiente
+        * `En Proceso` - En Proceso
+        * `Completado` - Completado
+    EstadoInternacionEnum:
+      enum:
+      - Activo
+      - Alta
+      - Trasladado
+      type: string
+      description: |-
+        * `Activo` - Activo
+        * `Alta` - Alta
+        * `Trasladado` - Trasladado
+    EstadoPagoEnum:
+      enum:
+      - Pendiente
+      - Parcial
+      - Pagado
+      - Anulado
+      type: string
+      description: |-
+        * `Pendiente` - Pendiente
+        * `Parcial` - Parcial
+        * `Pagado` - Pagado
+        * `Anulado` - Anulado
+    EstadoTurnoEnum:
+      enum:
+      - Activo
+      - Inactivo
+      type: string
+      description: |-
+        * `Activo` - Activo
+        * `Inactivo` - Inactivo
+    ExamenLaboratorio:
+      type: object
+      properties:
+        id_examen:
+          type: integer
+          readOnly: true
+        tipo_examen:
+          type: string
+          maxLength: 100
+        resultado_texto:
+          type: string
+          nullable: true
+        estado_examen:
+          $ref: '#/components/schemas/EstadoExamenEnum'
+        costo_examen:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        id_historial:
+          type: integer
+      required:
+      - costo_examen
+      - id_examen
+      - id_historial
+      - tipo_examen
+    ExamenLaboratorioRequest:
+      type: object
+      properties:
+        tipo_examen:
+          type: string
+          minLength: 1
+          maxLength: 100
+        resultado_texto:
+          type: string
+          nullable: true
+        estado_examen:
+          $ref: '#/components/schemas/EstadoExamenEnum'
+        costo_examen:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        id_historial:
+          type: integer
+      required:
+      - costo_examen
+      - id_historial
+      - tipo_examen
+    Factura:
+      type: object
+      properties:
+        id_factura:
+          type: integer
+          readOnly: true
+        id_historial:
+          type: integer
+          nullable: true
+        id_hospitalizacion:
+          type: integer
+          nullable: true
+        id_impuesto:
+          type: integer
+        impuesto_descripcion:
+          type: string
+          readOnly: true
+        nit_factura:
+          type: string
+          nullable: true
+          maxLength: 50
+        razon_social:
+          type: string
+          nullable: true
+          maxLength: 150
+        subtotal:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          readOnly: true
+        monto_impuesto:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          readOnly: true
+        total_pagar:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          readOnly: true
+          nullable: true
+        estado_pago:
+          allOf:
+          - $ref: '#/components/schemas/EstadoPagoEnum'
+          readOnly: true
+        fecha_emision:
+          type: string
+          format: date-time
+          readOnly: true
+        cajero_responsable:
+          type: string
+          nullable: true
+          maxLength: 50
+        detalles:
+          type: array
+          items:
+            $ref: '#/components/schemas/FacturaDetalle'
+          readOnly: true
+      required:
+      - detalles
+      - estado_pago
+      - fecha_emision
+      - id_factura
+      - id_impuesto
+      - impuesto_descripcion
+      - monto_impuesto
+      - subtotal
+      - total_pagar
+    FacturaDetalle:
+      type: object
+      properties:
+        id_factura_detalle:
+          type: integer
+          readOnly: true
+        concepto:
+          type: string
+          maxLength: 255
+        cantidad:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        precio_unitario:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        subtotal_linea:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          readOnly: true
+          nullable: true
+      required:
+      - cantidad
+      - concepto
+      - id_factura_detalle
+      - precio_unitario
+      - subtotal_linea
+    FacturaDetalleRequest:
+      type: object
+      properties:
+        concepto:
+          type: string
+          minLength: 1
+          maxLength: 255
+        cantidad:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        precio_unitario:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - cantidad
+      - concepto
+      - precio_unitario
+    FacturaRequest:
+      type: object
+      properties:
+        id_historial:
+          type: integer
+          nullable: true
+        id_hospitalizacion:
+          type: integer
+          nullable: true
+        id_impuesto:
+          type: integer
+        nit_factura:
+          type: string
+          nullable: true
+          maxLength: 50
+        razon_social:
+          type: string
+          nullable: true
+          maxLength: 150
+        cajero_responsable:
+          type: string
+          nullable: true
+          maxLength: 50
+      required:
+      - id_impuesto
+    HistorialClinico:
+      type: object
+      properties:
+        id_historial:
+          type: integer
+          readOnly: true
+        fecha_registro:
+          type: string
+          format: date-time
+          readOnly: true
+        motivo_consulta:
+          type: string
+          nullable: true
+        tratamiento:
+          type: string
+          nullable: true
+        diagnostico:
+          type: string
+          nullable: true
+        medico_tratante:
+          type: string
+          nullable: true
+          maxLength: 50
+        id_cita:
+          type: integer
+          nullable: true
+        id_hospitalizacion:
+          type: integer
+          nullable: true
+        id_emergencia:
+          type: integer
+          nullable: true
+      required:
+      - fecha_registro
+      - id_historial
+    HistorialClinicoRequest:
+      type: object
+      properties:
+        motivo_consulta:
+          type: string
+          nullable: true
+        tratamiento:
+          type: string
+          nullable: true
+        diagnostico:
+          type: string
+          nullable: true
+        medico_tratante:
+          type: string
+          nullable: true
+          maxLength: 50
+        id_cita:
+          type: integer
+          nullable: true
+        id_hospitalizacion:
+          type: integer
+          nullable: true
+        id_emergencia:
+          type: integer
+          nullable: true
+    HorarioMedico:
+      type: object
+      properties:
+        id_horario:
+          type: integer
+          readOnly: true
+        dia_semana:
+          $ref: '#/components/schemas/DiaSemanaEnum'
+        hora_inicio:
+          type: string
+          format: time
+        hora_fin:
+          type: string
+          format: time
+        estado_turno:
+          $ref: '#/components/schemas/EstadoTurnoEnum'
+        id_medico:
+          type: integer
+      required:
+      - dia_semana
+      - hora_fin
+      - hora_inicio
+      - id_horario
+      - id_medico
+    HorarioMedicoRequest:
+      type: object
+      properties:
+        dia_semana:
+          $ref: '#/components/schemas/DiaSemanaEnum'
+        hora_inicio:
+          type: string
+          format: time
+        hora_fin:
+          type: string
+          format: time
+        estado_turno:
+          $ref: '#/components/schemas/EstadoTurnoEnum'
+        id_medico:
+          type: integer
+      required:
+      - dia_semana
+      - hora_fin
+      - hora_inicio
+      - id_medico
+    Hospitalizacion:
+      type: object
+      properties:
+        id_hospitalizacion:
+          type: integer
+          readOnly: true
+        id_cita:
+          type: integer
+          nullable: true
+        id_emergencia:
+          type: integer
+          nullable: true
+        id_paciente:
+          type: integer
+        paciente_nombre:
+          type: string
+          readOnly: true
+        id_medico_responsable:
+          type: integer
+        medico_nombre:
+          type: string
+          readOnly: true
+        id_cama:
+          type: integer
+        cama_info:
+          type: string
+          readOnly: true
+        fecha_ingreso:
+          type: string
+          format: date-time
+        fecha_egreso:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        diagnostico_ingreso:
+          type: string
+          nullable: true
+        estado_internacion:
+          allOf:
+          - $ref: '#/components/schemas/EstadoInternacionEnum'
+          readOnly: true
+      required:
+      - cama_info
+      - estado_internacion
+      - fecha_egreso
+      - fecha_ingreso
+      - id_cama
+      - id_hospitalizacion
+      - id_medico_responsable
+      - id_paciente
+      - medico_nombre
+      - paciente_nombre
+    HospitalizacionRequest:
+      type: object
+      properties:
+        id_cita:
+          type: integer
+          nullable: true
+        id_emergencia:
+          type: integer
+          nullable: true
+        id_paciente:
+          type: integer
+        id_medico_responsable:
+          type: integer
+        id_cama:
+          type: integer
+        fecha_ingreso:
+          type: string
+          format: date-time
+        diagnostico_ingreso:
+          type: string
+          nullable: true
+      required:
+      - fecha_ingreso
+      - id_cama
+      - id_medico_responsable
+      - id_paciente
+    LoteMedicamento:
+      type: object
+      properties:
+        id_lote:
+          type: integer
+          readOnly: true
+        medicamento_nombre:
+          type: string
+          readOnly: true
+        numero_lote:
+          type: string
+          nullable: true
+          maxLength: 50
+        cantidad_inicial:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        cantidad_actual:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        precio_compra_unitario:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        fecha_ingreso:
+          type: string
+          format: date
+        fecha_vencimiento:
+          type: string
+          format: date
+        id_medicamento:
+          type: integer
+        id_compra:
+          type: integer
+          nullable: true
+      required:
+      - cantidad_actual
+      - cantidad_inicial
+      - fecha_ingreso
+      - fecha_vencimiento
+      - id_lote
+      - id_medicamento
+      - medicamento_nombre
+      - precio_compra_unitario
+    LoteMedicamentoRequest:
+      type: object
+      properties:
+        numero_lote:
+          type: string
+          nullable: true
+          maxLength: 50
+        cantidad_inicial:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        cantidad_actual:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        precio_compra_unitario:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        fecha_ingreso:
+          type: string
+          format: date
+        fecha_vencimiento:
+          type: string
+          format: date
+        id_medicamento:
+          type: integer
+        id_compra:
+          type: integer
+          nullable: true
+      required:
+      - cantidad_actual
+      - cantidad_inicial
+      - fecha_ingreso
+      - fecha_vencimiento
+      - id_medicamento
+      - precio_compra_unitario
+    Medicamento:
+      type: object
+      properties:
+        id_medicamento:
+          type: integer
+          readOnly: true
+        nombre_comercial:
+          type: string
+          maxLength: 150
+        stock_actual:
+          type: integer
+          readOnly: true
+        stock_minimo:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        precio_unitario:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - id_medicamento
+      - nombre_comercial
+      - precio_unitario
+      - stock_actual
+    MedicamentoRequest:
+      type: object
+      properties:
+        nombre_comercial:
+          type: string
+          minLength: 1
+          maxLength: 150
+        stock_minimo:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        precio_unitario:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - nombre_comercial
+      - precio_unitario
+    Medico:
+      type: object
+      properties:
+        id_medico:
+          type: integer
+          readOnly: true
+        nombre_medico:
+          type: string
+          maxLength: 150
+        id_especialidad:
+          type: integer
+        especialidad_nombre:
+          type: string
+          readOnly: true
+        telefono:
+          type: string
+          nullable: true
+          maxLength: 20
+        horarios:
+          type: array
+          items:
+            $ref: '#/components/schemas/HorarioMedico'
+          readOnly: true
+      required:
+      - especialidad_nombre
+      - horarios
+      - id_especialidad
+      - id_medico
+      - nombre_medico
+    MedicoList:
+      type: object
+      properties:
+        id_medico:
+          type: integer
+          readOnly: true
+        nombre_medico:
+          type: string
+          maxLength: 150
+        id_especialidad:
+          type: integer
+        especialidad_nombre:
+          type: string
+          readOnly: true
+        telefono:
+          type: string
+          nullable: true
+          maxLength: 20
+      required:
+      - especialidad_nombre
+      - id_especialidad
+      - id_medico
+      - nombre_medico
+    MedicoRequest:
+      type: object
+      properties:
+        nombre_medico:
+          type: string
+          minLength: 1
+          maxLength: 150
+        id_especialidad:
+          type: integer
+        telefono:
+          type: string
+          nullable: true
+          maxLength: 20
+      required:
+      - id_especialidad
+      - nombre_medico
+    NivelTriageEnum:
+      enum:
+      - Rojo
+      - Naranja
+      - Amarillo
+      - Verde
+      - Azul
+      type: string
+      description: |-
+        * `Rojo` - Rojo
+        * `Naranja` - Naranja
+        * `Amarillo` - Amarillo
+        * `Verde` - Verde
+        * `Azul` - Azul
+    Paciente:
+      type: object
+      properties:
+        id_paciente:
+          type: integer
+          readOnly: true
+        cedula_paciente:
+          type: string
+          nullable: true
+          maxLength: 20
+        nombre:
+          type: string
+          maxLength: 100
+        apellido:
+          type: string
+          maxLength: 100
+        fecha_nacimiento:
+          type: string
+          format: date
+          nullable: true
+        telefono:
+          type: string
+          nullable: true
+          maxLength: 20
+        direccion:
+          type: string
+          nullable: true
+          maxLength: 255
+        seguro_medico:
+          type: string
+          nullable: true
+          maxLength: 100
+        estado_baja:
+          allOf:
+          - $ref: '#/components/schemas/EstadoBajaEnum'
+          readOnly: true
+      required:
+      - apellido
+      - estado_baja
+      - id_paciente
+      - nombre
+    PacienteList:
+      type: object
+      description: Serializer liviano para listados.
+      properties:
+        id_paciente:
+          type: integer
+          readOnly: true
+        cedula_paciente:
+          type: string
+          nullable: true
+          maxLength: 20
+        nombre:
+          type: string
+          maxLength: 100
+        apellido:
+          type: string
+          maxLength: 100
+        telefono:
+          type: string
+          nullable: true
+          maxLength: 20
+        estado_baja:
+          $ref: '#/components/schemas/EstadoBajaEnum'
+      required:
+      - apellido
+      - id_paciente
+      - nombre
+    PacienteRequest:
+      type: object
+      properties:
+        cedula_paciente:
+          type: string
+          nullable: true
+          maxLength: 20
+        nombre:
+          type: string
+          minLength: 1
+          maxLength: 100
+        apellido:
+          type: string
+          minLength: 1
+          maxLength: 100
+        fecha_nacimiento:
+          type: string
+          format: date
+          nullable: true
+        telefono:
+          type: string
+          nullable: true
+          maxLength: 20
+        direccion:
+          type: string
+          nullable: true
+          maxLength: 255
+        seguro_medico:
+          type: string
+          nullable: true
+          maxLength: 100
+      required:
+      - apellido
+      - nombre
+    PaginatedAuditoriaSistemaList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditoriaSistema'
+    PaginatedCamaList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cama'
+    PaginatedCitaList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cita'
+    PaginatedCompraList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Compra'
+    PaginatedConfigImpuestoList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConfigImpuesto'
+    PaginatedEmergenciaList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Emergencia'
+    PaginatedEspecialidadList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Especialidad'
+    PaginatedExamenLaboratorioList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExamenLaboratorio'
+    PaginatedFacturaList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Factura'
+    PaginatedHistorialClinicoList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistorialClinico'
+    PaginatedHorarioMedicoList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/HorarioMedico'
+    PaginatedHospitalizacionList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Hospitalizacion'
+    PaginatedLoteMedicamentoList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LoteMedicamento'
+    PaginatedMedicamentoList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Medicamento'
+    PaginatedMedicoListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MedicoList'
+    PaginatedPacienteListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PacienteList'
+    PaginatedProveedorList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Proveedor'
+    PaginatedRecetaDetalleList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecetaDetalle'
+    PaginatedTarifaHabitacionList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TarifaHabitacion'
+    PaginatedUserList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+    PatchedCamaRequest:
+      type: object
+      properties:
+        nro_habitacion:
+          type: string
+          minLength: 1
+          maxLength: 20
+        nro_cama:
+          type: string
+          minLength: 1
+          maxLength: 20
+        id_tarifa:
+          type: integer
+        estado_cama:
+          $ref: '#/components/schemas/EstadoCamaEnum'
+    PatchedCitaUpdateRequest:
+      type: object
+      description: Solo permite cambiar el estado de la cita.
+      properties:
+        estado_cita:
+          $ref: '#/components/schemas/EstadoCitaEnum'
+    PatchedCompraRequest:
+      type: object
+      properties:
+        id_proveedor:
+          type: integer
+        fecha_compra:
+          type: string
+          format: date
+        numero_factura_compra:
+          type: string
+          nullable: true
+          maxLength: 50
+        total_compra:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+    PatchedConfigImpuestoRequest:
+      type: object
+      properties:
+        descripcion:
+          type: string
+          minLength: 1
+          maxLength: 100
+        porcentaje:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+    PatchedEmergenciaRequest:
+      type: object
+      properties:
+        id_paciente:
+          type: integer
+        id_medico_guardia:
+          type: integer
+        fecha_hora_ingreso:
+          type: string
+          format: date-time
+        nivel_triage:
+          $ref: '#/components/schemas/NivelTriageEnum'
+        descripcion_urgencia:
+          type: string
+          nullable: true
+        destino_paciente:
+          type: string
+          nullable: true
+          maxLength: 100
+    PatchedEspecialidadRequest:
+      type: object
+      properties:
+        nombre_especialidad:
+          type: string
+          minLength: 1
+          maxLength: 100
+    PatchedExamenLaboratorioRequest:
+      type: object
+      properties:
+        tipo_examen:
+          type: string
+          minLength: 1
+          maxLength: 100
+        resultado_texto:
+          type: string
+          nullable: true
+        estado_examen:
+          $ref: '#/components/schemas/EstadoExamenEnum'
+        costo_examen:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        id_historial:
+          type: integer
+    PatchedFacturaRequest:
+      type: object
+      properties:
+        id_historial:
+          type: integer
+          nullable: true
+        id_hospitalizacion:
+          type: integer
+          nullable: true
+        id_impuesto:
+          type: integer
+        nit_factura:
+          type: string
+          nullable: true
+          maxLength: 50
+        razon_social:
+          type: string
+          nullable: true
+          maxLength: 150
+        cajero_responsable:
+          type: string
+          nullable: true
+          maxLength: 50
+    PatchedHistorialClinicoRequest:
+      type: object
+      properties:
+        motivo_consulta:
+          type: string
+          nullable: true
+        tratamiento:
+          type: string
+          nullable: true
+        diagnostico:
+          type: string
+          nullable: true
+        medico_tratante:
+          type: string
+          nullable: true
+          maxLength: 50
+        id_cita:
+          type: integer
+          nullable: true
+        id_hospitalizacion:
+          type: integer
+          nullable: true
+        id_emergencia:
+          type: integer
+          nullable: true
+    PatchedHorarioMedicoRequest:
+      type: object
+      properties:
+        dia_semana:
+          $ref: '#/components/schemas/DiaSemanaEnum'
+        hora_inicio:
+          type: string
+          format: time
+        hora_fin:
+          type: string
+          format: time
+        estado_turno:
+          $ref: '#/components/schemas/EstadoTurnoEnum'
+        id_medico:
+          type: integer
+    PatchedHospitalizacionRequest:
+      type: object
+      properties:
+        id_cita:
+          type: integer
+          nullable: true
+        id_emergencia:
+          type: integer
+          nullable: true
+        id_paciente:
+          type: integer
+        id_medico_responsable:
+          type: integer
+        id_cama:
+          type: integer
+        fecha_ingreso:
+          type: string
+          format: date-time
+        diagnostico_ingreso:
+          type: string
+          nullable: true
+    PatchedLoteMedicamentoRequest:
+      type: object
+      properties:
+        numero_lote:
+          type: string
+          nullable: true
+          maxLength: 50
+        cantidad_inicial:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        cantidad_actual:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        precio_compra_unitario:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        fecha_ingreso:
+          type: string
+          format: date
+        fecha_vencimiento:
+          type: string
+          format: date
+        id_medicamento:
+          type: integer
+        id_compra:
+          type: integer
+          nullable: true
+    PatchedMedicamentoRequest:
+      type: object
+      properties:
+        nombre_comercial:
+          type: string
+          minLength: 1
+          maxLength: 150
+        stock_minimo:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        precio_unitario:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+    PatchedMedicoRequest:
+      type: object
+      properties:
+        nombre_medico:
+          type: string
+          minLength: 1
+          maxLength: 150
+        id_especialidad:
+          type: integer
+        telefono:
+          type: string
+          nullable: true
+          maxLength: 20
+    PatchedPacienteRequest:
+      type: object
+      properties:
+        cedula_paciente:
+          type: string
+          nullable: true
+          maxLength: 20
+        nombre:
+          type: string
+          minLength: 1
+          maxLength: 100
+        apellido:
+          type: string
+          minLength: 1
+          maxLength: 100
+        fecha_nacimiento:
+          type: string
+          format: date
+          nullable: true
+        telefono:
+          type: string
+          nullable: true
+          maxLength: 20
+        direccion:
+          type: string
+          nullable: true
+          maxLength: 255
+        seguro_medico:
+          type: string
+          nullable: true
+          maxLength: 100
+    PatchedProveedorRequest:
+      type: object
+      properties:
+        nombre_proveedor:
+          type: string
+          minLength: 1
+          maxLength: 150
+        nit_proveedor:
+          type: string
+          nullable: true
+          maxLength: 50
+        telefono:
+          type: string
+          nullable: true
+          maxLength: 20
+        direccion:
+          type: string
+          nullable: true
+          maxLength: 255
+    PatchedRecetaDetalleRequest:
+      type: object
+      properties:
+        id_historial:
+          type: integer
+        id_medicamento:
+          type: integer
+        cantidad_recetada:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        dosis:
+          type: string
+          nullable: true
+          maxLength: 100
+        frecuencia:
+          type: string
+          nullable: true
+          maxLength: 100
+        duracion:
+          type: string
+          nullable: true
+          maxLength: 100
+    PatchedTarifaHabitacionRequest:
+      type: object
+      properties:
+        tipo_habitacion:
+          type: string
+          minLength: 1
+          maxLength: 100
+        costo_por_dia:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+    PatchedUserRequest:
+      type: object
+      description: Serializer de lectura para usuarios existentes.
+      properties:
+        username:
+          type: string
+          minLength: 1
+          title: Nombre de usuario
+          description: 'Requerido. 150 carácteres como máximo. Únicamente letras,
+            dígitos y @/./+/-/_ '
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          title: Dirección de correo electrónico
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 254
+          - type: string
+            maxLength: 0
+        first_name:
+          type: string
+          title: Nombre
+          maxLength: 150
+        last_name:
+          type: string
+          title: Apellidos
+          maxLength: 150
+        is_active:
+          type: boolean
+          title: Activo
+          description: Indica si el usuario debe ser tratado como activo. Desmarque
+            esta opción en lugar de borrar la cuenta.
+    Perfil:
+      type: object
+      properties:
+        cargo:
+          type: string
+          maxLength: 100
+        telefono:
+          type: string
+          maxLength: 20
+    PerfilRequest:
+      type: object
+      properties:
+        cargo:
+          type: string
+          maxLength: 100
+        telefono:
+          type: string
+          maxLength: 20
+    Proveedor:
+      type: object
+      properties:
+        id_proveedor:
+          type: integer
+          readOnly: true
+        nombre_proveedor:
+          type: string
+          maxLength: 150
+        nit_proveedor:
+          type: string
+          nullable: true
+          maxLength: 50
+        telefono:
+          type: string
+          nullable: true
+          maxLength: 20
+        direccion:
+          type: string
+          nullable: true
+          maxLength: 255
+      required:
+      - id_proveedor
+      - nombre_proveedor
+    ProveedorRequest:
+      type: object
+      properties:
+        nombre_proveedor:
+          type: string
+          minLength: 1
+          maxLength: 150
+        nit_proveedor:
+          type: string
+          nullable: true
+          maxLength: 50
+        telefono:
+          type: string
+          nullable: true
+          maxLength: 20
+        direccion:
+          type: string
+          nullable: true
+          maxLength: 255
+      required:
+      - nombre_proveedor
+    RecetaDetalle:
+      type: object
+      properties:
+        id_detalle_receta:
+          type: integer
+          readOnly: true
+        id_historial:
+          type: integer
+        id_medicamento:
+          type: integer
+        medicamento_nombre:
+          type: string
+          readOnly: true
+        cantidad_recetada:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        dosis:
+          type: string
+          nullable: true
+          maxLength: 100
+        frecuencia:
+          type: string
+          nullable: true
+          maxLength: 100
+        duracion:
+          type: string
+          nullable: true
+          maxLength: 100
+        estado_despacho:
+          allOf:
+          - $ref: '#/components/schemas/EstadoDespachoEnum'
+          readOnly: true
+      required:
+      - cantidad_recetada
+      - estado_despacho
+      - id_detalle_receta
+      - id_historial
+      - id_medicamento
+      - medicamento_nombre
+    RecetaDetalleRequest:
+      type: object
+      properties:
+        id_historial:
+          type: integer
+        id_medicamento:
+          type: integer
+        cantidad_recetada:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        dosis:
+          type: string
+          nullable: true
+          maxLength: 100
+        frecuencia:
+          type: string
+          nullable: true
+          maxLength: 100
+        duracion:
+          type: string
+          nullable: true
+          maxLength: 100
+      required:
+      - cantidad_recetada
+      - id_historial
+      - id_medicamento
+    TarifaHabitacion:
+      type: object
+      properties:
+        id_tarifa:
+          type: integer
+          readOnly: true
+        tipo_habitacion:
+          type: string
+          maxLength: 100
+        costo_por_dia:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - costo_por_dia
+      - id_tarifa
+      - tipo_habitacion
+    TarifaHabitacionRequest:
+      type: object
+      properties:
+        tipo_habitacion:
+          type: string
+          minLength: 1
+          maxLength: 100
+        costo_por_dia:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - costo_por_dia
+      - tipo_habitacion
+    TipoOperacionEnum:
+      enum:
+      - INSERCION
+      - LECTURA
+      - EDICION
+      - ELIMINACION
+      type: string
+      description: |-
+        * `INSERCION` - Inserción
+        * `LECTURA` - Lectura
+        * `EDICION` - Edición
+        * `ELIMINACION` - Eliminación
+    TokenObtainPair:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - refresh
+    TokenObtainPairRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - password
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    TokenRefreshRequest:
+      type: object
+      properties:
+        refresh:
+          type: string
+          minLength: 1
+      required:
+      - refresh
+    User:
+      type: object
+      description: Serializer de lectura para usuarios existentes.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          title: Nombre de usuario
+          description: 'Requerido. 150 carácteres como máximo. Únicamente letras,
+            dígitos y @/./+/-/_ '
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          title: Dirección de correo electrónico
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 254
+          - type: string
+            maxLength: 0
+        first_name:
+          type: string
+          title: Nombre
+          maxLength: 150
+        last_name:
+          type: string
+          title: Apellidos
+          maxLength: 150
+        is_active:
+          type: boolean
+          title: Activo
+          description: Indica si el usuario debe ser tratado como activo. Desmarque
+            esta opción en lugar de borrar la cuenta.
+        perfil:
+          allOf:
+          - $ref: '#/components/schemas/Perfil'
+          readOnly: true
+        roles:
+          type: array
+          items:
+            type: string
+          readOnly: true
+      required:
+      - id
+      - perfil
+      - roles
+      - username
+    UserCreate:
+      type: object
+      description: Serializer para crear usuarios nuevos (solo Admin).
+      properties:
+        username:
+          type: string
+          title: Nombre de usuario
+          description: 'Requerido. 150 carácteres como máximo. Únicamente letras,
+            dígitos y @/./+/-/_ '
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          title: Dirección de correo electrónico
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 254
+          - type: string
+            maxLength: 0
+        first_name:
+          type: string
+          title: Nombre
+          maxLength: 150
+        last_name:
+          type: string
+          title: Apellidos
+          maxLength: 150
+        cargo:
+          type: string
+        telefono:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+          description: Lista de nombres de roles (Groups) a asignar.
+      required:
+      - username
+    UserCreateRequest:
+      type: object
+      description: Serializer para crear usuarios nuevos (solo Admin).
+      properties:
+        username:
+          type: string
+          minLength: 1
+          title: Nombre de usuario
+          description: 'Requerido. 150 carácteres como máximo. Únicamente letras,
+            dígitos y @/./+/-/_ '
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+          minLength: 8
+        email:
+          title: Dirección de correo electrónico
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 254
+          - type: string
+            maxLength: 0
+        first_name:
+          type: string
+          title: Nombre
+          maxLength: 150
+        last_name:
+          type: string
+          title: Apellidos
+          maxLength: 150
+        cargo:
+          type: string
+        telefono:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+            minLength: 1
+          description: Lista de nombres de roles (Groups) a asignar.
+      required:
+      - password
+      - username
+    UserRequest:
+      type: object
+      description: Serializer de lectura para usuarios existentes.
+      properties:
+        username:
+          type: string
+          minLength: 1
+          title: Nombre de usuario
+          description: 'Requerido. 150 carácteres como máximo. Únicamente letras,
+            dígitos y @/./+/-/_ '
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          title: Dirección de correo electrónico
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 254
+          - type: string
+            maxLength: 0
+        first_name:
+          type: string
+          title: Nombre
+          maxLength: 150
+        last_name:
+          type: string
+          title: Apellidos
+          maxLength: 150
+        is_active:
+          type: boolean
+          title: Activo
+          description: Indica si el usuario debe ser tratado como activo. Desmarque
+            esta opción en lugar de borrar la cuenta.
+      required:
+      - username
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

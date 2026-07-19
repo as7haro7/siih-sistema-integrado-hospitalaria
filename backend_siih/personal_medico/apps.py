@@ -1,0 +1,7 @@
+from django.apps import AppConfig
+
+
+class PersonalMedicoConfig(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "personal_medico"
+    verbose_name = "Personal Médico"

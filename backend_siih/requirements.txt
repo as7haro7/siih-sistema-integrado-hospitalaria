@@ -1,0 +1,13 @@
+# Django core
+Django==4.2.*
+djangorestframework==3.14.*
+djangorestframework-simplejwt==5.3.*
+# MySQL connector
+mysqlclient==2.2.*
+# CORS
+django-cors-headers==4.3.*
+# Filtering
+django-filter==23.5
+# Reports (Excel/CSV) - Actualizado para compatibilidad con Python 3.14
+pandas>=2.2.0
+openpyxl==3.1.*
