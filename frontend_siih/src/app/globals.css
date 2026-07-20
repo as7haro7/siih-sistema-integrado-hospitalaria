@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #ecfeff;
+  --color-primary-100: #cffafe;
+  --color-primary-200: #a5f3fc;
+  --color-primary-300: #67e8f9;
+  --color-primary-400: #22d3ee;
+  --color-primary-500: #06b6d4;
+  --color-primary-600: #0891b2;
+  --color-primary-700: #0e7490;
+  --color-primary-800: #155e75;
+  --color-primary-900: #164e63;
+
+  --color-medical-50: #ecfdf5;
+  --color-medical-100: #d1fae5;
+  --color-medical-200: #a7f3d0;
+  --color-medical-300: #6ee7b7;
+  --color-medical-400: #34d399;
+  --color-medical-500: #10b981;
+  --color-medical-600: #059669;
+  --color-medical-700: #047857;
+  --color-medical-800: #065f46;
+  --color-medical-900: #064e3b;
+
+  --color-dark-50: #f8fafc;
+  --color-dark-100: #f1f5f9;
+  --color-dark-200: #e2e8f0;
+  --color-dark-300: #cbd5e1;
+  --color-dark-400: #94a3b8;
+  --color-dark-500: #64748b;
+  --color-dark-600: #475569;
+  --color-dark-700: #334155;
+  --color-dark-800: #1e293b;
+  --color-dark-900: #0f172a;
+  --color-dark-950: #020617;
+}
+
+:root {
+  /* Default to Dark Mode for the Premium feel */
+  --background: var(--color-dark-950);
+  --foreground: var(--color-dark-50);
+  
+  --card: var(--color-dark-900);
+  --card-foreground: var(--color-dark-50);
+  
+  --popover: var(--color-dark-900);
+  --popover-foreground: var(--color-dark-50);
+  
+  --primary: var(--color-primary-500);
+  --primary-foreground: var(--color-dark-950);
+  
+  --secondary: var(--color-dark-800);
+  --secondary-foreground: var(--color-dark-50);
+  
+  --muted: var(--color-dark-800);
+  --muted-foreground: var(--color-dark-400);
+  
+  --accent: var(--color-medical-500);
+  --accent-foreground: var(--color-dark-950);
+  
+  --destructive: #ef4444;
+  --destructive-foreground: var(--color-dark-50);
+
+  --border: var(--color-dark-800);
+  --input: var(--color-dark-800);
+  --ring: var(--color-primary-500);
+  --radius: 0.5rem;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glassmorphism utilities */
+.glass {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-card {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-dark-700);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-dark-600);
+}
+
+/* Animations */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out forwards;
+}
