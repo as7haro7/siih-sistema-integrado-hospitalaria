@@ -1,0 +1,2313 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentación técnica del backend de Clínica SIIH">
+      
+      
+      
+      
+        <link rel="prev" href="../seguridad/">
+      
+      
+        <link rel="next" href="../guia_desarrollo/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Catálogo de Endpoints - Manual Técnico - Clínica SIIH</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#catalogo-de-endpoints" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="Manual Técnico - Clínica SIIH" class="md-header__button md-logo" aria-label="Manual Técnico - Clínica SIIH" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Manual Técnico - Clínica SIIH
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Catálogo de Endpoints
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Inicio
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../requerimientos/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Requerimientos Técnicos
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../configuracion/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Configuración y Despliegue
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../arquitectura/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Arquitectura y Módulos
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../base_datos/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Base de Datos
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../diagrama_er/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Diagrama Entidad-Relación
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../seguridad/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Seguridad y RBAC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Catálogo de Endpoints
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../guia_desarrollo/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Guía de Desarrollo
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../api/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API y Swagger
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Manual Técnico - Clínica SIIH" class="md-nav__button md-logo" aria-label="Manual Técnico - Clínica SIIH" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Manual Técnico - Clínica SIIH
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requerimientos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requerimientos Técnicos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuracion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuración y Despliegue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitectura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura y Módulos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../base_datos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Base de Datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../diagrama_er/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Diagrama Entidad-Relación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Seguridad y RBAC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catálogo de Endpoints
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catálogo de Endpoints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#autenticacion-apiv1auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autenticación (/api/v1/auth/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usuarios-apiv1usuarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usuarios (/api/v1/usuarios/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pacientes-apiv1pacientes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pacientes (/api/v1/pacientes/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#especialidades-apiv1especialidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Especialidades (/api/v1/especialidades/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicos-apiv1medicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Médicos (/api/v1/medicos/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#horarios-medicos-apiv1horarios-medicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Horarios Médicos (/api/v1/horarios-medicos/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#citas-apiv1citas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Citas (/api/v1/citas/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#emergencias-apiv1emergencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Emergencias (/api/v1/emergencias/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tarifas-de-habitacion-apiv1tarifas-habitacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tarifas de Habitación (/api/v1/tarifas-habitacion/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#camas-apiv1camas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Camas (/api/v1/camas/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hospitalizaciones-apiv1hospitalizaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hospitalizaciones (/api/v1/hospitalizaciones/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#historiales-clinicos-apiv1historiales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Historiales Clínicos (/api/v1/historiales/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examenes-de-laboratorio-apiv1examenes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exámenes de Laboratorio (/api/v1/examenes/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proveedores-apiv1proveedores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proveedores (/api/v1/proveedores/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicamentos-apiv1medicamentos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Medicamentos (/api/v1/medicamentos/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lotes-de-medicamentos-apiv1lotes-medicamentos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lotes de Medicamentos (/api/v1/lotes-medicamentos/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recetas-apiv1recetas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recetas (/api/v1/recetas/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compras-apiv1compras" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compras (/api/v1/compras/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#config-impuestos-apiv1facturasconfig-impuesto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Config. Impuestos (/api/v1/facturas/config-impuesto/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#facturas-apiv1facturas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Facturas (/api/v1/facturas/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#auditoria-apiv1auditoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auditoría (/api/v1/auditoria/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reportes-apiv1reportes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reportes (/api/v1/reportes/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guia_desarrollo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guía de Desarrollo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API y Swagger
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#autenticacion-apiv1auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autenticación (/api/v1/auth/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usuarios-apiv1usuarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usuarios (/api/v1/usuarios/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pacientes-apiv1pacientes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pacientes (/api/v1/pacientes/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#especialidades-apiv1especialidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Especialidades (/api/v1/especialidades/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicos-apiv1medicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Médicos (/api/v1/medicos/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#horarios-medicos-apiv1horarios-medicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Horarios Médicos (/api/v1/horarios-medicos/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#citas-apiv1citas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Citas (/api/v1/citas/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#emergencias-apiv1emergencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Emergencias (/api/v1/emergencias/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tarifas-de-habitacion-apiv1tarifas-habitacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tarifas de Habitación (/api/v1/tarifas-habitacion/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#camas-apiv1camas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Camas (/api/v1/camas/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hospitalizaciones-apiv1hospitalizaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hospitalizaciones (/api/v1/hospitalizaciones/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#historiales-clinicos-apiv1historiales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Historiales Clínicos (/api/v1/historiales/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examenes-de-laboratorio-apiv1examenes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exámenes de Laboratorio (/api/v1/examenes/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proveedores-apiv1proveedores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proveedores (/api/v1/proveedores/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#medicamentos-apiv1medicamentos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Medicamentos (/api/v1/medicamentos/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lotes-de-medicamentos-apiv1lotes-medicamentos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lotes de Medicamentos (/api/v1/lotes-medicamentos/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recetas-apiv1recetas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recetas (/api/v1/recetas/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compras-apiv1compras" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compras (/api/v1/compras/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#config-impuestos-apiv1facturasconfig-impuesto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Config. Impuestos (/api/v1/facturas/config-impuesto/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#facturas-apiv1facturas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Facturas (/api/v1/facturas/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#auditoria-apiv1auditoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auditoría (/api/v1/auditoria/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reportes-apiv1reportes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reportes (/api/v1/reportes/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="catalogo-de-endpoints">Catálogo de Endpoints</h1>
+<p>Referencia completa de todos los endpoints expuestos por la API REST del sistema. Se incluyen los métodos HTTP soportados, la descripción funcional y el rol autorizado.</p>
+<h2 id="autenticacion-apiv1auth">Autenticación (<code>/api/v1/auth/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/auth/login/</code></td>
+<td>Obtener par de tokens JWT (access + refresh)</td>
+<td>Público</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/auth/refresh/</code></td>
+<td>Renovar access token con un refresh token válido</td>
+<td>Público</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usuarios-apiv1usuarios">Usuarios (<code>/api/v1/usuarios/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/usuarios/</code></td>
+<td>Listar todos los usuarios</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/usuarios/</code></td>
+<td>Crear un nuevo usuario</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/usuarios/{id}/</code></td>
+<td>Detalle de un usuario</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/usuarios/{id}/</code></td>
+<td>Actualizar un usuario</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/usuarios/{id}/</code></td>
+<td>Eliminar un usuario</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/v1/usuarios/{id}/roles/</code></td>
+<td>Asignar/modificar roles de un usuario</td>
+<td>Admin</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pacientes-apiv1pacientes">Pacientes (<code>/api/v1/pacientes/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/pacientes/</code></td>
+<td>Listar pacientes</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/pacientes/</code></td>
+<td>Registrar nuevo paciente</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/pacientes/{id}/</code></td>
+<td>Detalle de un paciente</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/pacientes/{id}/</code></td>
+<td>Actualizar datos de un paciente</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/pacientes/{id}/</code></td>
+<td>Eliminar un paciente</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/pacientes/{id}/historial/</code></td>
+<td>Historial clínico del paciente</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/pacientes/{id}/baja/</code></td>
+<td>Dar de baja a un paciente</td>
+<td>Recepcionista</td>
+</tr>
+</tbody>
+</table>
+<h2 id="especialidades-apiv1especialidades">Especialidades (<code>/api/v1/especialidades/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/especialidades/</code></td>
+<td>Listar especialidades médicas</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/especialidades/</code></td>
+<td>Crear especialidad</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/especialidades/{id}/</code></td>
+<td>Detalle de especialidad</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/especialidades/{id}/</code></td>
+<td>Actualizar especialidad</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/especialidades/{id}/</code></td>
+<td>Eliminar especialidad</td>
+<td>Admin</td>
+</tr>
+</tbody>
+</table>
+<h2 id="medicos-apiv1medicos">Médicos (<code>/api/v1/medicos/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/medicos/</code></td>
+<td>Listar médicos</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/medicos/</code></td>
+<td>Registrar nuevo médico</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/medicos/{id}/</code></td>
+<td>Detalle de un médico</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/medicos/{id}/</code></td>
+<td>Actualizar datos de un médico</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/medicos/{id}/</code></td>
+<td>Eliminar un médico</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/medicos/{id}/disponibilidad/</code></td>
+<td>Consultar disponibilidad del médico</td>
+<td>Recepcionista</td>
+</tr>
+</tbody>
+</table>
+<h2 id="horarios-medicos-apiv1horarios-medicos">Horarios Médicos (<code>/api/v1/horarios-medicos/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/horarios-medicos/</code></td>
+<td>Listar horarios</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/horarios-medicos/</code></td>
+<td>Crear horario</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/horarios-medicos/{id}/</code></td>
+<td>Detalle de horario</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/horarios-medicos/{id}/</code></td>
+<td>Actualizar horario</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/horarios-medicos/{id}/</code></td>
+<td>Eliminar horario</td>
+<td>Admin</td>
+</tr>
+</tbody>
+</table>
+<h2 id="citas-apiv1citas">Citas (<code>/api/v1/citas/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/citas/</code></td>
+<td>Listar citas</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/citas/</code></td>
+<td>Agendar nueva cita (valida solapamiento)</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/citas/{id}/</code></td>
+<td>Detalle de cita</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/citas/{id}/</code></td>
+<td>Actualizar cita</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/citas/{id}/</code></td>
+<td>Cancelar cita</td>
+<td>Recepcionista</td>
+</tr>
+</tbody>
+</table>
+<h2 id="emergencias-apiv1emergencias">Emergencias (<code>/api/v1/emergencias/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/emergencias/</code></td>
+<td>Listar emergencias</td>
+<td>Recepcionista, Médico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/emergencias/</code></td>
+<td>Registrar emergencia con triage</td>
+<td>Recepcionista, Médico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/emergencias/{id}/</code></td>
+<td>Detalle de emergencia</td>
+<td>Recepcionista, Médico</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/emergencias/{id}/</code></td>
+<td>Actualizar emergencia</td>
+<td>Recepcionista, Médico</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/emergencias/{id}/</code></td>
+<td>Eliminar emergencia</td>
+<td>Recepcionista, Médico</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tarifas-de-habitacion-apiv1tarifas-habitacion">Tarifas de Habitación (<code>/api/v1/tarifas-habitacion/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/tarifas-habitacion/</code></td>
+<td>Listar tarifas</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/tarifas-habitacion/</code></td>
+<td>Crear tarifa</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/tarifas-habitacion/{id}/</code></td>
+<td>Detalle de tarifa</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/tarifas-habitacion/{id}/</code></td>
+<td>Actualizar tarifa</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/tarifas-habitacion/{id}/</code></td>
+<td>Eliminar tarifa</td>
+<td>Admin</td>
+</tr>
+</tbody>
+</table>
+<h2 id="camas-apiv1camas">Camas (<code>/api/v1/camas/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/camas/</code></td>
+<td>Listar todas las camas</td>
+<td>Médico, Enfermera</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/camas/</code></td>
+<td>Registrar nueva cama</td>
+<td>Médico, Enfermera</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/camas/{id}/</code></td>
+<td>Detalle de cama</td>
+<td>Médico, Enfermera</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/camas/{id}/</code></td>
+<td>Actualizar cama</td>
+<td>Médico, Enfermera</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/camas/{id}/</code></td>
+<td>Eliminar cama</td>
+<td>Médico, Enfermera</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/camas/disponibles/</code></td>
+<td>Listar solo camas disponibles</td>
+<td>Médico, Enfermera</td>
+</tr>
+</tbody>
+</table>
+<h2 id="hospitalizaciones-apiv1hospitalizaciones">Hospitalizaciones (<code>/api/v1/hospitalizaciones/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/hospitalizaciones/</code></td>
+<td>Listar hospitalizaciones</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/hospitalizaciones/</code></td>
+<td>Registrar hospitalización</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/hospitalizaciones/{id}/</code></td>
+<td>Detalle de hospitalización</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/hospitalizaciones/{id}/</code></td>
+<td>Actualizar hospitalización</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/hospitalizaciones/{id}/</code></td>
+<td>Eliminar hospitalización</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/hospitalizaciones/{id}/alta/</code></td>
+<td>Dar de alta al paciente (libera cama)</td>
+<td>Médico</td>
+</tr>
+</tbody>
+</table>
+<h2 id="historiales-clinicos-apiv1historiales">Historiales Clínicos (<code>/api/v1/historiales/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/historiales/</code></td>
+<td>Listar historiales</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/historiales/</code></td>
+<td>Crear historial clínico</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/historiales/{id}/</code></td>
+<td>Detalle de historial</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/historiales/{id}/</code></td>
+<td>Actualizar historial</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/historiales/{id}/</code></td>
+<td>Eliminar historial</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/historiales/{id}/recetas/</code></td>
+<td>Agregar receta al historial</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/historiales/{id}/examenes/</code></td>
+<td>Solicitar examen de laboratorio</td>
+<td>Médico</td>
+</tr>
+</tbody>
+</table>
+<h2 id="examenes-de-laboratorio-apiv1examenes">Exámenes de Laboratorio (<code>/api/v1/examenes/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/examenes/</code></td>
+<td>Listar exámenes</td>
+<td>Técnico Lab</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/examenes/</code></td>
+<td>Crear examen</td>
+<td>Técnico Lab</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/examenes/{id}/</code></td>
+<td>Detalle de examen</td>
+<td>Técnico Lab</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/examenes/{id}/</code></td>
+<td>Actualizar examen</td>
+<td>Técnico Lab</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/examenes/{id}/</code></td>
+<td>Eliminar examen</td>
+<td>Técnico Lab</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/v1/examenes/{id}/resultado/</code></td>
+<td>Registrar resultado del examen</td>
+<td>Técnico Lab</td>
+</tr>
+</tbody>
+</table>
+<h2 id="proveedores-apiv1proveedores">Proveedores (<code>/api/v1/proveedores/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/proveedores/</code></td>
+<td>Listar proveedores</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/proveedores/</code></td>
+<td>Registrar proveedor</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/proveedores/{id}/</code></td>
+<td>Detalle de proveedor</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/proveedores/{id}/</code></td>
+<td>Actualizar proveedor</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/proveedores/{id}/</code></td>
+<td>Eliminar proveedor</td>
+<td>Farmacéutico</td>
+</tr>
+</tbody>
+</table>
+<h2 id="medicamentos-apiv1medicamentos">Medicamentos (<code>/api/v1/medicamentos/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/medicamentos/</code></td>
+<td>Listar medicamentos</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/medicamentos/</code></td>
+<td>Registrar medicamento</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/medicamentos/{id}/</code></td>
+<td>Detalle de medicamento</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/medicamentos/{id}/</code></td>
+<td>Actualizar medicamento</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/medicamentos/{id}/</code></td>
+<td>Eliminar medicamento</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/medicamentos/alertas/</code></td>
+<td>Medicamentos con stock bajo el mínimo</td>
+<td>Farmacéutico</td>
+</tr>
+</tbody>
+</table>
+<h2 id="lotes-de-medicamentos-apiv1lotes-medicamentos">Lotes de Medicamentos (<code>/api/v1/lotes-medicamentos/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/lotes-medicamentos/</code></td>
+<td>Listar lotes</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/lotes-medicamentos/</code></td>
+<td>Registrar lote</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/lotes-medicamentos/{id}/</code></td>
+<td>Detalle de lote</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/lotes-medicamentos/{id}/</code></td>
+<td>Actualizar lote</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/lotes-medicamentos/{id}/</code></td>
+<td>Eliminar lote</td>
+<td>Farmacéutico</td>
+</tr>
+</tbody>
+</table>
+<h2 id="recetas-apiv1recetas">Recetas (<code>/api/v1/recetas/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/recetas/</code></td>
+<td>Listar recetas</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/recetas/{id}/</code></td>
+<td>Detalle de receta</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/recetas/pendientes/</code></td>
+<td>Recetas pendientes de despacho</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/recetas/{id}/despachar/</code></td>
+<td>Despachar receta (descuenta stock FIFO)</td>
+<td>Farmacéutico</td>
+</tr>
+</tbody>
+</table>
+<h2 id="compras-apiv1compras">Compras (<code>/api/v1/compras/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/compras/</code></td>
+<td>Listar compras</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/compras/</code></td>
+<td>Registrar compra atómica (compra + lote + detalle)</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/compras/{id}/</code></td>
+<td>Detalle de compra</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/compras/{id}/</code></td>
+<td>Actualizar compra</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/compras/{id}/</code></td>
+<td>Eliminar compra</td>
+<td>Farmacéutico</td>
+</tr>
+</tbody>
+</table>
+<h2 id="config-impuestos-apiv1facturasconfig-impuesto">Config. Impuestos (<code>/api/v1/facturas/config-impuesto/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/facturas/config-impuesto/</code></td>
+<td>Listar configuraciones de impuesto</td>
+<td>Admin, Cajero</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/facturas/config-impuesto/</code></td>
+<td>Crear configuración</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/facturas/config-impuesto/{id}/</code></td>
+<td>Detalle de configuración</td>
+<td>Admin, Cajero</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/facturas/config-impuesto/{id}/</code></td>
+<td>Actualizar configuración</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/facturas/config-impuesto/{id}/</code></td>
+<td>Eliminar configuración</td>
+<td>Admin</td>
+</tr>
+</tbody>
+</table>
+<h2 id="facturas-apiv1facturas">Facturas (<code>/api/v1/facturas/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/facturas/</code></td>
+<td>Listar facturas (filtrable por estado_pago)</td>
+<td>Cajero</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/facturas/</code></td>
+<td>Crear factura manualmente</td>
+<td>Cajero</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/facturas/{id}/</code></td>
+<td>Detalle de factura con líneas y pagos</td>
+<td>Cajero</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/facturas/{id}/</code></td>
+<td>Actualizar factura</td>
+<td>Cajero</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/facturas/{id}/</code></td>
+<td>Eliminar factura</td>
+<td>Cajero</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/facturas/consolidar/</code></td>
+<td>Consolidar cargos en una factura automática</td>
+<td>Cajero</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/facturas/{id}/pagos/</code></td>
+<td>Registrar pago parcial o total</td>
+<td>Cajero</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/facturas/{id}/pagos-lista/</code></td>
+<td>Listar todos los pagos de una factura</td>
+<td>Cajero</td>
+</tr>
+</tbody>
+</table>
+<h2 id="auditoria-apiv1auditoria">Auditoría (<code>/api/v1/auditoria/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/auditoria/</code></td>
+<td>Listar registros de auditoría (filtrable)</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/auditoria/{id}/</code></td>
+<td>Detalle de registro</td>
+<td>Admin</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">Solo Lectura</p>
+<p>El módulo de auditoría es estrictamente de solo lectura (<code>ReadOnlyModelViewSet</code>). Los registros son creados automáticamente por triggers de MySQL.</p>
+</div>
+<h2 id="reportes-apiv1reportes">Reportes (<code>/api/v1/reportes/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/reportes/pacientes-por-especialidad/</code></td>
+<td>Reporte de pacientes agrupados por especialidad</td>
+<td>Director</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/reportes/consumo-medicamentos/</code></td>
+<td>Reporte de consumo de medicamentos</td>
+<td>Director</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/reportes/ingresos/</code></td>
+<td>Reporte de ingresos financieros</td>
+<td>Director</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Exportación</p>
+<p>Todos los reportes soportan exportación a <strong>Excel</strong> (.xlsx) y <strong>CSV</strong> añadiendo el parámetro <code>?formato=excel</code> o <code>?formato=csv</code> en la URL.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -15,8 +15,8 @@ siih/
 ├── hospitalizacion/           ← CAMA, HOSPITALIZACION, TARIFA_HABITACION
 ├── clinico/                   ← HISTORIAL_CLINICO
 ├── laboratorio/               ← EXAMEN_LABORATORIO
-├── farmacia/                  ← Inventario completo + FIFO
-├── facturacion/               ← Facturación + pagos + consolidación
+├── farmacia/                  ← MEDICAMENTO, LOTE_MEDICAMENTO, PROVEEDOR, COMPRA, RECETA
+├── facturacion/               ← FACTURA, FACTURA_DETALLE, PAGO, CONFIG_IMPUESTO
 ├── auditoria/                 ← AUDITORIA_SISTEMA (solo lectura)
 └── reportes/                  ← Export Excel/CSV con Pandas
 ```
@@ -37,10 +37,13 @@ siih/
 | `/api/v1/hospitalizaciones/` | CRUD + `{id}/alta/` | Médico |
 | `/api/v1/historiales/` | CRUD + `{id}/recetas/`, `{id}/examenes/` | Médico |
 | `/api/v1/examenes/` | CRUD + `{id}/resultado/` | Técnico Lab |
+| `/api/v1/proveedores/` | CRUD | Farmacéutico |
 | `/api/v1/medicamentos/` | CRUD + `alertas/` | Farmacéutico |
+| `/api/v1/lotes-medicamentos/` | CRUD | Farmacéutico |
 | `/api/v1/recetas/` | Lista + `pendientes/`, `{id}/despachar/` | Farmacéutico |
 | `/api/v1/compras/` | CRUD (atómico: compra+lote+detalle) | Farmacéutico |
-| `/api/v1/facturas/` | CRUD + `consolidar/`, `{id}/pagos/` | Cajero |
+| `/api/v1/facturas/config-impuesto/` | CRUD | Admin, Cajero |
+| `/api/v1/facturas/` | CRUD + `consolidar/`, `{id}/pagos/`, `{id}/pagos-lista/` | Cajero |
 | `/api/v1/auditoria/` | Solo lectura (filtrable) | Admin |
 | `/api/v1/reportes/` | 3 reportes con export Excel/CSV | Director |
 
@@ -54,7 +57,7 @@ siih/
 mysql -u root < db.sql
 
 # 2. Instalar dependencias
-cd siih
+cd backend_siih
 pip install -r requirements.txt
 
 # 3. Migrar tablas de Django (auth, sessions, etc.)
@@ -71,4 +74,40 @@ python manage.py runserver
 ```
 
 > [!TIP]
-> El API browsable de DRF está disponible en `http://localhost:8000/api/v1/` para probar endpoints directamente desde el navegador.
+> **Documentación Interactiva:**
+> - **Swagger UI:** `http://localhost:8000/api/docs/`
+> - **ReDoc:** `http://localhost:8000/api/redoc/`
+> - **Esquema OpenAPI:** `http://localhost:8000/api/schema/`
+> 
+> Además, el API browsable de DRF está disponible directamente en las rutas de los endpoints, ej. `http://localhost:8000/api/v1/`.
+
+## Ejecución de Pruebas (Tests)
+
+Para ejecutar las pruebas del sistema asegúrate de tener tu entorno virtual activado. Debido a que algunas tablas no son administradas por Django (`managed = False`), el proyecto está configurado para utilizar transacciones sobre la misma base de datos de desarrollo sin eliminar tus datos reales.
+
+1. Asegúrate de tener tu entorno virtual activo:
+   ```bash
+   # En Windows:
+   .\venv\Scripts\activate
+   ```
+
+2. Para ejecutar **todas** las pruebas del proyecto:
+   ```bash
+   python manage.py test
+   ```
+
+3. Para ejecutar pruebas de un **módulo específico**, utiliza el nombre del módulo. Aquí tienes la lista de todos los comandos posibles para cada módulo del sistema:
+   ```bash
+   python manage.py test accounts
+   python manage.py test auditoria
+   python manage.py test citas
+   python manage.py test clinico
+   python manage.py test emergencias
+   python manage.py test facturacion
+   python manage.py test farmacia
+   python manage.py test hospitalizacion
+   python manage.py test laboratorio
+   python manage.py test pacientes
+   python manage.py test personal_medico
+   python manage.py test reportes
+   ```

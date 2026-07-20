@@ -1,0 +1,52 @@
+site_name: Manual Técnico - Clínica SIIH
+site_description: Documentación técnica del backend de Clínica SIIH
+theme:
+  name: material
+  language: es
+  palette:
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Cambiar a modo oscuro
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Cambiar a modo claro
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - search.suggest
+    - search.highlight
+
+nav:
+  - Inicio: index.md
+  - Requerimientos Técnicos: requerimientos.md
+  - Configuración y Despliegue: configuracion.md
+  - Arquitectura y Módulos: arquitectura.md
+  - Base de Datos: base_datos.md
+  - Diagrama Entidad-Relación: diagrama_er.md
+  - Seguridad y RBAC: seguridad.md
+  - Catálogo de Endpoints: endpoints.md
+  - Guía de Desarrollo: guia_desarrollo.md
+  - API y Swagger: api.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.magiclink

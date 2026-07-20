@@ -11,3 +11,7 @@ django-filter==23.5
 # Reports (Excel/CSV) - Actualizado para compatibilidad con Python 3.14
 pandas>=2.2.0
 openpyxl==3.1.*
+
+# Documentación
+mkdocs>=1.5.0
+mkdocs-material>=9.5.0
