@@ -25,7 +25,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(serializers.ListField(child=serializers.CharField()))
     def get_roles(self, obj):
-        return list(obj.groups.values_list("name", flat=True))
+        roles = list(obj.groups.values_list("name", flat=True))
+        if obj.is_superuser and "Administrador" not in roles:
+            roles.append("Administrador")
+        return roles
 
 
 class UserCreateSerializer(serializers.ModelSerializer):

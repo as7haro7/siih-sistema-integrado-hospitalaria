@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { RoleGuard } from '@/components/layout/RoleGuard';
 import { DataTable, ColumnDef } from '@/components/shared/DataTable';
 import { ConfigImpuesto, createConfigImpuesto, updateConfigImpuesto, deleteConfigImpuesto } from '@/services/configImpuestoService';
-import { StatusBadge } from '@/components/shared/StatusBadge';
 import { Button } from '@/components/ui/Button';
 import { Edit, Trash } from 'lucide-react';
 import { Modal, ModalHeader, ModalTitle, ModalFooter } from '@/components/ui/Modal';
@@ -19,18 +18,18 @@ export default function ConfigImpuestoPage() {
   const [refreshKey, setRefreshKey] = useState(0);
 
   // Form state
-  const [nombre, setNombre] = useState('');
+  const [descripcion, setDescripcion] = useState('');
   const [porcentaje, setPorcentaje] = useState('0');
   const [loading, setLoading] = useState(false);
 
   const openEditModal = (impuesto?: ConfigImpuesto) => {
     if (impuesto) {
       setSelected(impuesto);
-      setNombre(impuesto.nombre);
+      setDescripcion(impuesto.descripcion);
       setPorcentaje(String(impuesto.porcentaje));
     } else {
       setSelected(null);
-      setNombre('');
+      setDescripcion('');
       setPorcentaje('');
     }
     setIsModalOpen(true);
@@ -41,14 +40,14 @@ export default function ConfigImpuestoPage() {
     setLoading(true);
     try {
       if (selected) {
-        await updateConfigImpuesto(selected.id, { 
-          nombre, 
+        await updateConfigImpuesto(selected.id_impuesto, { 
+          descripcion, 
           porcentaje: parseFloat(porcentaje) 
         });
         toast.success('Impuesto actualizado');
       } else {
         await createConfigImpuesto({ 
-          nombre, 
+          descripcion, 
           porcentaje: parseFloat(porcentaje) 
         });
         toast.success('Impuesto creado');
@@ -65,7 +64,7 @@ export default function ConfigImpuestoPage() {
   const handleDelete = async () => {
     if (!selected) return;
     try {
-      await deleteConfigImpuesto(selected.id);
+      await deleteConfigImpuesto(selected.id_impuesto);
       toast.success('Impuesto eliminado');
       setIsDeleteModalOpen(false);
       setRefreshKey(prev => prev + 1);
@@ -75,15 +74,11 @@ export default function ConfigImpuestoPage() {
   };
 
   const columns: ColumnDef<ConfigImpuesto>[] = [
-    { header: 'ID', accessorKey: 'id' },
-    { header: 'Nombre del Impuesto', accessorKey: 'nombre' },
+    { header: 'ID', accessorKey: 'id_impuesto' },
+    { header: 'Descripción', accessorKey: 'descripcion' },
     { 
       header: 'Porcentaje', 
       cell: (row) => <span className="font-semibold">{row.porcentaje}%</span>
-    },
-    { 
-      header: 'Estado', 
-      cell: (row) => <StatusBadge status={row.is_active ? 'Activo' : 'Baja'} />
     },
     {
       header: 'Acciones',
@@ -127,11 +122,11 @@ export default function ConfigImpuestoPage() {
           </ModalHeader>
           <form onSubmit={handleSave} className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="nombre">Nombre</Label>
+              <Label htmlFor="descripcion">Descripción</Label>
               <Input 
-                id="nombre" 
-                value={nombre} 
-                onChange={e => setNombre(e.target.value)} 
+                id="descripcion" 
+                value={descripcion} 
+                onChange={e => setDescripcion(e.target.value)} 
                 required 
               />
             </div>
@@ -162,7 +157,7 @@ export default function ConfigImpuestoPage() {
           onClose={() => setIsDeleteModalOpen(false)}
           onConfirm={handleDelete}
           title="Eliminar Impuesto"
-          description={`¿Estás seguro de eliminar el impuesto "${selected?.nombre}"?`}
+          description={`¿Estás seguro de eliminar el impuesto "${selected?.descripcion}"?`}
           variant="destructive"
         />
       </div>

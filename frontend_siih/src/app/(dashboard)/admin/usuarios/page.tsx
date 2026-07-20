@@ -38,6 +38,7 @@ export default function UsuariosPage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [cargo, setCargo] = useState('');
+  const [telefono, setTelefono] = useState('');
   const [loading, setLoading] = useState(false);
 
   // Form state para roles
@@ -51,6 +52,7 @@ export default function UsuariosPage() {
       setFirstName(user.first_name);
       setLastName(user.last_name);
       setCargo(user.perfil?.cargo || '');
+      setTelefono(user.perfil?.telefono || '');
       setPassword(''); // Password vacía por defecto al editar (no se actualiza si está vacía)
     } else {
       setSelectedUser(null);
@@ -59,6 +61,7 @@ export default function UsuariosPage() {
       setFirstName('');
       setLastName('');
       setCargo('');
+      setTelefono('');
       setPassword('');
     }
     setIsModalOpen(true);
@@ -79,7 +82,7 @@ export default function UsuariosPage() {
       email,
       first_name: firstName,
       last_name: lastName,
-      perfil: { cargo }
+      perfil: { cargo, telefono }
     };
 
     if (password) {
@@ -273,8 +276,13 @@ export default function UsuariosPage() {
               </div>
               <div className="space-y-2">
                 <Label>Cargo (Perfil)</Label>
-                <Input value={cargo} onChange={e => setCargo(e.target.value)} placeholder="Ej. Director Médico" />
+                <Input value={cargo} onChange={e => setCargo(e.target.value)} />
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Teléfono</Label>
+              <Input value={telefono} onChange={e => setTelefono(e.target.value)} />
             </div>
 
             <ModalFooter className="pt-4">

@@ -27,14 +27,14 @@ export function Topbar() {
       <div className="flex items-center space-x-4">
         <div className="flex flex-col items-end text-sm">
           <span className="font-medium">
-            {user ? `${user.first_name} ${user.last_name}` : 'Cargando...'}
+            {user ? (user.first_name ? `${user.first_name} ${user.last_name}` : user.username) : 'Cargando...'}
           </span>
           <span className="text-xs text-muted-foreground">
             {user?.roles?.join(', ')}
           </span>
         </div>
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/20 text-primary font-bold">
-          {user?.first_name?.charAt(0) || 'U'}
+        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/20 text-primary font-bold uppercase">
+          {(user?.first_name || user?.username || 'U').charAt(0)}
         </div>
       </div>
     </header>

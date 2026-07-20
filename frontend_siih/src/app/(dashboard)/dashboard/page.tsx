@@ -60,7 +60,7 @@ export default function DashboardPage() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Dashboard General</h1>
         <p className="text-muted-foreground mt-2">
-          Bienvenido de vuelta, {user?.first_name} {user?.last_name}.
+          Bienvenido de vuelta, {user?.first_name || user?.username} {user?.last_name}.
         </p>
       </div>
 

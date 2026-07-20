@@ -1,10 +1,8 @@
 import { api } from '@/lib/api';
 
 export interface Especialidad {
-  id: number;
-  nombre: string;
-  descripcion: string;
-  is_active: boolean;
+  id_especialidad: number;
+  nombre_especialidad: string;
 }
 
 export const getEspecialidades = async () => {
@@ -18,7 +16,7 @@ export const createEspecialidad = async (especialidad: Partial<Especialidad>) =>
 };
 
 export const updateEspecialidad = async (id: number, especialidad: Partial<Especialidad>) => {
-  const { data } = await api.put(`/especialidades/${id}/`, especialidad);
+  const { data } = await api.patch(`/especialidades/${id}/`, especialidad);
   return data;
 };
 

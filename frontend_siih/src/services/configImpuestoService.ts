@@ -1,10 +1,9 @@
 import { api } from '@/lib/api';
 
 export interface ConfigImpuesto {
-  id: number;
-  nombre: string;
+  id_impuesto: number;
+  descripcion: string;
   porcentaje: number;
-  is_active: boolean;
 }
 
 export const getConfigImpuestos = async () => {

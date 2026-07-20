@@ -26,12 +26,10 @@ export default function EspecialidadesPage() {
   const openEditModal = (esp?: Especialidad) => {
     if (esp) {
       setSelected(esp);
-      setNombre(esp.nombre);
-      setDescripcion(esp.descripcion);
+      setNombre(esp.nombre_especialidad);
     } else {
       setSelected(null);
       setNombre('');
-      setDescripcion('');
     }
     setIsModalOpen(true);
   };
@@ -41,10 +39,10 @@ export default function EspecialidadesPage() {
     setLoading(true);
     try {
       if (selected) {
-        await updateEspecialidad(selected.id, { nombre, descripcion });
+        await updateEspecialidad(selected.id_especialidad, { nombre_especialidad: nombre });
         toast.success('Especialidad actualizada');
       } else {
-        await createEspecialidad({ nombre, descripcion });
+        await createEspecialidad({ nombre_especialidad: nombre });
         toast.success('Especialidad creada');
       }
       setIsModalOpen(false);
@@ -59,7 +57,7 @@ export default function EspecialidadesPage() {
   const handleDelete = async () => {
     if (!selected) return;
     try {
-      await deleteEspecialidad(selected.id);
+      await deleteEspecialidad(selected.id_especialidad);
       toast.success('Especialidad eliminada');
       setIsDeleteModalOpen(false);
       setRefreshKey(prev => prev + 1);
@@ -69,13 +67,8 @@ export default function EspecialidadesPage() {
   };
 
   const columns: ColumnDef<Especialidad>[] = [
-    { header: 'ID', accessorKey: 'id' },
-    { header: 'Nombre', accessorKey: 'nombre' },
-    { header: 'Descripción', accessorKey: 'descripcion' },
-    { 
-      header: 'Estado', 
-      cell: (row) => <StatusBadge status={row.is_active ? 'Activo' : 'Baja'} />
-    },
+    { header: 'ID', accessorKey: 'id_especialidad' },
+    { header: 'Nombre', accessorKey: 'nombre_especialidad' },
     {
       header: 'Acciones',
       cell: (row) => (
@@ -127,14 +120,6 @@ export default function EspecialidadesPage() {
                 required 
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="descripcion">Descripción</Label>
-              <Input 
-                id="descripcion" 
-                value={descripcion} 
-                onChange={e => setDescripcion(e.target.value)} 
-              />
-            </div>
             <ModalFooter>
               <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)}>Cancelar</Button>
               <Button type="submit" disabled={loading}>
@@ -150,7 +135,7 @@ export default function EspecialidadesPage() {
           onClose={() => setIsDeleteModalOpen(false)}
           onConfirm={handleDelete}
           title="Eliminar Especialidad"
-          description={`¿Estás seguro de eliminar la especialidad "${selected?.nombre}"? Esta acción suele ser un borrado lógico en el backend.`}
+          description={`¿Estás seguro de eliminar la especialidad "${selected?.nombre_especialidad}"? Esta acción suele ser un borrado lógico en el backend.`}
           variant="destructive"
         />
       </div>

@@ -6,6 +6,7 @@ from rest_framework.response import Response
 
 from .serializers import UserSerializer, UserCreateSerializer, RolAssignSerializer
 from .permissions import IsAdmin
+from rest_framework.permissions import IsAuthenticated
 
 
 class UsuarioViewSet(viewsets.ModelViewSet):
@@ -20,12 +21,36 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     PATCH  /api/v1/usuarios/{id}/roles/ → Asignar roles
     """
     queryset = User.objects.all().select_related("perfil").prefetch_related("groups")
-    permission_classes = [IsAdmin]
+    
+    # Todos deben estar autenticados, Admin puede todo, usuarios pueden ver su propio detalle
+    permission_classes = [IsAuthenticated]
+
+    def get_permissions(self):
+        if self.action in ['retrieve', 'update', 'partial_update']:
+            # Permitiremos que los usuarios vean/editen su propio perfil o que sea Admin
+            return [IsAuthenticated()]
+        return [IsAdmin()]
 
     def get_serializer_class(self):
         if self.action == "create":
             return UserCreateSerializer
         return UserSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        user = self.get_object()
+        if not request.user.is_superuser and not request.user.groups.filter(name="Administrador").exists():
+            if request.user.id != user.id:
+                from rest_framework.exceptions import PermissionDenied
+                raise PermissionDenied("No tienes permiso para ver este perfil.")
+        return super().retrieve(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        user = self.get_object()
+        if not request.user.is_superuser and not request.user.groups.filter(name="Administrador").exists():
+            if request.user.id != user.id:
+                from rest_framework.exceptions import PermissionDenied
+                raise PermissionDenied("No tienes permiso para editar este perfil.")
+        return super().update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         """En vez de eliminar, desactiva al usuario."""

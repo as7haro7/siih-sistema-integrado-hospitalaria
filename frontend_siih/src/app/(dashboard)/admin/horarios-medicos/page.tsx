@@ -3,8 +3,7 @@ import { useState, useEffect } from 'react';
 import { RoleGuard } from '@/components/layout/RoleGuard';
 import { DataTable, ColumnDef } from '@/components/shared/DataTable';
 import { HorarioMedico, createHorarioMedico, deleteHorarioMedico } from '@/services/horariosService';
-import { getUsers } from '@/services/usuariosService';
-import { getEspecialidades } from '@/services/especialidadesService';
+import { getMedicos } from '@/services/medicosService';
 import { StatusBadge } from '@/components/shared/StatusBadge';
 import { Button } from '@/components/ui/Button';
 import { Trash } from 'lucide-react';
@@ -22,41 +21,33 @@ export default function HorariosMedicosPage() {
   const [refreshKey, setRefreshKey] = useState(0);
 
   const [medicos, setMedicos] = useState<{value: string, label: string}[]>([]);
-  const [especialidades, setEspecialidades] = useState<{value: string, label: string}[]>([]);
 
   // Form state
   const [medicoId, setMedicoId] = useState('');
-  const [especialidadId, setEspecialidadId] = useState('');
-  const [diaSemana, setDiaSemana] = useState('1');
+  const [diaSemana, setDiaSemana] = useState('Lunes');
   const [horaInicio, setHoraInicio] = useState('08:00');
   const [horaFin, setHoraFin] = useState('12:00');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Load Medicos (usuarios con rol medico) and Especialidades for the selects
     const loadCatalogs = async () => {
       try {
-        const usersData = await getUsers();
-        // Filtrar usuarios que son médicos (simulado aquí buscando la palabra "medico" en cargo o rol)
-        const medicosOptions = usersData.results
-          .filter((u: any) => (u.roles || []).includes('Médico'))
-          .map((u: any) => ({ value: String(u.id), label: `${u.first_name} ${u.last_name}` }));
+        const data = await getMedicos();
+        const medicosOptions = data.results.map((m: any) => ({ 
+          value: String(m.id_medico), 
+          label: `${m.nombre_medico} (${m.especialidad_nombre})` 
+        }));
         setMedicos(medicosOptions);
-
-        const espData = await getEspecialidades();
-        const espOptions = espData.results.map((e: any) => ({ value: String(e.id), label: e.nombre }));
-        setEspecialidades(espOptions);
       } catch (error) {
         console.error("Error loading catalogs", error);
       }
     };
-    if (isModalOpen) loadCatalogs();
-  }, [isModalOpen]);
+    loadCatalogs();
+  }, []);
 
   const openCreateModal = () => {
     setMedicoId('');
-    setEspecialidadId('');
-    setDiaSemana('1');
+    setDiaSemana('Lunes');
     setHoraInicio('08:00');
     setHoraFin('12:00');
     setIsModalOpen(true);
@@ -64,18 +55,18 @@ export default function HorariosMedicosPage() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!medicoId || !especialidadId) {
-      toast.error('Debe seleccionar médico y especialidad');
+    if (!medicoId) {
+      toast.error('Debe seleccionar médico');
       return;
     }
     setLoading(true);
     try {
       await createHorarioMedico({ 
-        medico_id: parseInt(medicoId),
-        especialidad_id: parseInt(especialidadId),
-        dia_semana: parseInt(diaSemana),
+        id_medico: parseInt(medicoId),
+        dia_semana: diaSemana,
         hora_inicio: horaInicio,
-        hora_fin: horaFin
+        hora_fin: horaFin,
+        estado_turno: 'Activo'
       });
       toast.success('Horario creado');
       setIsModalOpen(false);
@@ -90,7 +81,7 @@ export default function HorariosMedicosPage() {
   const handleDelete = async () => {
     if (!selected) return;
     try {
-      await deleteHorarioMedico(selected.id);
+      await deleteHorarioMedico(selected.id_horario);
       toast.success('Horario eliminado');
       setIsDeleteModalOpen(false);
       setRefreshKey(prev => prev + 1);
@@ -99,17 +90,19 @@ export default function HorariosMedicosPage() {
     }
   };
 
-  const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+  const dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
 
   const columns: ColumnDef<HorarioMedico>[] = [
-    { header: 'ID', accessorKey: 'id' },
-    { header: 'Médico', cell: (row) => row.medico_nombre || `Médico ID: ${row.medico_id}` },
-    { header: 'Especialidad', cell: (row) => row.especialidad_nombre || `Esp ID: ${row.especialidad_id}` },
-    { header: 'Día', cell: (row) => dias[row.dia_semana - 1] || '?' },
+    { header: 'ID', accessorKey: 'id_horario' },
+    { 
+      header: 'Médico', 
+      cell: (row) => medicos.find(m => m.value === String(row.id_medico))?.label || `ID Médico: ${row.id_medico}` 
+    },
+    { header: 'Día', accessorKey: 'dia_semana' },
     { header: 'Horario', cell: (row) => `${row.hora_inicio} - ${row.hora_fin}` },
     { 
       header: 'Estado', 
-      cell: (row) => <StatusBadge status={row.is_active ? 'Activo' : 'Baja'} />
+      cell: (row) => <StatusBadge status={row.estado_turno === 'Activo' ? 'Activo' : 'Baja'} />
     },
     {
       header: 'Acciones',
@@ -159,15 +152,6 @@ export default function HorariosMedicosPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label>Especialidad</Label>
-              <SearchableSelect 
-                options={especialidades} 
-                value={especialidadId} 
-                onChange={setEspecialidadId} 
-                placeholder="Seleccionar especialidad..."
-              />
-            </div>
-            <div className="space-y-2">
               <Label htmlFor="dia">Día de la Semana</Label>
               <select 
                 id="dia"
@@ -176,7 +160,7 @@ export default function HorariosMedicosPage() {
                 onChange={e => setDiaSemana(e.target.value)}
               >
                 {dias.map((d, i) => (
-                  <option key={i} value={i + 1}>{d}</option>
+                  <option key={i} value={d}>{d}</option>
                 ))}
               </select>
             </div>

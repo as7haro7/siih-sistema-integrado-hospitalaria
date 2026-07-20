@@ -6,7 +6,6 @@ import { AuditoriaLog } from '@/services/auditoriaService';
 import { formatDate } from '@/lib/utils';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
-import { Search } from 'lucide-react';
 import { Modal, ModalHeader, ModalTitle } from '@/components/ui/Modal';
 
 export default function AuditoriaPage() {
@@ -17,29 +16,30 @@ export default function AuditoriaPage() {
   const [accion, setAccion] = useState('');
   
   // Custom fetch url constructor for DataTable to include extra query params
-  const fetchUrl = `/auditoria/${tabla ? `?tabla_afectada=${tabla}` : ''}${accion ? (tabla ? '&' : '?') + `accion=${accion}` : ''}`;
+  const fetchUrl = `/auditoria/${tabla ? `?tabla_afectada=${tabla}` : ''}${accion ? (tabla ? '&' : '?') + `tipo_operacion=${accion}` : ''}`;
 
   const columns: ColumnDef<AuditoriaLog>[] = [
-    { header: 'ID', accessorKey: 'id' },
+    { header: 'ID', accessorKey: 'id_auditoria' },
     { 
       header: 'Fecha y Hora', 
-      cell: (row) => formatDate(row.fecha_hora, 'dd/MM/yyyy HH:mm:ss') 
+      cell: (row) => formatDate(row.fecha_hora_evento, 'dd/MM/yyyy HH:mm:ss') 
     },
-    { header: 'Usuario', cell: (row) => row.usuario_nombre || `ID: ${row.usuario_id}` },
+    { header: 'Usuario', accessorKey: 'usuario_accion' },
     { header: 'Tabla', accessorKey: 'tabla_afectada' },
-    { header: 'Registro ID', accessorKey: 'registro_id' },
+    { header: 'Registro ID', accessorKey: 'id_registro_afectado' },
     { 
-      header: 'Acción', 
+      header: 'Operación', 
       cell: (row) => (
         <span className={`font-semibold ${
-          row.accion === 'INSERT' ? 'text-medical-500' : 
-          row.accion === 'UPDATE' ? 'text-blue-500' : 'text-destructive'
+          row.tipo_operacion === 'INSERCION' ? 'text-medical-500' : 
+          row.tipo_operacion === 'EDICION' ? 'text-blue-500' : 
+          row.tipo_operacion === 'ELIMINACION' ? 'text-destructive' : ''
         }`}>
-          {row.accion}
+          {row.tipo_operacion}
         </span>
       ) 
     },
-    { header: 'IP', accessorKey: 'ip_address' },
+    { header: 'IP', accessorKey: 'direccion_ip' },
   ];
 
   return (
@@ -69,9 +69,10 @@ export default function AuditoriaPage() {
               onChange={e => setAccion(e.target.value)}
             >
               <option value="">Todas</option>
-              <option value="INSERT">INSERT</option>
-              <option value="UPDATE">UPDATE</option>
-              <option value="DELETE">DELETE</option>
+              <option value="INSERCION">INSERCION</option>
+              <option value="LECTURA">LECTURA</option>
+              <option value="EDICION">EDICION</option>
+              <option value="ELIMINACION">ELIMINACION</option>
             </select>
           </div>
         </div>
@@ -85,27 +86,27 @@ export default function AuditoriaPage() {
 
         <Modal isOpen={!!selectedLog} onClose={() => setSelectedLog(null)}>
           <ModalHeader>
-            <ModalTitle>Detalles de Auditoría #{selectedLog?.id}</ModalTitle>
+            <ModalTitle>Detalles de Auditoría #{selectedLog?.id_auditoria}</ModalTitle>
           </ModalHeader>
           <div className="py-4 space-y-4">
             <div className="grid grid-cols-2 gap-4 text-sm">
-              <div><span className="font-semibold text-muted-foreground">Usuario:</span> {selectedLog?.usuario_nombre}</div>
+              <div><span className="font-semibold text-muted-foreground">Usuario:</span> {selectedLog?.usuario_accion}</div>
               <div><span className="font-semibold text-muted-foreground">Tabla:</span> {selectedLog?.tabla_afectada}</div>
-              <div><span className="font-semibold text-muted-foreground">Acción:</span> {selectedLog?.accion}</div>
-              <div><span className="font-semibold text-muted-foreground">IP:</span> {selectedLog?.ip_address}</div>
+              <div><span className="font-semibold text-muted-foreground">Operación:</span> {selectedLog?.tipo_operacion}</div>
+              <div><span className="font-semibold text-muted-foreground">IP:</span> {selectedLog?.direccion_ip}</div>
             </div>
             
             <div className="space-y-2">
               <h4 className="text-sm font-semibold">Valores Anteriores:</h4>
               <pre className="bg-muted p-2 rounded-md text-xs overflow-auto max-h-32">
-                {JSON.stringify(selectedLog?.valores_anteriores, null, 2)}
+                {selectedLog?.valores_anteriores || 'Ninguno'}
               </pre>
             </div>
             
             <div className="space-y-2">
               <h4 className="text-sm font-semibold">Valores Nuevos:</h4>
               <pre className="bg-muted p-2 rounded-md text-xs overflow-auto max-h-32">
-                {JSON.stringify(selectedLog?.valores_nuevos, null, 2)}
+                {selectedLog?.valores_nuevos || 'Ninguno'}
               </pre>
             </div>
           </div>
