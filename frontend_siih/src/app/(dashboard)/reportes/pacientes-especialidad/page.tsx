@@ -44,7 +44,7 @@ function PacientesEspecialidadContent() {
     fetchReport(startDate, endDate);
   }, [startDate, endDate]);
 
-  const handleExport = (format: 'excel' | 'csv') => {
+  const handleExport = async (format: 'excel' | 'pdf') => {
     const url = getExportUrl('pacientes-por-especialidad', format, startDate, endDate);
     window.open(url, '_blank');
   };
@@ -78,7 +78,7 @@ function PacientesEspecialidadContent() {
               <Download className="h-4 w-4" />
               <span>Exportar Excel</span>
             </Button>
-            <Button variant="outline" onClick={() => handleExport('csv')} className="flex items-center space-x-1.5">
+            <Button variant="outline" onClick={() => handleExport('excel')} className="flex items-center space-x-1.5">
               <Download className="h-4 w-4" />
               <span>Exportar CSV</span>
             </Button>

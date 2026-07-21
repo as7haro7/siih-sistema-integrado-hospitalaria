@@ -149,7 +149,7 @@ export function ReportChart({
               fill="#8884d8"
               dataKey={pieValueKey}
               nameKey={pieNameKey}
-              label={({ name, percent }) => `${name} ${percent !== undefined ? (percent * 100).toFixed(0) : 0}%`}
+              label={({ name, percent }: { name: string, percent: number }) => `${name} ${percent !== undefined ? (percent * 100).toFixed(0) : 0}%`}
             >
               {data.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />

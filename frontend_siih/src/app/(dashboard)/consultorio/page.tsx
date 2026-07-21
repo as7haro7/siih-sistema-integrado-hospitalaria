@@ -292,7 +292,7 @@ export default function ConsultorioPage() {
                   <div className="font-bold">Fecha: {h.fecha_registro || h.fecha || h.created_at} | Atendido por: {h.medico_tratante || h.medico_nombre}</div>
                   <p><strong>Motivo:</strong> {h.motivo_consulta}</p>
                   <p><strong>Diagnóstico:</strong> {h.diagnostico}</p>
-                  <p><strong>Recetas Emitidas:</strong> {h.recetas ? JSON.stringify(h.recetas) : h.recetas}</p>
+                  <p><strong>Recetas Emitidas:</strong> {typeof h.recetas === 'string' ? h.recetas : JSON.stringify(h.recetas)}</p>
                 </div>
               ))}
             </div>

@@ -11,14 +11,16 @@ import {
   Activity, 
   Stethoscope, 
   BedDouble, 
-  TestTube, 
+  FlaskConical, 
   Pill,
   CreditCard,
   FileBarChart,
   LogOut,
   ChevronLeft,
   Menu,
-  X
+  X,
+  ShoppingCart,
+  FileText
 } from 'lucide-react';
 import { logout } from '@/lib/auth';
 
@@ -95,6 +97,24 @@ const navItems: NavItem[] = [
     href: '/consultorio',
     icon: <Stethoscope size={20} />,
     roles: ['Administrador', 'Médico'],
+  },
+  {
+    title: 'Mapa de Camas',
+    href: '/medico/camas',
+    icon: <BedDouble size={20} />,
+    roles: ['Administrador', 'Médico', 'Enfermera'],
+  },
+  {
+    title: 'Hospitalizaciones',
+    href: '/medico/hospitalizaciones',
+    icon: <Activity size={20} />,
+    roles: ['Administrador', 'Médico', 'Enfermera'],
+  },
+  {
+    title: 'Laboratorio',
+    href: '/laboratorio/examenes',
+    icon: <FlaskConical size={20} />,
+    roles: ['Administrador', 'Técnico de Laboratorio'],
   },
 ];
 

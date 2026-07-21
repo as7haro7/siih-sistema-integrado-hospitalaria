@@ -121,6 +121,68 @@ export interface HistorialClinico {
   medico_tratante: string | null;
 }
 
+// ─── Laboratorio ──────────────────────────────────────────────
+export interface ExamenLaboratorio {
+  id_examen: number;
+  id_historial: number;
+  tipo_examen: string;
+  resultado_texto: string | null;
+  estado_examen: 'Pendiente' | 'En Proceso' | 'Completado';
+  costo_examen: string;
+}
+
+export interface ResultadoExamenForm {
+  resultado_texto: string;
+  estado_examen?: 'En Proceso' | 'Completado';
+}
+
+// ─── Hospitalización ──────────────────────────────────────────
+export interface TarifaHabitacion {
+  id_tarifa: number;
+  tipo_habitacion: string;
+  costo_por_dia: string;
+}
+
+export interface Cama {
+  id_cama: number;
+  nro_habitacion: string;
+  nro_cama: string;
+  id_tarifa: number;
+  tipo_habitacion: string;
+  costo_por_dia: string;
+  estado_cama: 'Disponible' | 'Ocupada' | 'Mantenimiento';
+}
+
+export interface HospitalizacionForm {
+  id_cita?: number | null;
+  id_emergencia?: number | null;
+  id_paciente: number;
+  id_medico_responsable: number;
+  id_cama: number;
+  fecha_ingreso: string;
+  diagnostico_ingreso?: string;
+}
+
+export interface Hospitalizacion {
+  id_hospitalizacion: number;
+  id_cita: number | null;
+  id_emergencia: number | null;
+  id_paciente: number;
+  paciente_nombre: string;
+  id_medico_responsable: number;
+  medico_nombre: string;
+  id_cama: number;
+  cama_info: string;
+  fecha_ingreso: string;
+  fecha_egreso: string | null;
+  diagnostico_ingreso: string | null;
+  estado_internacion: 'Activo' | 'Alta' | 'Trasladado';
+}
+
+export interface AltaForm {
+  diagnostico_egreso?: string;
+}
+
 // Interfaces temporales para resolver errores de compilación
 export type Factura = any;
 export type Pago = any;

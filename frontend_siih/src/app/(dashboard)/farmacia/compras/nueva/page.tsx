@@ -133,7 +133,7 @@ export default function NuevaCompraPage() {
                 <div className="space-y-2">
                   <Label>Proveedor</Label>
                   <SearchableSelect 
-                    options={provOptions}
+                    options={proveedores.map(p => ({ label: p.nombre_proveedor, value: p.id_proveedor.toString() }))}
                     value={idProveedor}
                     onChange={setIdProveedor}
                     placeholder="Seleccionar proveedor..."
