@@ -27,3 +27,5 @@ export interface LoginResponse extends AuthTokens {
 // Interfaces temporales para resolver errores de compilación
 export type Factura = any;
 export type Pago = any;
+export type Proveedor = any;
+export type Medicamento = any;
