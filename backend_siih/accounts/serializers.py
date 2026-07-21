@@ -23,6 +23,24 @@ class UserSerializer(serializers.ModelSerializer):
             "is_active", "perfil", "roles",
         ]
 
+    def update(self, instance, validated_data):
+        # El frontend envía 'cargo' y 'telefono' directamente en el payload
+        # pero para que sea consistente con GET, también podríamos leer de 'perfil' si lo enviara anidado.
+        # En el admin, ya corregimos para que envíe cargo y telefono al mismo nivel.
+        request = self.context.get("request")
+        if request and hasattr(request, "data"):
+            cargo = request.data.get("cargo")
+            telefono = request.data.get("telefono")
+            
+            perfil = instance.perfil
+            if cargo is not None:
+                perfil.cargo = cargo
+            if telefono is not None:
+                perfil.telefono = telefono
+            perfil.save()
+            
+        return super().update(instance, validated_data)
+
     @extend_schema_field(serializers.ListField(child=serializers.CharField()))
     def get_roles(self, obj):
         roles = list(obj.groups.values_list("name", flat=True))

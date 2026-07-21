@@ -82,11 +82,18 @@ export default function UsuariosPage() {
       email,
       first_name: firstName,
       last_name: lastName,
-      perfil: { cargo, telefono }
+      cargo, 
+      telefono
     };
 
     if (password) {
       payload.password = password;
+    }
+    
+    // Al crear un usuario nuevo, le mandamos los roles por defecto
+    // (Si estamos editando, los roles se editan en el modal de roles)
+    if (!selectedUser) {
+      payload.roles = ['Recepcionista']; // un rol base, luego el admin lo cambia si quiere
     }
 
     try {
