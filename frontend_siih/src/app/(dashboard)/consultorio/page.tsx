@@ -95,7 +95,7 @@ export default function ConsultorioPage() {
 
   const [profile, setProfile] = useState<ProfileData | null>(null)
   const [loadingProfile, setLoadingProfile] = useState(false)
-  const [cedula, setCedula] = useState('8765432')
+  const [cedula, setCedula] = useState('1039485')
   const [paciente, setPaciente] = useState<PacienteData | null>(null)
   const [historial, setHistorial] = useState<HistorialItem[]>([])
   const [error, setError] = useState<string | null>(null)
@@ -191,7 +191,7 @@ export default function ConsultorioPage() {
     setOpenReceta(false)
     // reset form
     setSelectedMedicamento(null)
-    setMedicamentoForm({ cantidad:1,dosis:'',frecuencia:'',duracion:'' })
+    setMedicamentoForm({ cantidad: 1, dosis: '', frecuencia: '', duracion: '' })
   }
 
   const edadPaciente = paciente?.edad ?? getEdadDesdeFechaNacimiento(paciente?.fecha_nacimiento)
@@ -203,7 +203,7 @@ export default function ConsultorioPage() {
     const mapped = items.map(i => ({ ...i, indicaciones_medicas: labForm.observaciones }))
     setExamenesPendientes((s) => [...s, ...mapped])
     setOpenLab(false)
-    setLabForm({ hemograma:true, glucosa:true, observaciones:'' })
+    setLabForm({ hemograma: true, glucosa: true, observaciones: '' })
   }
 
   const handleGuardarEvolucion = async () => {
@@ -268,12 +268,12 @@ export default function ConsultorioPage() {
 
         <div className="bg-card p-4 rounded-md border mb-4">
           <div className="flex gap-2">
-            <Input value={cedula} onChange={(e)=>setCedula(e.target.value)} />
+            <Input value={cedula} onChange={(e) => setCedula(e.target.value)} />
             <Button onClick={handleConsultar}>Consultar</Button>
           </div>
         </div>
 
-        {error && <div className="bg-destructive/10 text-destructive p-2 rounded mb-4">{typeof error==='string'?error:JSON.stringify(error)}</div>}
+        {error && <div className="bg-destructive/10 text-destructive p-2 rounded mb-4">{typeof error === 'string' ? error : JSON.stringify(error)}</div>}
 
         {paciente && (
           <div className="border p-3 rounded mb-4">
@@ -286,7 +286,7 @@ export default function ConsultorioPage() {
           <div>
             <h3 className="font-semibold mb-2">Expediente Clínico</h3>
             <div className="space-y-3">
-              {historial.length===0 && <div className="text-muted">Sin registros</div>}
+              {historial.length === 0 && <div className="text-muted">Sin registros</div>}
               {historial.map((h, idx) => (
                 <div key={idx} className="border p-3 rounded bg-muted">
                   <div className="font-bold">Fecha: {h.fecha_registro || h.fecha || h.created_at} | Atendido por: {h.medico_tratante || h.medico_nombre}</div>
@@ -301,30 +301,30 @@ export default function ConsultorioPage() {
           <div>
             <h3 className="font-semibold mb-2">Nueva Evolución</h3>
             <label className="text-sm font-medium">Motivo de Consulta</label>
-            <textarea className="w-full p-2 border rounded mb-2" value={motivo} onChange={e=>setMotivo(e.target.value)} />
+            <textarea className="w-full p-2 border rounded mb-2" value={motivo} onChange={e => setMotivo(e.target.value)} />
 
             <label className="text-sm font-medium">Diagnóstico</label>
-            <textarea className="w-full p-2 border rounded mb-2" value={diagnostico} onChange={e=>setDiagnostico(e.target.value)} />
+            <textarea className="w-full p-2 border rounded mb-2" value={diagnostico} onChange={e => setDiagnostico(e.target.value)} />
 
             <label className="text-sm font-medium">Tratamiento e Indicaciones</label>
-            <textarea className="w-full p-2 border rounded mb-2" value={tratamiento} onChange={e=>setTratamiento(e.target.value)} />
+            <textarea className="w-full p-2 border rounded mb-2" value={tratamiento} onChange={e => setTratamiento(e.target.value)} />
 
             <div className="flex gap-2 mt-2">
-              <Button onClick={()=>setOpenReceta(true)}>+ Emitir Receta Electrónica</Button>
-              <Button onClick={()=>setOpenLab(true)}>+ Solicitar Orden de Laboratorio</Button>
+              <Button onClick={() => setOpenReceta(true)}>+ Emitir Receta Electrónica</Button>
+              <Button onClick={() => setOpenLab(true)}>+ Solicitar Orden de Laboratorio</Button>
             </div>
 
             <div className="mt-4">
               <div className="mb-2 font-medium">Recetas pendientes</div>
-              {recetasPendientes.length===0 && <div className="text-muted">Ninguna</div>}
+              {recetasPendientes.length === 0 && <div className="text-muted">Ninguna</div>}
               <ul className="list-disc pl-5">
-                {recetasPendientes.map((r,i)=> <li key={i}>{r.nombre} — {r.cantidad} — {r.dosis} — {r.frecuencia}</li>)}
+                {recetasPendientes.map((r, i) => <li key={i}>{r.nombre} — {r.cantidad} — {r.dosis} — {r.frecuencia}</li>)}
               </ul>
 
               <div className="mt-3 mb-2 font-medium">Órdenes de Laboratorio pendientes</div>
-              {examenesPendientes.length===0 && <div className="text-muted">Ninguna</div>}
+              {examenesPendientes.length === 0 && <div className="text-muted">Ninguna</div>}
               <ul className="list-disc pl-5">
-                {examenesPendientes.map((e,i)=> <li key={i}>{e.tipo_examen} — {e.indicaciones_medicas}</li>)}
+                {examenesPendientes.map((e, i) => <li key={i}>{e.tipo_examen} — {e.indicaciones_medicas}</li>)}
               </ul>
             </div>
 
@@ -335,7 +335,7 @@ export default function ConsultorioPage() {
         </div>
 
         {/* Modal Receta */}
-        <Modal isOpen={openReceta} onClose={()=>setOpenReceta(false)}>
+        <Modal isOpen={openReceta} onClose={() => setOpenReceta(false)}>
           <ModalHeader>
             <ModalTitle>Emisión de Receta Electrónica</ModalTitle>
           </ModalHeader>
@@ -344,11 +344,11 @@ export default function ConsultorioPage() {
             <select
               className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 mb-2"
               value={selectedMedicamento ?? ''}
-              onChange={e=>setSelectedMedicamento(Number(e.target.value))}
+              onChange={e => setSelectedMedicamento(Number(e.target.value))}
             >
-              <option value="">Seleccione...</option>
+              <option value="" className="bg-slate-900 text-slate-100">Seleccione...</option>
               {medicamentos.map((m) => (
-                <option key={m.id_medicamento || m.id} value={m.id_medicamento || m.id}>
+                <option key={m.id_medicamento || m.id} value={m.id_medicamento || m.id} className="bg-slate-900 text-slate-100">
                   {m.nombre_comercial || m.nombre || `Medicamento #${m.id_medicamento || m.id}`}
                 </option>
               ))}
@@ -357,44 +357,44 @@ export default function ConsultorioPage() {
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <label>Cantidad</label>
-                <Input type="number" value={medicamentoForm.cantidad} onChange={e=>setMedicamentoForm({...medicamentoForm, cantidad: Number(e.target.value)})} />
+                <Input type="number" value={medicamentoForm.cantidad} onChange={e => setMedicamentoForm({ ...medicamentoForm, cantidad: Number(e.target.value) })} />
               </div>
               <div>
                 <label>Dosis</label>
-                <Input value={medicamentoForm.dosis} onChange={e=>setMedicamentoForm({...medicamentoForm, dosis: e.target.value})} />
+                <Input value={medicamentoForm.dosis} onChange={e => setMedicamentoForm({ ...medicamentoForm, dosis: e.target.value })} />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-2 mt-2">
               <div>
                 <label>Frecuencia</label>
-                <Input value={medicamentoForm.frecuencia} onChange={e=>setMedicamentoForm({...medicamentoForm, frecuencia: e.target.value})} />
+                <Input value={medicamentoForm.frecuencia} onChange={e => setMedicamentoForm({ ...medicamentoForm, frecuencia: e.target.value })} />
               </div>
               <div>
                 <label>Duración</label>
-                <Input value={medicamentoForm.duracion} onChange={e=>setMedicamentoForm({...medicamentoForm, duracion: e.target.value})} />
+                <Input value={medicamentoForm.duracion} onChange={e => setMedicamentoForm({ ...medicamentoForm, duracion: e.target.value })} />
               </div>
             </div>
           </div>
           <ModalFooter>
-            <Button onClick={()=>setOpenReceta(false)}>Cancelar</Button>
+            <Button onClick={() => setOpenReceta(false)}>Cancelar</Button>
             <Button onClick={handleAgregarReceta}>Agregar a Receta</Button>
           </ModalFooter>
         </Modal>
 
         {/* Modal Laboratorio */}
-        <Modal isOpen={openLab} onClose={()=>setOpenLab(false)}>
+        <Modal isOpen={openLab} onClose={() => setOpenLab(false)}>
           <ModalHeader>
             <ModalTitle>Solicitud de Exámenes (Laboratorio)</ModalTitle>
           </ModalHeader>
           <div>
-            <label className="flex items-center gap-2"><input type="checkbox" checked={labForm.hemograma} onChange={e=>setLabForm({...labForm, hemograma: e.target.checked})} /> Hemograma Completo</label>
-            <label className="flex items-center gap-2"><input type="checkbox" checked={labForm.glucosa} onChange={e=>setLabForm({...labForm, glucosa: e.target.checked})} /> Glucosa en Sangre</label>
+            <label className="flex items-center gap-2"><input type="checkbox" checked={labForm.hemograma} onChange={e => setLabForm({ ...labForm, hemograma: e.target.checked })} /> Hemograma Completo</label>
+            <label className="flex items-center gap-2"><input type="checkbox" checked={labForm.glucosa} onChange={e => setLabForm({ ...labForm, glucosa: e.target.checked })} /> Glucosa en Sangre</label>
             <label className="block mt-2">Observaciones para el Técnico</label>
-            <textarea className="w-full p-2 border rounded" value={labForm.observaciones} onChange={e=>setLabForm({...labForm, observaciones: e.target.value})} />
+            <textarea className="w-full p-2 border rounded" value={labForm.observaciones} onChange={e => setLabForm({ ...labForm, observaciones: e.target.value })} />
           </div>
           <ModalFooter>
-            <Button onClick={()=>setOpenLab(false)}>Cancelar</Button>
+            <Button onClick={() => setOpenLab(false)}>Cancelar</Button>
             <Button onClick={handleEnviarOrdenLab}>Enviar Orden a Laboratorio</Button>
           </ModalFooter>
         </Modal>
