@@ -11,6 +11,13 @@ django-filter==23.5
 # Reports (Excel/CSV) - Actualizado para compatibilidad con Python 3.14
 pandas>=2.2.0
 openpyxl==3.1.*
+# OpenAPI documentation
+drf-spectacular==0.27.*
+
+# ─── Producción (Render / Aiven) ───
+gunicorn==22.0.*
+dj-database-url==2.1.*
+whitenoise==6.7.*
 
 # Documentación
 mkdocs>=1.5.0

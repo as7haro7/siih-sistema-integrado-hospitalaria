@@ -1,18 +1,71 @@
 import axios from 'axios';
 import { useAuthStore } from '@/stores/authStore';
 
-const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api/v1';
+// ─── URLs de backend ─────────────────────────────────────────────
+const LOCAL_API_URL  = 'http://localhost:8000/api/v1';
+const REMOTE_API_URL = process.env.NEXT_PUBLIC_API_REMOTE_URL
+                       || 'https://siih-backend.onrender.com/api/v1';
 
+// URL explícita forzada (si se define, no hay fallback)
+const EXPLICIT_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+// ─── Resolución inteligente de URL ───────────────────────────────
+let resolvedBaseURL: string | null = EXPLICIT_URL || null;
+let isResolving = false;
+let resolvePromise: Promise<string> | null = null;
+
+/**
+ * Resuelve la URL base de la API de forma inteligente:
+ * 1. Si NEXT_PUBLIC_API_BASE_URL está definida → la usa directamente
+ * 2. Si no, intenta un health-check al backend local (timeout 1.5s)
+ * 3. Si el local responde → usa localhost
+ * 4. Si no responde → usa el backend remoto (Render)
+ * 5. Cachea el resultado para no repetir el health-check
+ */
+async function resolveApiUrl(): Promise<string> {
+  // Ya resuelto previamente
+  if (resolvedBaseURL) return resolvedBaseURL;
+
+  // Evitar múltiples health-checks simultáneos
+  if (isResolving && resolvePromise) return resolvePromise;
+
+  isResolving = true;
+  resolvePromise = (async () => {
+    try {
+      // Intentar conectar al backend local con timeout corto
+      await axios.get(LOCAL_API_URL.replace('/api/v1', '/api/v1/'), {
+        timeout: 1500,
+      });
+      resolvedBaseURL = LOCAL_API_URL;
+      console.log('🟢 SIIH API: Conectado al backend LOCAL');
+    } catch {
+      resolvedBaseURL = REMOTE_API_URL;
+      console.log('🌐 SIIH API: Backend local no disponible, usando REMOTO (Render)');
+    }
+    isResolving = false;
+    return resolvedBaseURL;
+  })();
+
+  return resolvePromise;
+}
+
+// ─── Instancia Axios ─────────────────────────────────────────────
 export const api = axios.create({
-  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Request Interceptor to add the JWT token
+// ─── Request Interceptor ─────────────────────────────────────────
+// Resuelve la URL base antes de cada petición (lazy, solo la primera vez)
+// y agrega el token JWT.
 api.interceptors.request.use(
-  (config) => {
+  async (config) => {
+    // Resolver la URL base si aún no se ha hecho
+    const baseURL = await resolveApiUrl();
+    config.baseURL = baseURL;
+
+    // Agregar token JWT
     const token = useAuthStore.getState().accessToken;
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -22,7 +75,7 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response Interceptor for auto-refresh
+// ─── Response Interceptor (auto-refresh JWT) ─────────────────────
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -35,8 +88,9 @@ api.interceptors.response.use(
 
       if (refreshToken) {
         try {
+          const baseURL = await resolveApiUrl();
           // Attempt to refresh token
-          const { data } = await axios.post(`${API_URL}/auth/refresh/`, {
+          const { data } = await axios.post(`${baseURL}/auth/refresh/`, {
             refresh: refreshToken,
           });
 
@@ -49,7 +103,6 @@ api.interceptors.response.use(
         } catch (refreshError) {
           // If refresh fails, log out
           useAuthStore.getState().clearAuth();
-          // Optionally redirect to login, but handling this in components/middleware is better
           window.location.href = '/login';
           return Promise.reject(refreshError);
         }
@@ -63,3 +116,14 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+// ─── Utilidad: obtener la URL actual del API ─────────────────────
+export const getApiBaseUrl = () => resolvedBaseURL;
+
+// ─── Utilidad: forzar re-detección (para debug/testing) ──────────
+export const resetApiUrl = () => {
+  resolvedBaseURL = EXPLICIT_URL || null;
+  resolvePromise = null;
+  isResolving = false;
+};
+

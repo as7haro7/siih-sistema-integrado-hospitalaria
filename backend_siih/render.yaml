@@ -2,16 +2,22 @@ services:
   - type: web
     name: siih-backend
     env: python
+    region: oregon
+    plan: free
     buildCommand: "./build.sh"
-    startCommand: "gunicorn config.wsgi:application"
+    startCommand: "gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
     envVars:
       - key: DJANGO_SECRET_KEY
         generateValue: true
       - key: DJANGO_DEBUG
         value: "False"
       - key: DJANGO_ALLOWED_HOSTS
-        value: "localhost,127.0.0.1,siih-backend.onrender.com"
+        value: ".onrender.com"
       - key: CORS_ALLOWED_ORIGINS
-        value: "http://localhost:3000,http://localhost:5173,https://siih-frontend.vercel.app"
+        value: "https://clinica-siih.vercel.app,http://localhost:3000"
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://clinica-siih.vercel.app,https://siih-backend.onrender.com"
       - key: DATABASE_URL
-        sync: false # Debes llenar esto en el Dashboard de Render usando la URL que te da Aiven (mysql://user:pass@host:port/dbname)
+        sync: false  # Configurar manualmente con la URL de Aiven MySQL
+      - key: PYTHON_VERSION
+        value: "3.12.0"
