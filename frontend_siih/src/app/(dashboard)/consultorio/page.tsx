@@ -99,6 +99,10 @@ export default function ConsultorioPage() {
   const [paciente, setPaciente] = useState<PacienteData | null>(null)
   const [historial, setHistorial] = useState<HistorialItem[]>([])
   const [error, setError] = useState<string | null>(null)
+  
+  // Citas
+  const [citas, setCitas] = useState<any[]>([])
+  const [selectedCita, setSelectedCita] = useState<number | null>(null)
 
   // Evolución local
   const [motivo, setMotivo] = useState('')
@@ -157,6 +161,8 @@ export default function ConsultorioPage() {
     setError(null)
     setPaciente(null)
     setHistorial([])
+    setCitas([])
+    setSelectedCita(null)
     try {
       const cedulaLimpia = cedula.trim()
       if (!cedulaLimpia) throw new Error('Ingrese una cédula')
@@ -172,6 +178,21 @@ export default function ConsultorioPage() {
       const { data: hist } = await api.get(`/pacientes/${id}/historial/`)
       const list = hist.results || hist
       setHistorial(Array.isArray(list) ? list : [])
+
+      // cargar citas pendientes o confirmadas
+      try {
+        const { data: citasData } = await api.get(`/citas/?id_paciente=${id}`)
+        const citasList = citasData.results || citasData
+        if (Array.isArray(citasList)) {
+          const activas = citasList.filter(c => c.estado_cita === 'Pendiente' || c.estado_cita === 'Confirmada')
+          setCitas(activas)
+          if (activas.length > 0) {
+            setSelectedCita(activas[0].id_cita)
+          }
+        }
+      } catch (e) {
+        console.error('Error cargando citas del paciente', e)
+      }
     } catch (err: unknown) {
       console.error(err)
       setError(getErrorMessage(err, 'Error buscando paciente'))
@@ -217,12 +238,14 @@ export default function ConsultorioPage() {
         diagnostico: string
         tratamiento: string
         id_cie10?: number
+        id_cita?: number
       } = {
         motivo_consulta: motivo,
         diagnostico: diagnostico,
         tratamiento: tratamiento,
       }
       if (idCie10) payload.id_cie10 = idCie10
+      if (selectedCita) payload.id_cita = selectedCita
 
       const { data } = await api.post('/historiales/', payload)
       const id_historial = data.id_historial || data.id || data.id_historial
@@ -239,6 +262,15 @@ export default function ConsultorioPage() {
         try {
           await api.post(`/historiales/${id_historial}/examenes/`, { tipo_examen: e.tipo_examen, indicaciones_medicas: e.indicaciones_medicas || '' })
         } catch (err) { console.error('Error creando examen', err); throw err }
+      }
+
+      // Intentar marcar la cita como Atendida (si falla por permisos, lo ignoramos)
+      if (selectedCita) {
+        try {
+          await api.patch(`/citas/${selectedCita}/`, { estado_cita: 'Atendida' })
+        } catch (err) {
+          console.error('No se pudo actualizar el estado de la cita (puede requerir permisos de Recepción)', err)
+        }
       }
 
       // Si todo bien
@@ -279,6 +311,24 @@ export default function ConsultorioPage() {
           <div className="border p-3 rounded mb-4">
             <strong>Paciente:</strong> {paciente.nombre || paciente.nombre_completo || `${paciente.nombre} ${paciente.apellido}`} | <strong>Edad:</strong> {edadPaciente ?? 'N/D'} {typeof edadPaciente === 'number' ? 'años' : ''} | <strong>Seguro:</strong> {paciente.seguro_medico || paciente.seguro}
             {paciente.alergias && <div className="mt-2 bg-red-600 text-white p-2 rounded">ALERTA VISUAL: ALERGIAS CRÍTICAS - {paciente.alergias}</div>}
+            
+            {citas.length > 0 && (
+              <div className="mt-4">
+                <label className="block text-sm font-medium mb-1">Cita Asociada a la Consulta (Opcional)</label>
+                <select
+                  className="w-full p-2 border rounded-md"
+                  value={selectedCita || ''}
+                  onChange={(e) => setSelectedCita(Number(e.target.value) || null)}
+                >
+                  <option value="">-- Sin Cita (Atención Directa) --</option>
+                  {citas.map(c => (
+                    <option key={c.id_cita} value={c.id_cita}>
+                      {c.fecha_cita} {c.hora_cita} - {c.estado_cita} (Médico: {c.medico_nombre})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
         )}
 
