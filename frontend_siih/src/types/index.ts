@@ -23,3 +23,7 @@ export interface LoginResponse extends AuthTokens {
   // Opcionalmente el backend podría devolver el usuario en el login, 
   // pero si no, se saca decodificando el token o llamando a /usuarios/me/
 }
+
+// Interfaces temporales para resolver errores de compilación
+export type Factura = any;
+export type Pago = any;
