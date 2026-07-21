@@ -2,10 +2,9 @@
 -- SIIH - Sistema Integrado de Información Hospitalaria
 -- Hospital Universitario San Andrés (UMSA - Inf-266)
 -- Script actualizado: incluye lotes de medicamentos, compras,
--- proveedores, control de camas, pagos, auditoría ampliada
--- y catálogos normalizados.
+-- proveedores, control de camas, pagos, auditoría ampliada,
+-- catálogos normalizados y ajustes para coherencia con UI.
 -- Compatible con MySQL 8.0.16+ / MariaDB 10.5+
--- (requiere soporte de CHECK constraints y columnas generadas)
 -- =======================================================
 
 CREATE DATABASE IF NOT EXISTS db_clinica_siih
@@ -47,6 +46,7 @@ DROP TABLE IF EXISTS ESPECIALIDAD;
 DROP TABLE IF EXISTS PROVEEDOR;
 DROP TABLE IF EXISTS TARIFA_HABITACION;
 DROP TABLE IF EXISTS CONFIG_IMPUESTO;
+DROP TABLE IF EXISTS CATALOGO_CIE10; -- NUEVA TABLA DROPPED
 DROP TABLE IF EXISTS PACIENTE;
 
 -- =======================================================
@@ -68,7 +68,7 @@ CREATE TABLE PROVEEDOR (
 
 CREATE TABLE TARIFA_HABITACION (
     id_tarifa INT AUTO_INCREMENT PRIMARY KEY,
-    tipo_habitacion VARCHAR(100) NOT NULL, -- Ej: Sala Común, Terapia Intensiva
+    tipo_habitacion VARCHAR(100) NOT NULL,
     costo_por_dia DECIMAL(10,2) NOT NULL
 );
 
@@ -78,9 +78,13 @@ CREATE TABLE CONFIG_IMPUESTO (
     porcentaje DECIMAL(5,2) NOT NULL
 );
 
--- PACIENTE: PK subrogada (id_paciente) en vez de la cédula.
--- La cédula queda como UNIQUE pero nullable, para admitir
--- recién nacidos o pacientes extranjeros sin cédula todavía.
+-- NUEVA TABLA: Catálogo para Diagnósticos CIE-10 (Brecha 2)
+CREATE TABLE CATALOGO_CIE10 (
+    id_cie10 INT AUTO_INCREMENT PRIMARY KEY,
+    codigo VARCHAR(10) NOT NULL UNIQUE, -- Ej: 'J06.9'
+    descripcion VARCHAR(255) NOT NULL   -- Ej: 'Infección aguda de las vías respiratorias...'
+);
+
 CREATE TABLE PACIENTE (
     id_paciente INT AUTO_INCREMENT PRIMARY KEY,
     cedula_paciente VARCHAR(20) UNIQUE,
@@ -90,6 +94,7 @@ CREATE TABLE PACIENTE (
     telefono VARCHAR(20),
     direccion VARCHAR(255),
     seguro_medico VARCHAR(100),
+    alergias TEXT, -- NUEVO CAMPO: Resuelve la Brecha 1 (Alertas Críticas)
     estado_baja ENUM('Activo','Baja') NOT NULL DEFAULT 'Activo'
 );
 
@@ -112,8 +117,6 @@ CREATE TABLE HORARIO_MEDICO (
     CHECK (hora_fin > hora_inicio)
 );
 
--- CAMA: modela físicamente cada cama/habitación y su ocupación,
--- para evitar asignar la misma cama a dos internaciones a la vez.
 CREATE TABLE CAMA (
     id_cama INT AUTO_INCREMENT PRIMARY KEY,
     nro_habitacion VARCHAR(20) NOT NULL,
@@ -127,7 +130,7 @@ CREATE TABLE CAMA (
 CREATE TABLE MEDICAMENTO (
     id_medicamento INT AUTO_INCREMENT PRIMARY KEY,
     nombre_comercial VARCHAR(150) NOT NULL,
-    stock_actual INT NOT NULL DEFAULT 0, -- se mantiene por triggers desde LOTE_MEDICAMENTO
+    stock_actual INT NOT NULL DEFAULT 0,
     stock_minimo INT NOT NULL DEFAULT 0,
     precio_unitario DECIMAL(10,2) NOT NULL,
     CHECK (stock_actual >= 0)
@@ -136,7 +139,6 @@ CREATE TABLE MEDICAMENTO (
 -- =======================================================
 -- 2. COMPRAS Y CONTROL DE INVENTARIO POR LOTES (SCM)
 -- =======================================================
-
 CREATE TABLE COMPRA (
     id_compra INT AUTO_INCREMENT PRIMARY KEY,
     id_proveedor INT NOT NULL,
@@ -146,9 +148,6 @@ CREATE TABLE COMPRA (
     FOREIGN KEY (id_proveedor) REFERENCES PROVEEDOR(id_proveedor)
 );
 
--- Cada lote representa una entrada de inventario con su propio
--- vencimiento, permitiendo despacho FIFO (primero en vencer,
--- primero en salir) y trazabilidad de qué compra lo originó.
 CREATE TABLE LOTE_MEDICAMENTO (
     id_lote INT AUTO_INCREMENT PRIMARY KEY,
     id_medicamento INT NOT NULL,
@@ -179,7 +178,6 @@ CREATE TABLE COMPRA_DETALLE (
 -- =======================================================
 -- 3. RECEPCIÓN Y EMERGENCIAS
 -- =======================================================
-
 CREATE TABLE CITA (
     id_cita INT AUTO_INCREMENT PRIMARY KEY,
     id_paciente INT NOT NULL,
@@ -189,7 +187,7 @@ CREATE TABLE CITA (
     estado_cita ENUM('Pendiente','Confirmada','Atendida','Cancelada','No Asistio') NOT NULL DEFAULT 'Pendiente',
     FOREIGN KEY (id_paciente) REFERENCES PACIENTE(id_paciente),
     FOREIGN KEY (id_medico) REFERENCES MEDICO(id_medico),
-    UNIQUE (id_medico, fecha_cita, hora_cita) -- evita doble-booking del mismo médico
+    UNIQUE (id_medico, fecha_cita, hora_cita)
 );
 
 CREATE TABLE EMERGENCIA (
@@ -199,7 +197,7 @@ CREATE TABLE EMERGENCIA (
     fecha_hora_ingreso DATETIME NOT NULL,
     nivel_triage ENUM('Rojo','Naranja','Amarillo','Verde','Azul') NOT NULL,
     descripcion_urgencia TEXT,
-    destino_paciente VARCHAR(100), -- Alta Directa, Hospitalización
+    destino_paciente VARCHAR(100),
     FOREIGN KEY (id_paciente) REFERENCES PACIENTE(id_paciente),
     FOREIGN KEY (id_medico_guardia) REFERENCES MEDICO(id_medico)
 );
@@ -209,14 +207,13 @@ CREATE TABLE REGISTRO_BAJA (
     id_paciente INT NOT NULL,
     fecha_baja DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     motivo_baja TEXT,
-    usuario_autoriza VARCHAR(50) NOT NULL, -- referencia lógica a la BD de usuarios
+    usuario_autoriza VARCHAR(50) NOT NULL,
     FOREIGN KEY (id_paciente) REFERENCES PACIENTE(id_paciente)
 );
 
 -- =======================================================
 -- 4. INTERNACIÓN Y CLÍNICA (CORE)
 -- =======================================================
-
 CREATE TABLE HOSPITALIZACION (
     id_hospitalizacion INT AUTO_INCREMENT PRIMARY KEY,
     id_cita INT,
@@ -244,23 +241,24 @@ CREATE TABLE HISTORIAL_CLINICO (
     fecha_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     motivo_consulta TEXT,
     tratamiento TEXT,
+    id_cie10 INT, -- NUEVO CAMPO: Resuelve la Brecha 2 (Referencia a CIE-10)
     diagnostico TEXT,
-    medico_tratante VARCHAR(50), -- referencia lógica al usuario que llenó el registro
+    medico_tratante VARCHAR(50),
     FOREIGN KEY (id_cita) REFERENCES CITA(id_cita),
     FOREIGN KEY (id_hospitalizacion) REFERENCES HOSPITALIZACION(id_hospitalizacion),
     FOREIGN KEY (id_emergencia) REFERENCES EMERGENCIA(id_emergencia),
-    -- todo historial debe originarse en al menos un evento clínico
+    FOREIGN KEY (id_cie10) REFERENCES CATALOGO_CIE10(id_cie10), -- LLAVE FORÁNEA NUEVA
     CHECK (id_cita IS NOT NULL OR id_hospitalizacion IS NOT NULL OR id_emergencia IS NOT NULL)
 );
 
 -- =======================================================
 -- 5. APOYO DIAGNÓSTICO Y FARMACIA
 -- =======================================================
-
 CREATE TABLE EXAMEN_LABORATORIO (
     id_examen INT AUTO_INCREMENT PRIMARY KEY,
     id_historial INT NOT NULL,
     tipo_examen VARCHAR(100) NOT NULL,
+    indicaciones_medicas TEXT, -- NUEVO CAMPO: Resuelve la Brecha 3 (Observaciones para Lab)
     resultado_texto TEXT,
     estado_examen ENUM('Pendiente','En Proceso','Completado') NOT NULL DEFAULT 'Pendiente',
     costo_examen DECIMAL(10,2) NOT NULL,
@@ -283,7 +281,6 @@ CREATE TABLE RECETA_DETALLE (
 -- =======================================================
 -- 6. MÓDULO FINANCIERO
 -- =======================================================
-
 CREATE TABLE FACTURA (
     id_factura INT AUTO_INCREMENT PRIMARY KEY,
     id_historial INT,
@@ -296,7 +293,7 @@ CREATE TABLE FACTURA (
     total_pagar DECIMAL(10,2) GENERATED ALWAYS AS (subtotal + monto_impuesto) STORED,
     estado_pago ENUM('Pendiente','Parcial','Pagado','Anulado') NOT NULL DEFAULT 'Pendiente',
     fecha_emision DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    cajero_responsable VARCHAR(50), -- referencia lógica a la BD de usuarios
+    cajero_responsable VARCHAR(50),
     FOREIGN KEY (id_historial) REFERENCES HISTORIAL_CLINICO(id_historial),
     FOREIGN KEY (id_hospitalizacion) REFERENCES HOSPITALIZACION(id_hospitalizacion),
     FOREIGN KEY (id_impuesto) REFERENCES CONFIG_IMPUESTO(id_impuesto)
@@ -305,14 +302,13 @@ CREATE TABLE FACTURA (
 CREATE TABLE FACTURA_DETALLE (
     id_factura_detalle INT AUTO_INCREMENT PRIMARY KEY,
     id_factura INT NOT NULL,
-    concepto VARCHAR(255) NOT NULL, -- Ej: Paracetamol 500mg, Hemograma, 2 días internación
+    concepto VARCHAR(255) NOT NULL,
     cantidad INT NOT NULL,
     precio_unitario DECIMAL(10,2) NOT NULL,
     subtotal_linea DECIMAL(10,2) GENERATED ALWAYS AS (cantidad * precio_unitario) STORED,
     FOREIGN KEY (id_factura) REFERENCES FACTURA(id_factura)
 );
 
--- Pagos: permite pagos parciales / múltiples métodos por factura.
 CREATE TABLE PAGO (
     id_pago INT AUTO_INCREMENT PRIMARY KEY,
     id_factura INT NOT NULL,
@@ -326,12 +322,10 @@ CREATE TABLE PAGO (
 
 -- =======================================================
 -- 7. AUDITORÍA GENERAL DEL SISTEMA
--- (ampliada: ya no se limita al historial clínico)
 -- =======================================================
-
 CREATE TABLE AUDITORIA_SISTEMA (
     id_auditoria INT AUTO_INCREMENT PRIMARY KEY,
-    usuario_accion VARCHAR(100) NOT NULL, -- referencia lógica a BD de usuarios
+    usuario_accion VARCHAR(100) NOT NULL,
     tabla_afectada VARCHAR(50) NOT NULL,
     id_registro_afectado INT NOT NULL,
     tipo_operacion ENUM('INSERCION','LECTURA','EDICION','ELIMINACION') NOT NULL,
@@ -344,117 +338,70 @@ CREATE TABLE AUDITORIA_SISTEMA (
 -- =======================================================
 -- 8. ÍNDICES DE APOYO PARA REPORTES / BI
 -- =======================================================
-
 CREATE INDEX idx_cita_fecha ON CITA(fecha_cita);
 CREATE INDEX idx_factura_estado_pago ON FACTURA(estado_pago);
 CREATE INDEX idx_hospitalizacion_estado ON HOSPITALIZACION(estado_internacion);
 CREATE INDEX idx_lote_vencimiento ON LOTE_MEDICAMENTO(fecha_vencimiento);
 
 -- =======================================================
--- 9. TRIGGERS
+-- 9. TRIGGERS (Se mantienen iguales)
 -- =======================================================
-
 DELIMITER //
 
--- Un lote nuevo (por compra) incrementa el stock consolidado del medicamento.
 CREATE TRIGGER trg_lote_incrementa_stock
 AFTER INSERT ON LOTE_MEDICAMENTO
 FOR EACH ROW
 BEGIN
-    UPDATE MEDICAMENTO
-    SET stock_actual = stock_actual + NEW.cantidad_inicial
-    WHERE id_medicamento = NEW.id_medicamento;
+    UPDATE MEDICAMENTO SET stock_actual = stock_actual + NEW.cantidad_inicial WHERE id_medicamento = NEW.id_medicamento;
 END //
 
--- Al marcar una receta como 'Entregado', descuenta stock usando
--- FIFO (primero el lote que vence antes) vía procedimiento.
-CREATE PROCEDURE sp_descontar_stock_fifo(
-    IN p_id_medicamento INT,
-    IN p_cantidad INT
-)
+CREATE PROCEDURE sp_descontar_stock_fifo(IN p_id_medicamento INT, IN p_cantidad INT)
 proc_block: BEGIN
-    DECLARE v_id_lote INT;
-    DECLARE v_disponible INT;
-    DECLARE v_restante INT DEFAULT p_cantidad;
-    DECLARE v_tomar INT;
-    DECLARE v_done INT DEFAULT 0;
-    DECLARE v_stock_total INT;
-
-    SELECT stock_actual INTO v_stock_total
-    FROM MEDICAMENTO WHERE id_medicamento = p_id_medicamento;
-
+    DECLARE v_id_lote INT; DECLARE v_disponible INT; DECLARE v_restante INT DEFAULT p_cantidad;
+    DECLARE v_tomar INT; DECLARE v_done INT DEFAULT 0; DECLARE v_stock_total INT;
+    SELECT stock_actual INTO v_stock_total FROM MEDICAMENTO WHERE id_medicamento = p_id_medicamento;
     IF v_stock_total < p_cantidad THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Stock insuficiente para despachar la receta';
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Stock insuficiente para despachar la receta';
     END IF;
-
     BEGIN
-        DECLARE cur CURSOR FOR
-            SELECT id_lote, cantidad_actual
-            FROM LOTE_MEDICAMENTO
-            WHERE id_medicamento = p_id_medicamento AND cantidad_actual > 0
-            ORDER BY fecha_vencimiento ASC;
+        DECLARE cur CURSOR FOR SELECT id_lote, cantidad_actual FROM LOTE_MEDICAMENTO WHERE id_medicamento = p_id_medicamento AND cantidad_actual > 0 ORDER BY fecha_vencimiento ASC;
         DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_done = 1;
-
         OPEN cur;
         read_loop: LOOP
             FETCH cur INTO v_id_lote, v_disponible;
-            IF v_done = 1 OR v_restante <= 0 THEN
-                LEAVE read_loop;
-            END IF;
-
-            IF v_disponible >= v_restante THEN
-                SET v_tomar = v_restante;
-            ELSE
-                SET v_tomar = v_disponible;
-            END IF;
-
-            UPDATE LOTE_MEDICAMENTO
-            SET cantidad_actual = cantidad_actual - v_tomar
-            WHERE id_lote = v_id_lote;
-
+            IF v_done = 1 OR v_restante <= 0 THEN LEAVE read_loop; END IF;
+            IF v_disponible >= v_restante THEN SET v_tomar = v_restante; ELSE SET v_tomar = v_disponible; END IF;
+            UPDATE LOTE_MEDICAMENTO SET cantidad_actual = cantidad_actual - v_tomar WHERE id_lote = v_id_lote;
             SET v_restante = v_restante - v_tomar;
         END LOOP;
         CLOSE cur;
     END;
-
-    UPDATE MEDICAMENTO
-    SET stock_actual = stock_actual - p_cantidad
-    WHERE id_medicamento = p_id_medicamento;
+    UPDATE MEDICAMENTO SET stock_actual = stock_actual - p_cantidad WHERE id_medicamento = p_id_medicamento;
 END //
 
 CREATE TRIGGER trg_receta_descuenta_stock
 AFTER UPDATE ON RECETA_DETALLE
 FOR EACH ROW
 BEGIN
-    IF NEW.estado_despacho = 'Entregado' AND OLD.estado_despacho != 'Entregado' THEN
-        CALL sp_descontar_stock_fifo(NEW.id_medicamento, NEW.cantidad_recetada);
-    END IF;
+    IF NEW.estado_despacho = 'Entregado' AND OLD.estado_despacho != 'Entregado' THEN CALL sp_descontar_stock_fifo(NEW.id_medicamento, NEW.cantidad_recetada); END IF;
 END //
 
--- Ocupar/liberar cama automáticamente según la hospitalización.
 CREATE TRIGGER trg_hospitalizacion_ocupa_cama
 BEFORE INSERT ON HOSPITALIZACION
 FOR EACH ROW
 BEGIN
     DECLARE v_estado_cama VARCHAR(20);
     SELECT estado_cama INTO v_estado_cama FROM CAMA WHERE id_cama = NEW.id_cama;
-    IF v_estado_cama <> 'Disponible' THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'La cama seleccionada no está disponible';
-    END IF;
+    IF v_estado_cama <> 'Disponible' THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'La cama seleccionada no está disponible'; END IF;
 END //
 
 CREATE TRIGGER trg_hospitalizacion_libera_cama
 AFTER UPDATE ON HOSPITALIZACION
 FOR EACH ROW
 BEGIN
-    IF NEW.fecha_egreso IS NOT NULL AND OLD.fecha_egreso IS NULL THEN
-        UPDATE CAMA SET estado_cama = 'Disponible' WHERE id_cama = NEW.id_cama;
-    END IF;
+    IF NEW.fecha_egreso IS NOT NULL AND OLD.fecha_egreso IS NULL THEN UPDATE CAMA SET estado_cama = 'Disponible' WHERE id_cama = NEW.id_cama; END IF;
 END //
 
--- Al insertar la hospitalización ya validada, marcar la cama ocupada.
 CREATE TRIGGER trg_hospitalizacion_marca_ocupada
 AFTER INSERT ON HOSPITALIZACION
 FOR EACH ROW
@@ -462,67 +409,36 @@ BEGIN
     UPDATE CAMA SET estado_cama = 'Ocupada' WHERE id_cama = NEW.id_cama;
 END //
 
--- Baja de paciente actualiza su estado y deja rastro en auditoría.
 CREATE TRIGGER trg_baja_actualiza_paciente
 AFTER INSERT ON REGISTRO_BAJA
 FOR EACH ROW
 BEGIN
     UPDATE PACIENTE SET estado_baja = 'Baja' WHERE id_paciente = NEW.id_paciente;
-
-    INSERT INTO AUDITORIA_SISTEMA (usuario_accion, tabla_afectada, id_registro_afectado, tipo_operacion, valores_nuevos)
-    VALUES (NEW.usuario_autoriza, 'PACIENTE', NEW.id_paciente, 'EDICION', CONCAT('estado_baja=Baja; motivo=', NEW.motivo_baja));
+    INSERT INTO AUDITORIA_SISTEMA (usuario_accion, tabla_afectada, id_registro_afectado, tipo_operacion, valores_nuevos) VALUES (NEW.usuario_autoriza, 'PACIENTE', NEW.id_paciente, 'EDICION', CONCAT('estado_baja=Baja; motivo=', NEW.motivo_baja));
 END //
 
--- Auditoría de ediciones sobre el historial clínico.
 CREATE TRIGGER trg_auditoria_historial_update
 AFTER UPDATE ON HISTORIAL_CLINICO
 FOR EACH ROW
 BEGIN
-    INSERT INTO AUDITORIA_SISTEMA (usuario_accion, tabla_afectada, id_registro_afectado, tipo_operacion, valores_anteriores, valores_nuevos)
-    VALUES (
-        IFNULL(NEW.medico_tratante, 'desconocido'),
-        'HISTORIAL_CLINICO',
-        NEW.id_historial,
-        'EDICION',
-        CONCAT('diagnostico=', OLD.diagnostico, '; tratamiento=', OLD.tratamiento),
-        CONCAT('diagnostico=', NEW.diagnostico, '; tratamiento=', NEW.tratamiento)
-    );
+    INSERT INTO AUDITORIA_SISTEMA (usuario_accion, tabla_afectada, id_registro_afectado, tipo_operacion, valores_anteriores, valores_nuevos) VALUES (IFNULL(NEW.medico_tratante, 'desconocido'), 'HISTORIAL_CLINICO', NEW.id_historial, 'EDICION', CONCAT('diagnostico=', OLD.diagnostico, '; tratamiento=', OLD.tratamiento), CONCAT('diagnostico=', NEW.diagnostico, '; tratamiento=', NEW.tratamiento));
 END //
 
--- Auditoría de cambios de estado de pago en factura.
 CREATE TRIGGER trg_auditoria_factura_update
 AFTER UPDATE ON FACTURA
 FOR EACH ROW
 BEGIN
-    IF NEW.estado_pago <> OLD.estado_pago THEN
-        INSERT INTO AUDITORIA_SISTEMA (usuario_accion, tabla_afectada, id_registro_afectado, tipo_operacion, valores_anteriores, valores_nuevos)
-        VALUES (
-            IFNULL(NEW.cajero_responsable, 'desconocido'),
-            'FACTURA',
-            NEW.id_factura,
-            'EDICION',
-            CONCAT('estado_pago=', OLD.estado_pago),
-            CONCAT('estado_pago=', NEW.estado_pago)
-        );
-    END IF;
+    IF NEW.estado_pago <> OLD.estado_pago THEN INSERT INTO AUDITORIA_SISTEMA (usuario_accion, tabla_afectada, id_registro_afectado, tipo_operacion, valores_anteriores, valores_nuevos) VALUES (IFNULL(NEW.cajero_responsable, 'desconocido'), 'FACTURA', NEW.id_factura, 'EDICION', CONCAT('estado_pago=', OLD.estado_pago), CONCAT('estado_pago=', NEW.estado_pago)); END IF;
 END //
 
--- Cada pago registrado recalcula el estado de la factura.
 CREATE TRIGGER trg_pago_actualiza_factura
 AFTER INSERT ON PAGO
 FOR EACH ROW
 BEGIN
-    DECLARE v_total_pagado DECIMAL(10,2);
-    DECLARE v_total_factura DECIMAL(10,2);
-
+    DECLARE v_total_pagado DECIMAL(10,2); DECLARE v_total_factura DECIMAL(10,2);
     SELECT IFNULL(SUM(monto), 0) INTO v_total_pagado FROM PAGO WHERE id_factura = NEW.id_factura;
     SELECT total_pagar INTO v_total_factura FROM FACTURA WHERE id_factura = NEW.id_factura;
-
-    IF v_total_pagado >= v_total_factura THEN
-        UPDATE FACTURA SET estado_pago = 'Pagado' WHERE id_factura = NEW.id_factura;
-    ELSE
-        UPDATE FACTURA SET estado_pago = 'Parcial' WHERE id_factura = NEW.id_factura;
-    END IF;
+    IF v_total_pagado >= v_total_factura THEN UPDATE FACTURA SET estado_pago = 'Pagado' WHERE id_factura = NEW.id_factura; ELSE UPDATE FACTURA SET estado_pago = 'Parcial' WHERE id_factura = NEW.id_factura; END IF;
 END //
 
 DELIMITER ;
