@@ -20,7 +20,8 @@ import {
   Menu,
   X,
   ShoppingCart,
-  FileText
+  FileText,
+  AlertTriangle
 } from 'lucide-react';
 import { logout } from '@/lib/auth';
 
@@ -115,6 +116,48 @@ const navItems: NavItem[] = [
     href: '/laboratorio/examenes',
     icon: <FlaskConical size={20} />,
     roles: ['Administrador', 'Técnico de Laboratorio'],
+  },
+  {
+    title: 'Medicamentos',
+    href: '/farmacia/medicamentos',
+    icon: <Pill size={20} />,
+    roles: ['Administrador', 'Farmacéutico'],
+  },
+  {
+    title: 'Alertas Inventario',
+    href: '/farmacia/medicamentos/alertas',
+    icon: <AlertTriangle size={20} />,
+    roles: ['Administrador', 'Farmacéutico'],
+  },
+  {
+    title: 'Proveedores',
+    href: '/farmacia/proveedores',
+    icon: <Users size={20} />,
+    roles: ['Administrador', 'Farmacéutico'],
+  },
+  {
+    title: 'Compras',
+    href: '/farmacia/compras',
+    icon: <ShoppingCart size={20} />,
+    roles: ['Administrador', 'Farmacéutico'],
+  },
+  {
+    title: 'Despacho Recetas',
+    href: '/farmacia/recetas/pendientes',
+    icon: <FileText size={20} />,
+    roles: ['Administrador', 'Farmacéutico'],
+  },
+  {
+    title: 'Facturación',
+    href: '/caja/facturas',
+    icon: <CreditCard size={20} />,
+    roles: ['Administrador', 'Cajero'],
+  },
+  {
+    title: 'Reportes y Estadísticas',
+    href: '/reportes',
+    icon: <FileBarChart size={20} />,
+    roles: ['Administrador', 'Director'],
   },
 ];
 

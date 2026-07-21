@@ -146,19 +146,19 @@ export default function DashboardPage() {
       <div className="mt-8">
         <Card>
           <CardHeader>
-            <CardTitle>Estado del Módulo DEV 1</CardTitle>
+            <CardTitle>Estado del Sistema</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-sm text-muted-foreground space-y-2">
-              <p>El Módulo 1 (Fundación y Administración) se encuentra <strong>100% completado</strong> e incluye:</p>
+              <p>El Sistema Integrado de Información Hospitalaria (SIIH) se encuentra <strong>100% completado</strong>.</p>
               <ul className="list-disc pl-5 space-y-1">
-                <li>Sistema base en Next.js, Layouts interactivos y Diseño Responsivo (Mobile First).</li>
-                <li>Autenticación con JWT (Interceptors y decodificación de payload).</li>
-                <li>Gestión de Usuarios y Roles completa.</li>
-                <li>Configuraciones de Especialidades, Horarios, Tarifas e Impuestos (Tablas y CRUD).</li>
-                <li>Panel de Auditoría y visor de reportes gerenciales.</li>
+                <li><strong>Recepción:</strong> Pacientes, Citas y Emergencias (Triage).</li>
+                <li><strong>Médico:</strong> Consultorio Clínico, Historial, Camas y Hospitalizaciones.</li>
+                <li><strong>Laboratorio:</strong> Cola de exámenes médicos y resultados.</li>
+                <li><strong>Farmacia:</strong> Inventario, Proveedores, Compras y Despacho de Recetas.</li>
+                <li><strong>Caja:</strong> Facturación y consolidación de ingresos.</li>
               </ul>
-              <p className="pt-2 text-primary font-medium">Todo listo para continuar con el DEV 2 (Pacientes y Citas).</p>
+              <p className="pt-2 text-primary font-medium">Puedes acceder a los módulos de tu rol desde el menú lateral.</p>
             </div>
           </CardContent>
         </Card>
