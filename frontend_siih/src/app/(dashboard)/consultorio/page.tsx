@@ -318,8 +318,8 @@ export default function ConsultorioPage() {
               <label className="text-sm font-medium">Seleccionar Paciente</label>
               <SearchableSelect
                 options={pacientesList.map(p => ({
-                  value: p.id_paciente.toString(),
-                  label: `${p.nombre} ${p.apellido} ${p.cedula_paciente ? `(CI: ${p.cedula_paciente})` : ''}`
+                  value: (p.id_paciente || p.id || p.idPaciente || '').toString(),
+                  label: `${p.nombre || ''} ${p.apellido || ''} ${p.cedula_paciente ? `(CI: ${p.cedula_paciente})` : ''}`.trim()
                 }))}
                 value={selectedPacienteId}
                 onChange={setSelectedPacienteId}
