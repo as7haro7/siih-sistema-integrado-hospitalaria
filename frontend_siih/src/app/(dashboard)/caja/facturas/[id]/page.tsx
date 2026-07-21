@@ -179,7 +179,7 @@ export default function FacturaDetailPage({ params }: { params: Promise<{ id: st
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {factura.detalles?.map((det) => (
+                {factura.detalles?.map((det: any) => (
                   <TableRow key={det.id_factura_detalle}>
                     <TableCell className="font-medium">{det.concepto}</TableCell>
                     <TableCell className="text-right">{det.cantidad}</TableCell>
