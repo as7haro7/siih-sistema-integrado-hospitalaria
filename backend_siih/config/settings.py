@@ -8,9 +8,13 @@ from pathlib import Path
 from datetime import timedelta
 
 import dj_database_url
+from dotenv import load_dotenv
 
 # ─── Paths ──────────────────────────────────────────────────────────
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Cargar variables de entorno desde backend_siih/.env (desarrollo local)
+load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
@@ -90,13 +94,25 @@ WSGI_APPLICATION = "config.wsgi.application"
 _DATABASE_URL = os.environ.get("DATABASE_URL")
 
 if _DATABASE_URL:
-    DATABASES = {
-        "default": dj_database_url.config(
-            default=_DATABASE_URL,
-            conn_max_age=600,
-            ssl_require=True,
-        )
-    }
+    # Limpiar "ssl-mode" de la URL antes de parsear (Aiven lo incluye pero
+    # mysqlclient no lo reconoce con guion; espera "ssl_mode" con guion bajo).
+    import re
+    _clean_url = re.sub(r'[?&]ssl-mode=[^&]*', '', _DATABASE_URL)
+
+    # Parsear la URL limpia con dj-database-url
+    _db_config = dj_database_url.config(
+        default=_clean_url,
+        conn_max_age=600,
+    )
+    # Limpiar cualquier residuo de ssl-mode en el config y OPTIONS
+    _db_config.pop("ssl-mode", None)
+    _db_config.setdefault("OPTIONS", {})
+    _db_config["OPTIONS"].pop("ssl-mode", None)
+    _db_config["OPTIONS"]["ssl_mode"] = "REQUIRED"
+    _db_config["OPTIONS"]["charset"] = "utf8mb4"
+    DATABASES = {"default": _db_config}
+    _db_host = _db_config.get("HOST", "desconocido")
+    print(f"\n[NUBE] SIIH Backend: Conectado a BD en la NUBE (Aiven) -> {_db_host}\n")
 else:
     DATABASES = {
         "default": {
@@ -112,6 +128,7 @@ else:
             },
         }
     }
+    print(f"\n[LOCAL] SIIH Backend: Conectado a BD LOCAL -> {DATABASES['default']['HOST']}:{DATABASES['default']['PORT']}\n")
 
 # ─── Password validation ──────────────────────────────────────────
 AUTH_PASSWORD_VALIDATORS = [
