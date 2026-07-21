@@ -60,8 +60,8 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",          # Serve static on Render
     "corsheaders.middleware.CorsMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -72,7 +72,7 @@ ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "BACKEND": "django.template.backends.DjangoTemplates",
         "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -183,16 +183,27 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
-# ─── CORS ─────────────────────────────────────────────────────────
-CORS_ALLOW_ALL_ORIGINS = DEBUG  # Solo en desarrollo
-CORS_ALLOWED_ORIGINS = os.environ.get(
-    "CORS_ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:5173"
-).split(",")
+# ─── CORS & CSRF ──────────────────────────────────────────────────
+# Mantiene la flexibilidad para desarrollo local o variables de entorno
+DEFAULT_ALLOWED_ORIGINS = (
+    "http://localhost:3000,"
+    "http://localhost:5173,"
+    "https://siih-sistema-integrado-hospitalaria.vercel.app"
+)
 
-# ─── CSRF trusted origins (Render) ────────────────────────────────
-CSRF_TRUSTED_ORIGINS = os.environ.get(
-    "CSRF_TRUSTED_ORIGINS", "http://localhost:3000,http://localhost:5173"
-).split(",")
+CORS_ALLOW_ALL_ORIGINS = DEBUG  # Solo en desarrollo local
+
+CORS_ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get("CORS_ALLOWED_ORIGINS", DEFAULT_ALLOWED_ORIGINS).split(",")
+    if origin.strip()
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get("CSRF_TRUSTED_ORIGINS", DEFAULT_ALLOWED_ORIGINS).split(",")
+    if origin.strip()
+]
 
 # ─── drf-spectacular Settings ──────────────────────────────────────
 SPECTACULAR_SETTINGS = {
