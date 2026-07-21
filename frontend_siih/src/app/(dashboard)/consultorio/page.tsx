@@ -337,23 +337,28 @@ export default function ConsultorioPage() {
             <strong>Paciente:</strong> {paciente.nombre || paciente.nombre_completo || `${paciente.nombre} ${paciente.apellido}`} | <strong>Edad:</strong> {edadPaciente ?? 'N/D'} {typeof edadPaciente === 'number' ? 'años' : ''} | <strong>Seguro:</strong> {paciente.seguro_medico || paciente.seguro}
             {paciente.alergias && <div className="mt-2 bg-red-600 text-white p-2 rounded">ALERTA VISUAL: ALERGIAS CRÍTICAS - {paciente.alergias}</div>}
             
-            {citas.length > 0 && (
-              <div className="mt-4">
-                <label className="block text-sm font-medium mb-1">Cita Asociada a la Consulta (Opcional)</label>
-                <select
-                  className="w-full p-2 border rounded-md"
-                  value={selectedCita || ''}
-                  onChange={(e) => setSelectedCita(Number(e.target.value) || null)}
-                >
-                  <option value="">-- Sin Cita (Atención Directa) --</option>
-                  {citas.map(c => (
-                    <option key={c.id_cita} value={c.id_cita}>
-                      {c.fecha_cita} {c.hora_cita} - {c.estado_cita} (Médico: {c.medico_nombre})
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
+            <div className="mt-4">
+              <label className="block text-sm font-medium mb-1">Cita Asociada a la Consulta</label>
+              <select
+                className="w-full p-2 border rounded-md"
+                value={selectedCita || ''}
+                onChange={(e) => setSelectedCita(Number(e.target.value) || null)}
+                disabled={citas.length === 0}
+              >
+                {citas.length === 0 ? (
+                  <option value="">-- No hay citas pendientes/confirmadas (Atención Directa) --</option>
+                ) : (
+                  <>
+                    <option value="">-- Sin Cita (Atención Directa) --</option>
+                    {citas.map(c => (
+                      <option key={c.id_cita} value={c.id_cita}>
+                        {c.fecha_cita} {c.hora_cita} - {c.estado_cita} (Médico: {c.medico_nombre})
+                      </option>
+                    ))}
+                  </>
+                )}
+              </select>
+            </div>
           </div>
         )}
 
