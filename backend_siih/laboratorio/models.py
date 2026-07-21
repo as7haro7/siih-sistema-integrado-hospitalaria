@@ -20,6 +20,7 @@ class ExamenLaboratorio(models.Model):
     estado_examen = models.CharField(
         max_length=10, choices=ESTADO_CHOICES, default="Pendiente",
     )
+    indicaciones_medicas = models.TextField(blank=True, null=True)
     costo_examen = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:

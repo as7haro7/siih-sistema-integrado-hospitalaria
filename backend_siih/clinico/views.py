@@ -4,8 +4,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from accounts.permissions import IsAdmin, IsMedico, IsEnfermera
-from .models import HistorialClinico
-from .serializers import HistorialClinicoSerializer
+from .models import HistorialClinico, CatalogoCIE10
+from .serializers import HistorialClinicoSerializer, CatalogoCIE10Serializer
 
 
 class HistorialClinicoViewSet(viewsets.ModelViewSet):
@@ -18,7 +18,7 @@ class HistorialClinicoViewSet(viewsets.ModelViewSet):
     """
     queryset = (
         HistorialClinico.objects
-        .select_related("id_cita", "id_hospitalizacion", "id_emergencia")
+        .select_related("id_cita", "id_hospitalizacion", "id_emergencia", "id_cie10")
         .all()
         .order_by("-fecha_registro")
     )
@@ -56,3 +56,18 @@ class HistorialClinicoViewSet(viewsets.ModelViewSet):
         serializer.save(id_historial=historial)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class CatalogoCIE10ViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    ViewSet de solo lectura para el catálogo CIE-10.
+    
+    GET /api/v1/catalogo-cie10/           → Listar códigos CIE-10
+    GET /api/v1/catalogo-cie10/{id}/      → Obtener un código CIE-10
+    """
+    queryset = CatalogoCIE10.objects.all().order_by("codigo")
+    serializer_class = CatalogoCIE10Serializer
+
+    def get_permissions(self):
+        """Todos los usuarios autenticados pueden acceder al catálogo."""
+        return [(IsAdmin | IsMedico | IsEnfermera)()]
