@@ -84,6 +84,12 @@ const navItems: NavItem[] = [
     icon: <Stethoscope size={20} />,
     roles: ['Administrador', 'Recepcionista', 'Médico'],
   },
+  {
+    title: 'Consultorio',
+    href: '/consultorio',
+    icon: <Stethoscope size={20} />,
+    roles: ['Administrador', 'Médico'],
+  },
 ];
 
 export function Sidebar() {

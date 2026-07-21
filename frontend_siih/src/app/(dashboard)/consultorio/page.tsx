@@ -1,5 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
+import { isAxiosError } from 'axios'
 import { RoleGuard } from '@/components/layout/RoleGuard'
 import { useAuthStore } from '@/stores/authStore'
 import { fetchCurrentUserProfile } from '@/lib/auth'
@@ -8,32 +9,95 @@ import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { Modal, ModalHeader, ModalTitle, ModalFooter } from '@/components/ui/Modal'
 
+interface ProfileData {
+  first_name?: string
+  last_name?: string
+  nombre_medico?: string
+  especialidad?: string
+  perfil?: {
+    cargo?: string
+  }
+}
+
+interface PacienteData {
+  id_paciente?: number
+  id?: number
+  idPaciente?: number
+  nombre?: string
+  apellido?: string
+  nombre_completo?: string
+  edad?: number | string
+  fecha_nacimiento?: string
+  seguro_medico?: string
+  seguro?: string
+  alergias?: string | null
+}
+
+interface HistorialItem {
+  fecha_registro?: string
+  fecha?: string
+  created_at?: string
+  medico_tratante?: string
+  medico_nombre?: string
+  motivo_consulta?: string
+  diagnostico?: string
+  recetas?: unknown
+}
+
+interface MedicamentoItem {
+  id_medicamento?: number
+  id?: number
+  nombre?: string
+}
+
+interface RecetaPendiente {
+  id_medicamento: number
+  nombre: string
+  cantidad: number
+  dosis: string
+  frecuencia: string
+  duracion: string
+}
+
+interface ExamenPendiente {
+  tipo_examen: string
+  indicaciones_medicas: string
+}
+
+const getErrorMessage = (err: unknown, fallback: string) => {
+  if (isAxiosError<{ detail?: string }>(err)) {
+    return err.response?.data?.detail || err.message || fallback
+  }
+  if (err instanceof Error) return err.message
+  return fallback
+}
+
 export default function ConsultorioPage() {
   const { user } = useAuthStore();
 
-  const [profile, setProfile] = useState<any>(null)
+  const [profile, setProfile] = useState<ProfileData | null>(null)
   const [loadingProfile, setLoadingProfile] = useState(false)
   const [cedula, setCedula] = useState('8765432')
-  const [paciente, setPaciente] = useState<any>(null)
-  const [historial, setHistorial] = useState<any[]>([])
+  const [paciente, setPaciente] = useState<PacienteData | null>(null)
+  const [historial, setHistorial] = useState<HistorialItem[]>([])
   const [error, setError] = useState<string | null>(null)
 
   // Evolución local
   const [motivo, setMotivo] = useState('')
   const [diagnostico, setDiagnostico] = useState('')
   const [tratamiento, setTratamiento] = useState('')
-  const [idCie10, setIdCie10] = useState<number | null>(null)
+  const [idCie10] = useState<number | null>(null)
 
   // Recetas / examenes pendientes (local)
-  const [recetasPendientes, setRecetasPendientes] = useState<any[]>([])
-  const [examenesPendientes, setExamenesPendientes] = useState<any[]>([])
+  const [recetasPendientes, setRecetasPendientes] = useState<RecetaPendiente[]>([])
+  const [examenesPendientes, setExamenesPendientes] = useState<ExamenPendiente[]>([])
 
   // Modales
   const [openReceta, setOpenReceta] = useState(false)
   const [openLab, setOpenLab] = useState(false)
 
   // Catalogos
-  const [medicamentos, setMedicamentos] = useState<any[]>([])
+  const [medicamentos, setMedicamentos] = useState<MedicamentoItem[]>([])
   const [selectedMedicamento, setSelectedMedicamento] = useState<number | null>(null)
   const [medicamentoForm, setMedicamentoForm] = useState({ cantidad: 1, dosis: '', frecuencia: '', duracion: '' })
   const [labForm, setLabForm] = useState({ hemograma: true, glucosa: true, observaciones: '' })
@@ -64,7 +128,7 @@ export default function ConsultorioPage() {
         const { data } = await api.get('/medicamentos/')
         // si viene paginado, intentar usar results
         const list = data.results || data
-        setMedicamentos(list)
+        setMedicamentos(Array.isArray(list) ? list : [])
       } catch (err) {
         console.error('Error cargando medicamentos', err)
       }
@@ -76,21 +140,23 @@ export default function ConsultorioPage() {
     setPaciente(null)
     setHistorial([])
     try {
-      const { data } = await api.get(`/pacientes/?cedula_paciente=${encodeURIComponent(cedula)}`)
-      const first = (data.results && data.results[0]) || (Array.isArray(data) && data[0]) || null
-      if (!first) throw new Error('Paciente no encontrado')
-      setPaciente(first)
+      const cedulaLimpia = cedula.trim()
+      if (!cedulaLimpia) throw new Error('Ingrese una cédula')
+
+      const { data: patientData } = await api.get<PacienteData>(`/pacientes/cedula/${encodeURIComponent(cedulaLimpia)}/`)
+      if (!patientData) throw new Error('Paciente no encontrado')
+      setPaciente(patientData)
 
       // activar alerta si alergias
       // cargar historial
-      const id = first.id_paciente || first.id || first.idPaciente || first.id_paciente
+      const id = patientData.id_paciente || patientData.id || patientData.idPaciente
       if (!id) throw new Error('ID de paciente inválido')
       const { data: hist } = await api.get(`/pacientes/${id}/historial/`)
       const list = hist.results || hist
       setHistorial(Array.isArray(list) ? list : [])
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err)
-      setError(err?.response?.data?.detail || err.message || 'Error buscando paciente')
+      setError(getErrorMessage(err, 'Error buscando paciente'))
     }
   }
 
@@ -98,7 +164,7 @@ export default function ConsultorioPage() {
     if (!selectedMedicamento) return
     const item = {
       id_medicamento: selectedMedicamento,
-      nombre: medicamentos.find((m:any)=>m.id_medicamento===selectedMedicamento)?.nombre || 'Medicamento',
+      nombre: medicamentos.find((m) => m.id_medicamento === selectedMedicamento)?.nombre || 'Medicamento',
       ...medicamentoForm,
     }
     setRecetasPendientes((s) => [...s, item])
@@ -109,7 +175,7 @@ export default function ConsultorioPage() {
   }
 
   const handleEnviarOrdenLab = () => {
-    const items = [] as any[]
+    const items: Array<{ tipo_examen: string }> = []
     if (labForm.hemograma) items.push({ tipo_examen: 'Hemograma Completo' })
     if (labForm.glucosa) items.push({ tipo_examen: 'Glucosa en Sangre' })
     const mapped = items.map(i => ({ ...i, indicaciones_medicas: labForm.observaciones }))
@@ -124,7 +190,12 @@ export default function ConsultorioPage() {
 
     try {
       // Crear historial
-      const payload: any = {
+      const payload: {
+        motivo_consulta: string
+        diagnostico: string
+        tratamiento: string
+        id_cie10?: number
+      } = {
         motivo_consulta: motivo,
         diagnostico: diagnostico,
         tratamiento: tratamiento,
@@ -155,9 +226,9 @@ export default function ConsultorioPage() {
       setRecetasPendientes([])
       setExamenesPendientes([])
       alert('Evolución Guardada')
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err)
-      setError(err?.response?.data || err.message || 'Error guardando evolución')
+      setError(getErrorMessage(err, 'Error guardando evolución'))
     }
   }
 
@@ -194,7 +265,7 @@ export default function ConsultorioPage() {
             <h3 className="font-semibold mb-2">Expediente Clínico</h3>
             <div className="space-y-3">
               {historial.length===0 && <div className="text-muted">Sin registros</div>}
-              {historial.map((h:any, idx:number)=> (
+              {historial.map((h, idx) => (
                 <div key={idx} className="border p-3 rounded bg-muted">
                   <div className="font-bold">Fecha: {h.fecha_registro || h.fecha || h.created_at} | Atendido por: {h.medico_tratante || h.medico_nombre}</div>
                   <p><strong>Motivo:</strong> {h.motivo_consulta}</p>
@@ -250,7 +321,7 @@ export default function ConsultorioPage() {
             <label className="block mb-1">Vademécum / Medicamento</label>
             <select className="w-full p-2 border rounded mb-2" value={selectedMedicamento ?? ''} onChange={e=>setSelectedMedicamento(Number(e.target.value))}>
               <option value="">Seleccione...</option>
-              {medicamentos.map((m:any)=> <option key={m.id_medicamento || m.id} value={m.id_medicamento || m.id}>{m.nombre}</option>)}
+              {medicamentos.map((m) => <option key={m.id_medicamento || m.id} value={m.id_medicamento || m.id}>{m.nombre}</option>)}
             </select>
 
             <div className="grid grid-cols-2 gap-2">
