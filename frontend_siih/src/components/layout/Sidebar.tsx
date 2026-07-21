@@ -85,6 +85,12 @@ const navItems: NavItem[] = [
     roles: ['Administrador', 'Recepcionista', 'Médico'],
   },
   {
+    title: 'Emergencias',
+    href: '/recepcion/emergencias',
+    icon: <Activity size={20} />,
+    roles: ['Administrador', 'Recepcionista', 'Médico'],
+  },
+  {
     title: 'Consultorio',
     href: '/consultorio',
     icon: <Stethoscope size={20} />,
