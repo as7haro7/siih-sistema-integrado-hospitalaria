@@ -2,9 +2,9 @@ import axios from 'axios';
 import { useAuthStore } from '@/stores/authStore';
 
 // ─── URLs de backend ─────────────────────────────────────────────
-const LOCAL_API_URL  = 'http://localhost:8000/api/v1';
+const LOCAL_API_URL = 'http://localhost:8000/api/v1';
 const REMOTE_API_URL = process.env.NEXT_PUBLIC_API_REMOTE_URL
-                       || 'https://siih-backend.onrender.com/api/v1';
+  || 'https://siih-backend.onrender.com/api/v1';
 
 // URL explícita forzada (si se define, no hay fallback)
 const EXPLICIT_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -37,10 +37,17 @@ async function resolveApiUrl(): Promise<string> {
         timeout: 1500,
       });
       resolvedBaseURL = LOCAL_API_URL;
-      console.log('🟢 SIIH API: Conectado al backend LOCAL');
-    } catch {
-      resolvedBaseURL = REMOTE_API_URL;
-      console.log('🌐 SIIH API: Backend local no disponible, usando REMOTO (Render)');
+      console.log('[LOCAL] SIIH API: Conectado al backend LOCAL');
+    } catch (error: any) {
+      // Si el servidor local responde (ej. con 401 o 403), significa que ESTÁ ENCENDIDO
+      if (error.response) {
+        resolvedBaseURL = LOCAL_API_URL;
+        console.log('[LOCAL] SIIH API: Conectado al backend LOCAL (respondió con código', error.response.status, ')');
+      } else {
+        // Network error o timeout -> Servidor apagado
+        resolvedBaseURL = REMOTE_API_URL;
+        console.log('[REMOTO] SIIH API: Backend local no disponible, usando REMOTO (Render)');
+      }
     }
     isResolving = false;
     return resolvedBaseURL;
