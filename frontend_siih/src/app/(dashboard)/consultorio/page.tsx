@@ -48,6 +48,7 @@ interface MedicamentoItem {
   id_medicamento?: number
   id?: number
   nombre?: string
+  nombre_comercial?: string
 }
 
 interface RecetaPendiente {
@@ -70,6 +71,23 @@ const getErrorMessage = (err: unknown, fallback: string) => {
   }
   if (err instanceof Error) return err.message
   return fallback
+}
+
+const getEdadDesdeFechaNacimiento = (fechaNacimiento?: string) => {
+  if (!fechaNacimiento) return null
+
+  const nacimiento = new Date(`${fechaNacimiento}T00:00:00`)
+  if (Number.isNaN(nacimiento.getTime())) return null
+
+  const hoy = new Date()
+  let edad = hoy.getFullYear() - nacimiento.getFullYear()
+  const mesDiff = hoy.getMonth() - nacimiento.getMonth()
+
+  if (mesDiff < 0 || (mesDiff === 0 && hoy.getDate() < nacimiento.getDate())) {
+    edad -= 1
+  }
+
+  return edad
 }
 
 export default function ConsultorioPage() {
@@ -164,7 +182,9 @@ export default function ConsultorioPage() {
     if (!selectedMedicamento) return
     const item = {
       id_medicamento: selectedMedicamento,
-      nombre: medicamentos.find((m) => m.id_medicamento === selectedMedicamento)?.nombre || 'Medicamento',
+      nombre: medicamentos.find((m) => m.id_medicamento === selectedMedicamento)?.nombre_comercial
+        || medicamentos.find((m) => m.id_medicamento === selectedMedicamento)?.nombre
+        || 'Medicamento',
       ...medicamentoForm,
     }
     setRecetasPendientes((s) => [...s, item])
@@ -173,6 +193,8 @@ export default function ConsultorioPage() {
     setSelectedMedicamento(null)
     setMedicamentoForm({ cantidad:1,dosis:'',frecuencia:'',duracion:'' })
   }
+
+  const edadPaciente = paciente?.edad ?? getEdadDesdeFechaNacimiento(paciente?.fecha_nacimiento)
 
   const handleEnviarOrdenLab = () => {
     const items: Array<{ tipo_examen: string }> = []
@@ -255,7 +277,7 @@ export default function ConsultorioPage() {
 
         {paciente && (
           <div className="border p-3 rounded mb-4">
-            <strong>Paciente:</strong> {paciente.nombre || paciente.nombre_completo || `${paciente.nombre} ${paciente.apellido}`} | <strong>Edad:</strong> {paciente.edad || paciente.fecha_nacimiento} | <strong>Seguro:</strong> {paciente.seguro_medico || paciente.seguro}
+            <strong>Paciente:</strong> {paciente.nombre || paciente.nombre_completo || `${paciente.nombre} ${paciente.apellido}`} | <strong>Edad:</strong> {edadPaciente ?? 'N/D'} {typeof edadPaciente === 'number' ? 'años' : ''} | <strong>Seguro:</strong> {paciente.seguro_medico || paciente.seguro}
             {paciente.alergias && <div className="mt-2 bg-red-600 text-white p-2 rounded">ALERTA VISUAL: ALERGIAS CRÍTICAS - {paciente.alergias}</div>}
           </div>
         )}
@@ -319,9 +341,17 @@ export default function ConsultorioPage() {
           </ModalHeader>
           <div>
             <label className="block mb-1">Vademécum / Medicamento</label>
-            <select className="w-full p-2 border rounded mb-2" value={selectedMedicamento ?? ''} onChange={e=>setSelectedMedicamento(Number(e.target.value))}>
+            <select
+              className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 mb-2"
+              value={selectedMedicamento ?? ''}
+              onChange={e=>setSelectedMedicamento(Number(e.target.value))}
+            >
               <option value="">Seleccione...</option>
-              {medicamentos.map((m) => <option key={m.id_medicamento || m.id} value={m.id_medicamento || m.id}>{m.nombre}</option>)}
+              {medicamentos.map((m) => (
+                <option key={m.id_medicamento || m.id} value={m.id_medicamento || m.id}>
+                  {m.nombre_comercial || m.nombre || `Medicamento #${m.id_medicamento || m.id}`}
+                </option>
+              ))}
             </select>
 
             <div className="grid grid-cols-2 gap-2">
