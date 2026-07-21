@@ -255,7 +255,7 @@ export default function ConsultorioPage() {
   }
 
   return (
-    <RoleGuard allowedRoles={["Medico"]}>
+    <RoleGuard allowedRoles={['Administrador', 'Médico']}>
       <div className="p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">SIIH - Consultorio Médico</h2>

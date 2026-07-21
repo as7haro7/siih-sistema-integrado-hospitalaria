@@ -172,7 +172,7 @@ export default function NuevaCitaPage() {
   const selectedEspecialidadObj = especialidades.find((e) => e.id_especialidad.toString() === selectedEspecialidad);
 
   return (
-    <RoleGuard allowedRoles={['Administrador', 'Recepcionista']}>
+    <RoleGuard allowedRoles={['Administrador', 'Recepcionista', 'Médico']}>
       <div className="space-y-6 max-w-3xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-4">
