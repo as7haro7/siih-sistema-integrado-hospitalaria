@@ -1,0 +1,304 @@
+"use client"
+import React, { useEffect, useState } from 'react'
+import { RoleGuard } from '@/components/layout/RoleGuard'
+import { useAuthStore } from '@/stores/authStore'
+import { fetchCurrentUserProfile } from '@/lib/auth'
+import { api } from '@/lib/api'
+import { Input } from '@/components/ui/Input'
+import { Button } from '@/components/ui/Button'
+import { Modal, ModalHeader, ModalTitle, ModalFooter } from '@/components/ui/Modal'
+
+export default function ConsultorioPage() {
+  const { user } = useAuthStore();
+
+  const [profile, setProfile] = useState<any>(null)
+  const [loadingProfile, setLoadingProfile] = useState(false)
+  const [cedula, setCedula] = useState('8765432')
+  const [paciente, setPaciente] = useState<any>(null)
+  const [historial, setHistorial] = useState<any[]>([])
+  const [error, setError] = useState<string | null>(null)
+
+  // Evolución local
+  const [motivo, setMotivo] = useState('')
+  const [diagnostico, setDiagnostico] = useState('')
+  const [tratamiento, setTratamiento] = useState('')
+  const [idCie10, setIdCie10] = useState<number | null>(null)
+
+  // Recetas / examenes pendientes (local)
+  const [recetasPendientes, setRecetasPendientes] = useState<any[]>([])
+  const [examenesPendientes, setExamenesPendientes] = useState<any[]>([])
+
+  // Modales
+  const [openReceta, setOpenReceta] = useState(false)
+  const [openLab, setOpenLab] = useState(false)
+
+  // Catalogos
+  const [medicamentos, setMedicamentos] = useState<any[]>([])
+  const [selectedMedicamento, setSelectedMedicamento] = useState<number | null>(null)
+  const [medicamentoForm, setMedicamentoForm] = useState({ cantidad: 1, dosis: '', frecuencia: '', duracion: '' })
+  const [labForm, setLabForm] = useState({ hemograma: true, glucosa: true, observaciones: '' })
+
+  useEffect(() => {
+    // Cargar perfil al montar
+    const loadProfile = async () => {
+      setLoadingProfile(true)
+      try {
+        const p = await fetchCurrentUserProfile()
+        setProfile(p)
+      } catch (err) {
+        // Si falla, intentar usar store
+        if (user) setProfile(user)
+        console.error(err)
+      } finally {
+        setLoadingProfile(false)
+      }
+    }
+    loadProfile()
+  }, [user])
+
+  useEffect(() => {
+    // precargar medicamentos cuando se abra el modal (lazy)
+    if (!openReceta) return
+    (async () => {
+      try {
+        const { data } = await api.get('/medicamentos/')
+        // si viene paginado, intentar usar results
+        const list = data.results || data
+        setMedicamentos(list)
+      } catch (err) {
+        console.error('Error cargando medicamentos', err)
+      }
+    })()
+  }, [openReceta])
+
+  const handleConsultar = async () => {
+    setError(null)
+    setPaciente(null)
+    setHistorial([])
+    try {
+      const { data } = await api.get(`/pacientes/?cedula_paciente=${encodeURIComponent(cedula)}`)
+      const first = (data.results && data.results[0]) || (Array.isArray(data) && data[0]) || null
+      if (!first) throw new Error('Paciente no encontrado')
+      setPaciente(first)
+
+      // activar alerta si alergias
+      // cargar historial
+      const id = first.id_paciente || first.id || first.idPaciente || first.id_paciente
+      if (!id) throw new Error('ID de paciente inválido')
+      const { data: hist } = await api.get(`/pacientes/${id}/historial/`)
+      const list = hist.results || hist
+      setHistorial(Array.isArray(list) ? list : [])
+    } catch (err: any) {
+      console.error(err)
+      setError(err?.response?.data?.detail || err.message || 'Error buscando paciente')
+    }
+  }
+
+  const handleAgregarReceta = () => {
+    if (!selectedMedicamento) return
+    const item = {
+      id_medicamento: selectedMedicamento,
+      nombre: medicamentos.find((m:any)=>m.id_medicamento===selectedMedicamento)?.nombre || 'Medicamento',
+      ...medicamentoForm,
+    }
+    setRecetasPendientes((s) => [...s, item])
+    setOpenReceta(false)
+    // reset form
+    setSelectedMedicamento(null)
+    setMedicamentoForm({ cantidad:1,dosis:'',frecuencia:'',duracion:'' })
+  }
+
+  const handleEnviarOrdenLab = () => {
+    const items = [] as any[]
+    if (labForm.hemograma) items.push({ tipo_examen: 'Hemograma Completo' })
+    if (labForm.glucosa) items.push({ tipo_examen: 'Glucosa en Sangre' })
+    const mapped = items.map(i => ({ ...i, indicaciones_medicas: labForm.observaciones }))
+    setExamenesPendientes((s) => [...s, ...mapped])
+    setOpenLab(false)
+    setLabForm({ hemograma:true, glucosa:true, observaciones:'' })
+  }
+
+  const handleGuardarEvolucion = async () => {
+    setError(null)
+    if (!paciente) { setError('No hay paciente seleccionado'); return }
+
+    try {
+      // Crear historial
+      const payload: any = {
+        motivo_consulta: motivo,
+        diagnostico: diagnostico,
+        tratamiento: tratamiento,
+      }
+      if (idCie10) payload.id_cie10 = idCie10
+
+      const { data } = await api.post('/historiales/', payload)
+      const id_historial = data.id_historial || data.id || data.id_historial
+
+      // Crear recetas
+      for (const r of recetasPendientes) {
+        try {
+          await api.post(`/historiales/${id_historial}/recetas/`, { items: [{ id_medicamento: r.id_medicamento, cantidad: r.cantidad, dosis: r.dosis, frecuencia: r.frecuencia, duracion: r.duracion }] })
+        } catch (err) { console.error('Error creando receta', err); throw err }
+      }
+
+      // Crear examenes
+      for (const e of examenesPendientes) {
+        try {
+          await api.post(`/historiales/${id_historial}/examenes/`, { tipo_examen: e.tipo_examen, indicaciones_medicas: e.indicaciones_medicas || '' })
+        } catch (err) { console.error('Error creando examen', err); throw err }
+      }
+
+      // Si todo bien
+      setMotivo('')
+      setDiagnostico('')
+      setTratamiento('')
+      setRecetasPendientes([])
+      setExamenesPendientes([])
+      alert('Evolución Guardada')
+    } catch (err: any) {
+      console.error(err)
+      setError(err?.response?.data || err.message || 'Error guardando evolución')
+    }
+  }
+
+  return (
+    <RoleGuard allowedRoles={["Medico"]}>
+      <div className="p-6">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold">SIIH - Consultorio Médico</h2>
+          <div>
+            {loadingProfile ? <span>Cargando...</span> : (
+              <span>{profile ? `${profile.first_name || profile.nombre_medico || ''} ${profile.last_name || ''} - ${profile.perfil?.cargo || profile.especialidad || 'Medicina General'}` : 'Usuario'}</span>
+            )}
+          </div>
+        </div>
+
+        <div className="bg-card p-4 rounded-md border mb-4">
+          <div className="flex gap-2">
+            <Input value={cedula} onChange={(e)=>setCedula(e.target.value)} />
+            <Button onClick={handleConsultar}>Consultar</Button>
+          </div>
+        </div>
+
+        {error && <div className="bg-destructive/10 text-destructive p-2 rounded mb-4">{typeof error==='string'?error:JSON.stringify(error)}</div>}
+
+        {paciente && (
+          <div className="border p-3 rounded mb-4">
+            <strong>Paciente:</strong> {paciente.nombre || paciente.nombre_completo || `${paciente.nombre} ${paciente.apellido}`} | <strong>Edad:</strong> {paciente.edad || paciente.fecha_nacimiento} | <strong>Seguro:</strong> {paciente.seguro_medico || paciente.seguro}
+            {paciente.alergias && <div className="mt-2 bg-red-600 text-white p-2 rounded">ALERTA VISUAL: ALERGIAS CRÍTICAS - {paciente.alergias}</div>}
+          </div>
+        )}
+
+        <div className="grid grid-cols-2 gap-6">
+          <div>
+            <h3 className="font-semibold mb-2">Expediente Clínico</h3>
+            <div className="space-y-3">
+              {historial.length===0 && <div className="text-muted">Sin registros</div>}
+              {historial.map((h:any, idx:number)=> (
+                <div key={idx} className="border p-3 rounded bg-muted">
+                  <div className="font-bold">Fecha: {h.fecha_registro || h.fecha || h.created_at} | Atendido por: {h.medico_tratante || h.medico_nombre}</div>
+                  <p><strong>Motivo:</strong> {h.motivo_consulta}</p>
+                  <p><strong>Diagnóstico:</strong> {h.diagnostico}</p>
+                  <p><strong>Recetas Emitidas:</strong> {h.recetas ? JSON.stringify(h.recetas) : h.recetas}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h3 className="font-semibold mb-2">Nueva Evolución</h3>
+            <label className="text-sm font-medium">Motivo de Consulta</label>
+            <textarea className="w-full p-2 border rounded mb-2" value={motivo} onChange={e=>setMotivo(e.target.value)} />
+
+            <label className="text-sm font-medium">Diagnóstico</label>
+            <textarea className="w-full p-2 border rounded mb-2" value={diagnostico} onChange={e=>setDiagnostico(e.target.value)} />
+
+            <label className="text-sm font-medium">Tratamiento e Indicaciones</label>
+            <textarea className="w-full p-2 border rounded mb-2" value={tratamiento} onChange={e=>setTratamiento(e.target.value)} />
+
+            <div className="flex gap-2 mt-2">
+              <Button onClick={()=>setOpenReceta(true)}>+ Emitir Receta Electrónica</Button>
+              <Button onClick={()=>setOpenLab(true)}>+ Solicitar Orden de Laboratorio</Button>
+            </div>
+
+            <div className="mt-4">
+              <div className="mb-2 font-medium">Recetas pendientes</div>
+              {recetasPendientes.length===0 && <div className="text-muted">Ninguna</div>}
+              <ul className="list-disc pl-5">
+                {recetasPendientes.map((r,i)=> <li key={i}>{r.nombre} — {r.cantidad} — {r.dosis} — {r.frecuencia}</li>)}
+              </ul>
+
+              <div className="mt-3 mb-2 font-medium">Órdenes de Laboratorio pendientes</div>
+              {examenesPendientes.length===0 && <div className="text-muted">Ninguna</div>}
+              <ul className="list-disc pl-5">
+                {examenesPendientes.map((e,i)=> <li key={i}>{e.tipo_examen} — {e.indicaciones_medicas}</li>)}
+              </ul>
+            </div>
+
+            <div className="mt-6 text-right">
+              <Button variant="destructive" onClick={handleGuardarEvolucion}>Guardar Evolución y Finalizar</Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Modal Receta */}
+        <Modal isOpen={openReceta} onClose={()=>setOpenReceta(false)}>
+          <ModalHeader>
+            <ModalTitle>Emisión de Receta Electrónica</ModalTitle>
+          </ModalHeader>
+          <div>
+            <label className="block mb-1">Vademécum / Medicamento</label>
+            <select className="w-full p-2 border rounded mb-2" value={selectedMedicamento ?? ''} onChange={e=>setSelectedMedicamento(Number(e.target.value))}>
+              <option value="">Seleccione...</option>
+              {medicamentos.map((m:any)=> <option key={m.id_medicamento || m.id} value={m.id_medicamento || m.id}>{m.nombre}</option>)}
+            </select>
+
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label>Cantidad</label>
+                <Input type="number" value={medicamentoForm.cantidad} onChange={e=>setMedicamentoForm({...medicamentoForm, cantidad: Number(e.target.value)})} />
+              </div>
+              <div>
+                <label>Dosis</label>
+                <Input value={medicamentoForm.dosis} onChange={e=>setMedicamentoForm({...medicamentoForm, dosis: e.target.value})} />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 mt-2">
+              <div>
+                <label>Frecuencia</label>
+                <Input value={medicamentoForm.frecuencia} onChange={e=>setMedicamentoForm({...medicamentoForm, frecuencia: e.target.value})} />
+              </div>
+              <div>
+                <label>Duración</label>
+                <Input value={medicamentoForm.duracion} onChange={e=>setMedicamentoForm({...medicamentoForm, duracion: e.target.value})} />
+              </div>
+            </div>
+          </div>
+          <ModalFooter>
+            <Button onClick={()=>setOpenReceta(false)}>Cancelar</Button>
+            <Button onClick={handleAgregarReceta}>Agregar a Receta</Button>
+          </ModalFooter>
+        </Modal>
+
+        {/* Modal Laboratorio */}
+        <Modal isOpen={openLab} onClose={()=>setOpenLab(false)}>
+          <ModalHeader>
+            <ModalTitle>Solicitud de Exámenes (Laboratorio)</ModalTitle>
+          </ModalHeader>
+          <div>
+            <label className="flex items-center gap-2"><input type="checkbox" checked={labForm.hemograma} onChange={e=>setLabForm({...labForm, hemograma: e.target.checked})} /> Hemograma Completo</label>
+            <label className="flex items-center gap-2"><input type="checkbox" checked={labForm.glucosa} onChange={e=>setLabForm({...labForm, glucosa: e.target.checked})} /> Glucosa en Sangre</label>
+            <label className="block mt-2">Observaciones para el Técnico</label>
+            <textarea className="w-full p-2 border rounded" value={labForm.observaciones} onChange={e=>setLabForm({...labForm, observaciones: e.target.value})} />
+          </div>
+          <ModalFooter>
+            <Button onClick={()=>setOpenLab(false)}>Cancelar</Button>
+            <Button onClick={handleEnviarOrdenLab}>Enviar Orden a Laboratorio</Button>
+          </ModalFooter>
+        </Modal>
+
+      </div>
+    </RoleGuard>
+  )
+}

@@ -211,6 +211,45 @@ Campos clave: `id_paciente` (PK), `cedula_paciente` (unique), `nombre`, `apellid
 - Descripción: obtiene detalles de paciente (incluye `alergias`).
 - Respuestas: 200 OK, 401/403, 404 Not Found.
 
+### GET /pacientes/cedula/{cedula}/
+- Autorización: Authenticated
+- Descripción: obtiene la información de un paciente usando su cédula de identidad.
+- Parámetro de URL:
+  - `cedula`: cédula exacta del paciente.
+- Request: no lleva body.
+- Respuestas:
+  - 200 OK
+
+```json
+{
+  "id_paciente": 123,
+  "cedula_paciente": "0102030405",
+  "nombre": "Maria",
+  "apellido": "Gonzalez",
+  "fecha_nacimiento": "1985-05-20",
+  "telefono": "0991234567",
+  "direccion": "Av. Siempre Viva 123",
+  "seguro_medico": "SeguroX",
+  "alergias": "Penicilina; Polen",
+  "estado_baja": "Activo"
+}
+```
+  - 401 Unauthorized
+
+```json
+{ "detail": "Authentication credentials were not provided." }
+```
+  - 403 Forbidden
+
+```json
+{ "detail": "You do not have permission to perform this action." }
+```
+  - 404 Not Found
+
+```json
+{ "detail": "No existe un paciente con la cédula proporcionada." }
+```
+
 ### PUT/PATCH /pacientes/{id}/
 - Autorización: Recepcionista/Admin
 - Descripción: actualiza paciente; `alergias` puede quedar en blanco o null.

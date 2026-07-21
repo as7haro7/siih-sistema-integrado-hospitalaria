@@ -22,6 +22,7 @@ class PacienteViewSet(viewsets.ModelViewSet):
     GET    /api/v1/pacientes/                → Listar
     POST   /api/v1/pacientes/                → Registrar
     GET    /api/v1/pacientes/{id}/            → Detalle
+    GET    /api/v1/pacientes/cedula/{cedula}/ → Detalle por cédula
     PATCH  /api/v1/pacientes/{id}/            → Editar
     GET    /api/v1/pacientes/{id}/historial/  → Historial clínico completo
     POST   /api/v1/pacientes/{id}/baja/       → Dar de baja
@@ -44,6 +45,19 @@ class PacienteViewSet(viewsets.ModelViewSet):
         if self.action == "baja":
             return BajaCreateSerializer
         return PacienteSerializer
+
+    @action(detail=False, methods=["get"], url_path=r"cedula/(?P<cedula>[^/.]+)")
+    def por_cedula(self, request, cedula=None):
+        """Obtiene un paciente por su cédula de identidad."""
+        paciente = Paciente.objects.filter(cedula_paciente=cedula).first()
+        if not paciente:
+            return Response(
+                {"detail": "No existe un paciente con la cédula proporcionada."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        serializer = PacienteSerializer(paciente)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=["get"], url_path="historial")
     def historial(self, request, pk=None):

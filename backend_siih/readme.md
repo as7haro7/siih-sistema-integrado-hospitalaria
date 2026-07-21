@@ -26,7 +26,7 @@ siih/
 |---|---|---|
 | `/api/v1/auth/` | `login/`, `refresh/` | Público |
 | `/api/v1/usuarios/` | CRUD + `{id}/roles/` | Admin |
-| `/api/v1/pacientes/` | CRUD + `{id}/historial/`, `{id}/baja/` | Recepcionista |
+| `/api/v1/pacientes/` | CRUD + `cedula/{cedula}/`, `{id}/historial/`, `{id}/baja/` | Recepcionista |
 | `/api/v1/especialidades/` | CRUD | Admin |
 | `/api/v1/medicos/` | CRUD + `{id}/disponibilidad/` | Recepcionista |
 | `/api/v1/horarios-medicos/` | CRUD | Admin |
