@@ -102,7 +102,7 @@ export default function RecetasPendientesPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {recetas.map((receta) => (
+                {recetas.map((receta: any) => (
                   <TableRow key={receta.id_detalle_receta}>
                     <TableCell>#{receta.id_historial}</TableCell>
                     <TableCell className="font-semibold">{receta.medicamento_nombre}</TableCell>

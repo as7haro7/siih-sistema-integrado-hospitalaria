@@ -92,15 +92,14 @@ export default function NuevaCompraPage() {
     }
   };
 
-const provOptions = Array.isArray(proveedores) 
-  ? proveedores.map(p => ({
+  const proveedorOptions = Array.isArray(proveedores) 
+  ? proveedores.map((p: any) => ({
       value: p.id_proveedor.toString(),
       label: p.nombre_proveedor
     }))
   : [];
-  
 
-  const medOptions = medicamentos.map(m => ({
+  const medOptions = medicamentos.map((m: any) => ({
     value: m.id_medicamento.toString(),
     label: `${m.nombre_comercial} (Stock: ${m.stock_actual})`
   }));

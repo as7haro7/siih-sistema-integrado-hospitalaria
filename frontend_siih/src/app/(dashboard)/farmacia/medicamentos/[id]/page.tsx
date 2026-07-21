@@ -135,7 +135,7 @@ export default function MedicamentoDetailPage({ params }: { params: Promise<{ id
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {lotes.map((lote) => {
+                    {lotes.map((lote: any) => {
                       const fIngreso = lote.fecha_ingreso ? format(parseISO(lote.fecha_ingreso), 'dd/MM/yyyy') : '-';
                       const fVence = lote.fecha_vencimiento ? format(parseISO(lote.fecha_vencimiento), 'dd/MM/yyyy') : '-';
                       

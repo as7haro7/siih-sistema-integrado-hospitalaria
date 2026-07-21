@@ -236,7 +236,7 @@ export default function FacturaDetailPage({ params }: { params: Promise<{ id: st
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {pagos.map((pago) => (
+                  {pagos.map((pago: any) => (
                     <TableRow key={pago.id_pago}>
                       <TableCell>#{pago.id_pago}</TableCell>
                       <TableCell className="font-semibold flex items-center space-x-1.5 pt-3">

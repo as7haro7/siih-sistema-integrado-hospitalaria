@@ -67,7 +67,7 @@ export default function AlertasFarmaciaPage() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {alertas.stock_bajo.map((item) => (
+                        {alertas.stock_bajo.map((item: any) => (
                           <TableRow key={item.id_medicamento}>
                             <TableCell className="font-medium">{item.nombre_comercial}</TableCell>
                             <TableCell className="text-right text-red-400 font-semibold">{item.stock_actual}</TableCell>
@@ -107,7 +107,7 @@ export default function AlertasFarmaciaPage() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {alertas.lotes_proximos_a_vencer.map((item) => {
+                        {alertas.lotes_proximos_a_vencer.map((item: any) => {
                           const dateObj = parseISO(item.fecha_vencimiento);
                           const formattedDate = format(dateObj, 'dd/MM/yyyy');
                           return (
