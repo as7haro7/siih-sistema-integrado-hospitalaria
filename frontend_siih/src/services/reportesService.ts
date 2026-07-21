@@ -1,4 +1,4 @@
-import { api } from '@/lib/api';
+import { api, getApiUrl } from '@/lib/api';
 
 export const getReporteIngresos = async (fechaInicio?: string, fechaFin?: string) => {
   let url = '/reportes/ingresos/';
@@ -6,7 +6,7 @@ export const getReporteIngresos = async (fechaInicio?: string, fechaFin?: string
     url += `?fecha_inicio=${fechaInicio}&fecha_fin=${fechaFin}`;
   }
   const { data } = await api.get(url);
-  return data; // { reporte, periodo, resumen: { total_facturado, total_cobrado, pendiente_cobro }, desglose_por_estado }
+  return data;
 };
 
 export const getReportePacientesEspecialidad = async (fechaInicio?: string, fechaFin?: string) => {
@@ -15,5 +15,24 @@ export const getReportePacientesEspecialidad = async (fechaInicio?: string, fech
     url += `?fecha_inicio=${fechaInicio}&fecha_fin=${fechaFin}`;
   }
   const { data } = await api.get(url);
-  return data; // { reporte, periodo, datos: [] }
+  return data;
+};
+
+export const getReporteConsumoMedicamentos = async (fechaInicio?: string, fechaFin?: string) => {
+  let url = '/reportes/consumo-medicamentos/';
+  if (fechaInicio && fechaFin) {
+    url += `?fecha_inicio=${fechaInicio}&fecha_fin=${fechaFin}`;
+  }
+  const { data } = await api.get(url);
+  return data;
+};
+
+// Obtiene la URL de exportación para botones de descarga
+export const getExportUrl = (reportType: 'ingresos' | 'pacientes-por-especialidad' | 'consumo-medicamentos', format: 'pdf' | 'excel', fechaInicio?: string, fechaFin?: string) => {
+  const baseUrl = getApiUrl();
+  let url = `${baseUrl}/reportes/${reportType}/exportar/${format}/`;
+  if (fechaInicio && fechaFin) {
+    url += `?fecha_inicio=${fechaInicio}&fecha_fin=${fechaFin}`;
+  }
+  return url;
 };
