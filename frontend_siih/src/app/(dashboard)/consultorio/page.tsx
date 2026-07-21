@@ -5,7 +5,6 @@ import { RoleGuard } from '@/components/layout/RoleGuard'
 import { useAuthStore } from '@/stores/authStore'
 import { fetchCurrentUserProfile } from '@/lib/auth'
 import { api } from '@/lib/api'
-import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { Modal, ModalHeader, ModalTitle, ModalFooter } from '@/components/ui/Modal'
 import { SearchableSelect } from '@/components/shared/SearchableSelect'
@@ -97,7 +96,6 @@ export default function ConsultorioPage() {
 
   const [profile, setProfile] = useState<ProfileData | null>(null)
   const [loadingProfile, setLoadingProfile] = useState(false)
-  const [cedula, setCedula] = useState('1039485')
   const [paciente, setPaciente] = useState<PacienteData | null>(null)
   const [historial, setHistorial] = useState<HistorialItem[]>([])
   const [error, setError] = useState<string | null>(null)

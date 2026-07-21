@@ -31,7 +31,7 @@ export default function AlertasFarmaciaPage() {
   }, []);
 
   return (
-    // <RoleGuard allowedRoles={['Administrador', 'Farmacéutico', 'Director']}>
+    <RoleGuard allowedRoles={['Administrador', 'Farmacéutico', 'Director']}>
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Alertas de Farmacia</h1>
@@ -128,6 +128,6 @@ export default function AlertasFarmaciaPage() {
           </div>
         )}
       </div>
-    // </RoleGuard>
+    </RoleGuard>
   );
 }
