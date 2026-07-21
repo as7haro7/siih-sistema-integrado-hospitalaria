@@ -8,6 +8,8 @@ import { api } from '@/lib/api'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { Modal, ModalHeader, ModalTitle, ModalFooter } from '@/components/ui/Modal'
+import { SearchableSelect } from '@/components/shared/SearchableSelect'
+import { getPacientes } from '@/services/pacientesService'
 
 interface ProfileData {
   first_name?: string
@@ -100,7 +102,9 @@ export default function ConsultorioPage() {
   const [historial, setHistorial] = useState<HistorialItem[]>([])
   const [error, setError] = useState<string | null>(null)
   
-  // Citas
+  // Citas y Pacientes
+  const [pacientesList, setPacientesList] = useState<any[]>([])
+  const [selectedPacienteId, setSelectedPacienteId] = useState<string>('')
   const [citas, setCitas] = useState<any[]>([])
   const [selectedCita, setSelectedCita] = useState<number | null>(null)
 
@@ -140,6 +144,17 @@ export default function ConsultorioPage() {
       }
     }
     loadProfile()
+
+    // Cargar pacientes activos para el dropdown
+    const loadPacientes = async () => {
+      try {
+        const resp = await getPacientes({ estado_baja: 'Activo' })
+        setPacientesList(resp.results || [])
+      } catch (err) {
+        console.error('Error cargando pacientes', err)
+      }
+    }
+    loadPacientes()
   }, [user])
 
   useEffect(() => {
@@ -164,10 +179,9 @@ export default function ConsultorioPage() {
     setCitas([])
     setSelectedCita(null)
     try {
-      const cedulaLimpia = cedula.trim()
-      if (!cedulaLimpia) throw new Error('Ingrese una cédula')
+      if (!selectedPacienteId) throw new Error('Seleccione un paciente')
 
-      const { data: patientData } = await api.get<PacienteData>(`/pacientes/cedula/${encodeURIComponent(cedulaLimpia)}/`)
+      const { data: patientData } = await api.get<PacienteData>(`/pacientes/${selectedPacienteId}/`)
       if (!patientData) throw new Error('Paciente no encontrado')
       setPaciente(patientData)
 
@@ -299,9 +313,20 @@ export default function ConsultorioPage() {
         </div>
 
         <div className="bg-card p-4 rounded-md border mb-4">
-          <div className="flex gap-2">
-            <Input value={cedula} onChange={(e) => setCedula(e.target.value)} />
-            <Button onClick={handleConsultar}>Consultar</Button>
+          <div className="flex gap-2 items-end">
+            <div className="flex-1 max-w-md space-y-1">
+              <label className="text-sm font-medium">Seleccionar Paciente</label>
+              <SearchableSelect
+                options={pacientesList.map(p => ({
+                  value: p.id_paciente.toString(),
+                  label: `${p.nombre} ${p.apellido} ${p.cedula_paciente ? `(CI: ${p.cedula_paciente})` : ''}`
+                }))}
+                value={selectedPacienteId}
+                onChange={setSelectedPacienteId}
+                placeholder="Buscar paciente por nombre o cédula..."
+              />
+            </div>
+            <Button onClick={handleConsultar} disabled={!selectedPacienteId}>Consultar</Button>
           </div>
         </div>
 
