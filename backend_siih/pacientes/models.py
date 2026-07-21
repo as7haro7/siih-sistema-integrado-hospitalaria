@@ -16,6 +16,7 @@ class Paciente(models.Model):
     telefono = models.CharField(max_length=20, blank=True, null=True)
     direccion = models.CharField(max_length=255, blank=True, null=True)
     seguro_medico = models.CharField(max_length=100, blank=True, null=True)
+    alergias = models.TextField(blank=True, null=True)
     estado_baja = models.CharField(
         max_length=6,
         choices=[("Activo", "Activo"), ("Baja", "Baja")],

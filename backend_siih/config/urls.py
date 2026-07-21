@@ -23,7 +23,7 @@ urlpatterns = [
     path("api/v1/citas/", include("citas.urls")),
     path("api/v1/emergencias/", include("emergencias.urls")),
     path("api/v1/", include("hospitalizacion.urls")),
-    path("api/v1/historiales/", include("clinico.urls")),
+    path("api/v1/", include("clinico.urls")),
     path("api/v1/examenes/", include("laboratorio.urls")),
     path("api/v1/", include("farmacia.urls")),
     path("api/v1/facturas/", include("facturacion.urls")),

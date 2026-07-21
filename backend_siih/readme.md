@@ -8,19 +8,19 @@ siih/
 ├── requirements.txt
 ├── config/                    ← Settings, URLs raíz, WSGI
 ├── accounts/                  ← Auth JWT, RBAC, gestión de usuarios
-├── pacientes/                 ← PACIENTE, REGISTRO_BAJA
+├── pacientes/                 ← PACIENTE (con alergias), REGISTRO_BAJA
 ├── personal_medico/           ← MEDICO, ESPECIALIDAD, HORARIO_MEDICO
 ├── citas/                     ← CITA + validación anti-solapamiento
 ├── emergencias/               ← EMERGENCIA con triage
 ├── hospitalizacion/           ← CAMA, HOSPITALIZACION, TARIFA_HABITACION
-├── clinico/                   ← HISTORIAL_CLINICO
-├── laboratorio/               ← EXAMEN_LABORATORIO
+├── clinico/                   ← HISTORIAL_CLINICO, CATALOGO_CIE10
+├── laboratorio/               ← EXAMEN_LABORATORIO (con indicaciones_medicas)
 ├── farmacia/                  ← MEDICAMENTO, LOTE_MEDICAMENTO, PROVEEDOR, COMPRA, RECETA
 ├── facturacion/               ← FACTURA, FACTURA_DETALLE, PAGO, CONFIG_IMPUESTO
 ├── auditoria/                 ← AUDITORIA_SISTEMA (solo lectura)
 └── reportes/                  ← Export Excel/CSV con Pandas
 ```
-## Endpoints implementados (~35 endpoints)
+## Endpoints implementados (~36 endpoints)
 
 | Prefijo | Endpoints | Rol principal |
 |---|---|---|
@@ -36,6 +36,7 @@ siih/
 | `/api/v1/camas/` | CRUD + `disponibles/` | Médico, Enfermera |
 | `/api/v1/hospitalizaciones/` | CRUD + `{id}/alta/` | Médico |
 | `/api/v1/historiales/` | CRUD + `{id}/recetas/`, `{id}/examenes/` | Médico |
+| `/api/v1/catalogo-cie10/` | Solo lectura (filtrable) | Médico, Enfermera |
 | `/api/v1/examenes/` | CRUD + `{id}/resultado/` | Técnico Lab |
 | `/api/v1/proveedores/` | CRUD | Farmacéutico |
 | `/api/v1/medicamentos/` | CRUD + `alertas/` | Farmacéutico |
@@ -111,3 +112,12 @@ Para ejecutar las pruebas del sistema asegúrate de tener tu entorno virtual act
    python manage.py test personal_medico
    python manage.py test reportes
    ```
+
+## Cambios recientes (campos y tablas añadidos)
+
+- `pacientes.PACIENTE`: nuevo campo `alergias` (`TEXT`, `null=True`, `blank=True`).
+- `laboratorio.EXAMEN_LABORATORIO`: nuevo campo `indicaciones_medicas` (`TEXT`, `null=True`, `blank=True`).
+- `clinico.CATALOGO_CIE10`: nueva tabla `CATALOGO_CIE10` (`id_cie10`, `codigo`, `descripcion`).
+- `clinico.HISTORIAL_CLINICO`: nueva relación `id_cie10` → `CATALOGO_CIE10` (FK, `null=True`, `db_column='id_cie10'`).
+
+Estas modificaciones exponen nuevos datos en los endpoints correspondientes (`/api/v1/pacientes/`, `/api/v1/examenes/`, `/api/v1/historiales/` y el catálogo `/api/v1/catalogo-cie10/`).
