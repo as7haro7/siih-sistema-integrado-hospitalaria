@@ -191,7 +191,7 @@ DEFAULT_ALLOWED_ORIGINS = (
     "https://siih-sistema-integrado-hospitalaria.vercel.app"
 )
 
-CORS_ALLOW_ALL_ORIGINS = DEBUG  # Solo en desarrollo local
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
     origin.strip()
