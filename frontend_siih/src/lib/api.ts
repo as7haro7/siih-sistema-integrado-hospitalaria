@@ -4,7 +4,7 @@ import { useAuthStore } from '@/stores/authStore';
 // ─── URLs de backend ─────────────────────────────────────────────
 const LOCAL_API_URL = 'http://localhost:8000/api/v1';
 const REMOTE_API_URL = process.env.NEXT_PUBLIC_API_REMOTE_URL
-  || 'https://siih-backend.onrender.com/api/v1';
+  || 'https://siih-sistema-integrado-hospitalaria.onrender.com/api/v1';
 
 // URL explícita forzada (si se define, no hay fallback)
 const EXPLICIT_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
