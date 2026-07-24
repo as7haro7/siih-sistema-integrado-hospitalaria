@@ -1,0 +1,2978 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentación técnica del backend de Clínica SIIH">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Imprimir a PDF - Manual Técnico - Clínica SIIH</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/print-site.css">
+    
+      <link rel="stylesheet" href="../css/print-site-material.css">
+    
+    <script>__md_scope=new URL("/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+        <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
+        })
+        </script>
+        </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#index" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="Manual Técnico - Clínica SIIH" class="md-header__button md-logo" aria-label="Manual Técnico - Clínica SIIH" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Manual Técnico - Clínica SIIH
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Imprimir a PDF
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Inicio
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../requerimientos/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Requerimientos Técnicos
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../configuracion/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Configuración y Despliegue
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../arquitectura/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Arquitectura y Módulos
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../base_datos/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Base de Datos
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../diagrama_er/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Diagrama Entidad-Relación
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../seguridad/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Seguridad y RBAC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../endpoints/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Catálogo de Endpoints
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../guia_desarrollo/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Guía de Desarrollo
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../api/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API y Swagger
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Imprimir a PDF
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Manual Técnico - Clínica SIIH" class="md-nav__button md-logo" aria-label="Manual Técnico - Clínica SIIH" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Manual Técnico - Clínica SIIH
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requerimientos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requerimientos Técnicos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuracion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuración y Despliegue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitectura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura y Módulos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../base_datos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Base de Datos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../diagrama_er/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Diagrama Entidad-Relación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Seguridad y RBAC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../endpoints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catálogo de Endpoints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guia_desarrollo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guía de Desarrollo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API y Swagger
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Imprimir a PDF
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Imprimir a PDF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1 Inicio
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requerimientos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 Requerimientos Técnicos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 Configuración y Despliegue
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arquitectura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 Arquitectura y Módulos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#base_datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5 Base de Datos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagrama_er" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6 Diagrama Entidad-Relación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7 Seguridad y RBAC
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8 Catálogo de Endpoints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#guia_desarrollo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9 Guía de Desarrollo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10 API y Swagger
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1 Inicio
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requerimientos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 Requerimientos Técnicos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 Configuración y Despliegue
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arquitectura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 Arquitectura y Módulos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#base_datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5 Base de Datos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagrama_er" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6 Diagrama Entidad-Relación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7 Seguridad y RBAC
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8 Catálogo de Endpoints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#guia_desarrollo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9 Guía de Desarrollo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10 API y Swagger
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div id="print-site-page" class="print-site-enumerate-headings print-site-enumerate-figures">
+        <section class="print-page">
+            <div id="print-page-toc" data-toc-depth="3">
+                <nav role='navigation' class='print-page-toc-nav'>
+                <h1 class='print-page-toc-title'>Table of Contents</h1>
+                </nav>
+            </div>
+        </section>
+        <section class="print-page" id="index" heading-number="1"><h1 id="index-introduccion-y-arquitectura">Introducción y Arquitectura</h1>
+<p>Bienvenido al <strong>Manual Técnico</strong> del sistema backend para la <strong>Clínica SIIH</strong>. Este documento tiene como objetivo proporcionar una guía detallada sobre la arquitectura, estructura y decisiones de diseño implementadas en el proyecto.</p>
+<h2 id="index-objetivos-del-sistema">Objetivos del Sistema</h2>
+<p>El backend de la Clínica SIIH es una API RESTful robusta diseñada para manejar todos los procesos internos de una clínica, desde la admisión de pacientes y programación de citas hasta la facturación, gestión de farmacia y control de hospitalización.</p>
+<h2 id="index-arquitectura-y-stack-tecnologico">Arquitectura y Stack Tecnológico</h2>
+<p>El sistema ha sido construido siguiendo el patrón arquitectónico de API RESTful utilizando las siguientes tecnologías:</p>
+<ul>
+<li><strong>Lenguaje:</strong> Python 3</li>
+<li><strong>Framework Principal:</strong> Django 4.2.*</li>
+<li><strong>Framework API:</strong> Django REST Framework (DRF)</li>
+<li><strong>Base de Datos:</strong> MySQL</li>
+<li><strong>Autenticación:</strong> JSON Web Tokens (JWT) mediante <code>djangorestframework-simplejwt</code></li>
+<li><strong>Generación de Reportes:</strong> Pandas y OpenPyXL para exportación de datos a Excel/CSV.</li>
+<li><strong>Documentación API:</strong> Swagger y ReDoc integrados mediante <code>drf-spectacular</code>.</li>
+</ul>
+<h2 id="index-patrones-de-diseno-utilizados">Patrones de Diseño Utilizados</h2>
+<p>El proyecto utiliza una variante del patrón <strong>Modelo-Vista-Controlador (MVC)</strong>, adaptado por Django como <strong>Modelo-Template-Vista (MTV)</strong>. Sin embargo, al tratarse de una API, el flujo es el siguiente:</p>
+<ol>
+<li><strong>Modelos (Models):</strong> Mapeo de la base de datos MySQL (muchos bajo el enfoque <code>managed=False</code> para convivir con una base de datos ya diseñada con su propia lógica de base de datos como Triggers y Procedimientos).</li>
+<li><strong>Serializadores (Serializers):</strong> Capa encargada de traducir los modelos a formato JSON y viceversa, además de aplicar validaciones.</li>
+<li><strong>Vistas (ViewSets):</strong> Controladores basados en clases (ModelViewSet, ReadOnlyModelViewSet) que exponen de forma automática el CRUD de los modelos.</li>
+<li><strong>Enrutadores (Routers):</strong> Generación automática de las URLs para los endpoints.</li>
+</ol>
+<h2 id="index-enfoque-database-first">Enfoque "Database First"</h2>
+<p>Una decisión arquitectónica clave de este sistema es el enfoque "Database First". Muchas reglas de negocio críticas, como el cálculo de subtotales, la validación de inventario y la integridad referencial, están delegadas a la base de datos MySQL. Esto permite un sistema más rápido y seguro, asegurando que la lógica no dependa exclusivamente del lado de Django.</p>
+<hr />
+<p>Para más detalles sobre cómo instalar y levantar el sistema, consulta la sección de <a href="#configuracion">Configuración y Despliegue</a>.</p></section><section class="print-page" id="requerimientos" heading-number="2"><h1 id="requerimientos-requerimientos-tecnicos">Requerimientos Técnicos</h1>
+<p>Esta sección detalla los requerimientos mínimos y recomendados de hardware y software para desplegar el backend de la Clínica SIIH.</p>
+<h2 id="requerimientos-requerimientos-de-hardware">Requerimientos de Hardware</h2>
+<h3 id="requerimientos-entorno-de-desarrollo">Entorno de Desarrollo</h3>
+<table>
+<thead>
+<tr>
+<th>Recurso</th>
+<th>Mínimo</th>
+<th>Recomendado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Procesador</strong></td>
+<td>Dual-core 2.0 GHz</td>
+<td>Quad-core 2.5 GHz o superior</td>
+</tr>
+<tr>
+<td><strong>Memoria RAM</strong></td>
+<td>4 GB</td>
+<td>8 GB o más</td>
+</tr>
+<tr>
+<td><strong>Almacenamiento</strong></td>
+<td>10 GB libres (HDD)</td>
+<td>20 GB libres (SSD)</td>
+</tr>
+<tr>
+<td><strong>Red</strong></td>
+<td>Conexión local (localhost)</td>
+<td>LAN 100 Mbps</td>
+</tr>
+</tbody>
+</table>
+<h3 id="requerimientos-entorno-de-produccion-servidor">Entorno de Producción (Servidor)</h3>
+<table>
+<thead>
+<tr>
+<th>Recurso</th>
+<th>Mínimo</th>
+<th>Recomendado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Procesador</strong></td>
+<td>Quad-core 2.5 GHz</td>
+<td>8 cores 3.0 GHz o superior</td>
+</tr>
+<tr>
+<td><strong>Memoria RAM</strong></td>
+<td>8 GB</td>
+<td>16 GB o más</td>
+</tr>
+<tr>
+<td><strong>Almacenamiento</strong></td>
+<td>50 GB SSD</td>
+<td>100 GB SSD (RAID recomendado)</td>
+</tr>
+<tr>
+<td><strong>Red</strong></td>
+<td>100 Mbps dedicada</td>
+<td>1 Gbps dedicada</td>
+</tr>
+<tr>
+<td><strong>Sistema Operativo</strong></td>
+<td>Ubuntu Server 22.04 LTS / Windows Server 2019</td>
+<td>Ubuntu Server 24.04 LTS</td>
+</tr>
+</tbody>
+</table>
+<h2 id="requerimientos-requerimientos-de-software">Requerimientos de Software</h2>
+<h3 id="requerimientos-sistema-operativo">Sistema Operativo</h3>
+<p>El sistema es <strong>multiplataforma</strong> y puede ejecutarse en:</p>
+<ul>
+<li><strong>Windows:</strong> 10/11 o Windows Server 2019+</li>
+<li><strong>Linux:</strong> Ubuntu 22.04+, Debian 12+, CentOS Stream 9+</li>
+<li><strong>macOS:</strong> 13 Ventura o superior (solo para desarrollo)</li>
+</ul>
+<h3 id="requerimientos-software-necesario">Software Necesario</h3>
+<table>
+<thead>
+<tr>
+<th>Software</th>
+<th>Versión Mínima</th>
+<th>Propósito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Python</strong></td>
+<td>3.10+</td>
+<td>Lenguaje de programación del backend</td>
+</tr>
+<tr>
+<td><strong>MySQL Server</strong></td>
+<td>8.0+</td>
+<td>Motor de base de datos relacional</td>
+</tr>
+<tr>
+<td><strong>pip</strong></td>
+<td>21.0+</td>
+<td>Gestor de paquetes de Python</td>
+</tr>
+<tr>
+<td><strong>Git</strong></td>
+<td>2.30+</td>
+<td>Control de versiones y clonado del repositorio</td>
+</tr>
+</tbody>
+</table>
+<h3 id="requerimientos-dependencias-de-python-requirementstxt">Dependencias de Python (requirements.txt)</h3>
+<p>Las principales librerías del proyecto son:</p>
+<table>
+<thead>
+<tr>
+<th>Paquete</th>
+<th>Versión</th>
+<th>Función</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Django</td>
+<td>4.2.*</td>
+<td>Framework web principal</td>
+</tr>
+<tr>
+<td>djangorestframework</td>
+<td>3.14.*</td>
+<td>Construcción de la API REST</td>
+</tr>
+<tr>
+<td>djangorestframework-simplejwt</td>
+<td>5.3.*</td>
+<td>Autenticación JWT</td>
+</tr>
+<tr>
+<td>mysqlclient</td>
+<td>2.2.*</td>
+<td>Conector Python ↔ MySQL</td>
+</tr>
+<tr>
+<td>django-cors-headers</td>
+<td>4.3.*</td>
+<td>Manejo de CORS para el frontend</td>
+</tr>
+<tr>
+<td>django-filter</td>
+<td>23.5</td>
+<td>Filtrado avanzado en endpoints</td>
+</tr>
+<tr>
+<td>drf-spectacular</td>
+<td>—</td>
+<td>Generación de esquema OpenAPI 3 (Swagger)</td>
+</tr>
+<tr>
+<td>pandas</td>
+<td>≥ 2.2.0</td>
+<td>Generación de reportes Excel/CSV</td>
+</tr>
+<tr>
+<td>openpyxl</td>
+<td>3.1.*</td>
+<td>Escritura de archivos .xlsx</td>
+</tr>
+</tbody>
+</table>
+<h3 id="requerimientos-puertos-de-red-utilizados">Puertos de Red Utilizados</h3>
+<table>
+<thead>
+<tr>
+<th>Puerto</th>
+<th>Servicio</th>
+<th>Notas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>8000</strong></td>
+<td>Django (desarrollo)</td>
+<td>Configurable vía <code>runserver 0.0.0.0:&lt;puerto&gt;</code></td>
+</tr>
+<tr>
+<td><strong>3306</strong></td>
+<td>MySQL Server</td>
+<td>Puerto estándar de MySQL</td>
+</tr>
+<tr>
+<td><strong>443/80</strong></td>
+<td>HTTPS/HTTP (producción)</td>
+<td>Solo si se configura Nginx/Apache como proxy inverso</td>
+</tr>
+</tbody>
+</table>
+<h2 id="requerimientos-variables-de-entorno">Variables de Entorno</h2>
+<p>El sistema soporta configuración mediante variables de entorno para facilitar el despliegue sin modificar código:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Valor por defecto</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DJANGO_SECRET_KEY</code></td>
+<td><em>(clave interna)</em></td>
+<td>Clave secreta de Django (cambiar en producción)</td>
+</tr>
+<tr>
+<td><code>DJANGO_DEBUG</code></td>
+<td><code>True</code></td>
+<td>Activar/desactivar modo debug</td>
+</tr>
+<tr>
+<td><code>DJANGO_ALLOWED_HOSTS</code></td>
+<td><code>localhost,127.0.0.1</code></td>
+<td>Hosts permitidos para servir</td>
+</tr>
+<tr>
+<td><code>DB_NAME</code></td>
+<td><code>db_clinica_siih</code></td>
+<td>Nombre de la base de datos MySQL</td>
+</tr>
+<tr>
+<td><code>DB_USER</code></td>
+<td><code>root</code></td>
+<td>Usuario de MySQL</td>
+</tr>
+<tr>
+<td><code>DB_PASSWORD</code></td>
+<td><code>123456</code></td>
+<td>Contraseña de MySQL</td>
+</tr>
+<tr>
+<td><code>DB_HOST</code></td>
+<td><code>localhost</code></td>
+<td>Host del servidor MySQL</td>
+</tr>
+<tr>
+<td><code>DB_PORT</code></td>
+<td><code>3306</code></td>
+<td>Puerto de MySQL</td>
+</tr>
+<tr>
+<td><code>CORS_ALLOWED_ORIGINS</code></td>
+<td><code>http://localhost:3000,...</code></td>
+<td>Orígenes permitidos para CORS</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Seguridad en Producción</p>
+<p>En un entorno de producción, es <strong>obligatorio</strong> cambiar la <code>DJANGO_SECRET_KEY</code>, establecer <code>DJANGO_DEBUG=False</code>, y no usar la contraseña por defecto de MySQL.</p>
+</div></section><section class="print-page" id="configuracion" heading-number="3"><h1 id="configuracion-configuracion-y-despliegue-local">Configuración y Despliegue Local</h1>
+<p>Esta guía describe los pasos necesarios para configurar el entorno de desarrollo y levantar el proyecto de la Clínica SIIH de manera local.</p>
+<h2 id="configuracion-requisitos-del-sistema">Requisitos del Sistema</h2>
+<ul>
+<li><strong>Python:</strong> Versión 3.10 o superior (recomendado Python 3.12+).</li>
+<li><strong>MySQL:</strong> Servidor MySQL 8.0+ para la base de datos.</li>
+<li><strong>Git:</strong> Para clonado de repositorios y control de versiones.</li>
+</ul>
+<hr />
+<h2 id="configuracion-pasos-de-instalacion">Pasos de Instalación</h2>
+<h3 id="configuracion-1-clonar-el-repositorio">1. Clonar el Repositorio</h3>
+<p>Si aún no lo has hecho, clona el repositorio del proyecto:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#configuracion-__codelineno-0-1"></a>git<span class="w"> </span>clone<span class="w"> </span>&lt;url_del_repositorio&gt;
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#configuracion-__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>clinica_siih/backend_siih
+</span></code></pre></div>
+<h3 id="configuracion-2-configuracion-de-la-base-de-datos-mysql">2. Configuración de la Base de Datos MySQL</h3>
+<p>El proyecto utiliza una base de datos MySQL estructurada con sus propios procedimientos y triggers. Debes importar el script base <code>db.sql</code> a tu servidor MySQL.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#configuracion-__codelineno-1-1"></a>mysql<span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>-p<span class="w"> </span>&lt;<span class="w"> </span>db.sql
+</span></code></pre></div>
+<p>Asegúrate de que tus credenciales locales en <code>config/settings.py</code> (o tu archivo <code>.env</code>) coincidan con las de tu servidor MySQL local. Por defecto espera el usuario <code>root</code> en <code>localhost</code>.</p>
+<h3 id="configuracion-3-crear-el-entorno-virtual">3. Crear el Entorno Virtual</h3>
+<p>Es fundamental aislar las dependencias del proyecto usando un entorno virtual:</p>
+<p><strong>En Windows:</strong>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#configuracion-__codelineno-2-1"></a><span class="n">python</span> <span class="n">-m</span> <span class="n">venv</span> <span class="n">venv</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#configuracion-__codelineno-2-2"></a><span class="p">.\</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">Activate</span><span class="p">.</span><span class="n">ps1</span>
+</span></code></pre></div></p>
+<p><strong>En Linux/Mac:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#configuracion-__codelineno-3-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#configuracion-__codelineno-3-2"></a><span class="nb">source</span><span class="w"> </span>venv/bin/activate
+</span></code></pre></div></p>
+<h3 id="configuracion-4-instalacion-de-dependencias">4. Instalación de Dependencias</h3>
+<p>Con el entorno activado, instala todas las librerías listadas en <code>requirements.txt</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#configuracion-__codelineno-4-1"></a>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</span></code></pre></div>
+<h3 id="configuracion-5-migraciones-y-roles-del-sistema">5. Migraciones y Roles del Sistema</h3>
+<p>A pesar de tener una base de datos MySQL (con <code>managed=False</code> para la mayoría de tablas), Django necesita crear sus propias tablas para la sesión, perfiles y metadatos internos. Ejecuta:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#configuracion-__codelineno-5-1"></a><span class="c1"># Sincroniza las tablas de autenticación y admin de Django</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#configuracion-__codelineno-5-2"></a>python<span class="w"> </span>manage.py<span class="w"> </span>migrate
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#configuracion-__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#configuracion-__codelineno-5-4"></a><span class="c1"># Script especial para cargar los roles RBAC por defecto (Admin, Médico, Recepcionista, etc.)</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#configuracion-__codelineno-5-5"></a>python<span class="w"> </span>manage.py<span class="w"> </span>crear_roles
+</span></code></pre></div>
+<h3 id="configuracion-6-creacion-de-usuario-administrador">6. Creación de Usuario Administrador</h3>
+<p>Crea un superusuario de Django para poder acceder al panel de administración:</p>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#configuracion-__codelineno-6-1"></a>python<span class="w"> </span>manage.py<span class="w"> </span>createsuperuser
+</span></code></pre></div>
+<em>(Sigue las instrucciones en consola para proporcionar un username, correo y contraseña)</em>.</p>
+<h3 id="configuracion-7-levantar-el-servidor">7. Levantar el Servidor</h3>
+<p>Finalmente, puedes correr el servidor local de desarrollo:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#configuracion-__codelineno-7-1"></a>python<span class="w"> </span>manage.py<span class="w"> </span>runserver
+</span></code></pre></div>
+<p>El servidor estará escuchando en <code>http://localhost:8000</code>. Puedes verificar que la API está funcionando accediendo a <code>http://localhost:8000/api/v1/</code>.</p></section><section class="print-page" id="arquitectura" heading-number="4"><h1 id="arquitectura-arquitectura-del-proyecto-y-modulos">Arquitectura del Proyecto y Módulos</h1>
+<p>El proyecto está organizado en múltiples "apps" de Django, siguiendo el principio de Responsabilidad Única (Single Responsibility Principle). Esto asegura que cada módulo controle únicamente su área funcional, facilitando el mantenimiento y escalabilidad.</p>
+<h2 id="arquitectura-estructura-de-directorios">Estructura de Directorios</h2>
+<p>A continuación se muestra el esquema del árbol de directorios del proyecto y una descripción breve del rol de cada carpeta:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#arquitectura-__codelineno-0-1"></a>backend_siih/
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#arquitectura-__codelineno-0-2"></a>├── manage.py                  ← Script CLI principal de Django
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#arquitectura-__codelineno-0-3"></a>├── requirements.txt           ← Dependencias de Python
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#arquitectura-__codelineno-0-4"></a>├── config/                    ← Archivos globales (settings.py, urls.py base, wsgi/asgi)
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#arquitectura-__codelineno-0-5"></a>├── accounts/                  ← Autenticación JWT y roles RBAC (Control de Acceso)
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#arquitectura-__codelineno-0-6"></a>├── pacientes/                 ← Gestión de PACIENTE y REGISTRO_BAJA
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#arquitectura-__codelineno-0-7"></a>├── personal_medico/           ← Catálogos de MEDICO, ESPECIALIDAD y HORARIO_MEDICO
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#arquitectura-__codelineno-0-8"></a>├── citas/                     ← Gestión de CITA con lógica anti-solapamiento
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#arquitectura-__codelineno-0-9"></a>├── emergencias/               ← Manejo de EMERGENCIA incluyendo niveles de triage
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#arquitectura-__codelineno-0-10"></a>├── hospitalizacion/           ← Administración de CAMA, TARIFA_HABITACION y HOSPITALIZACION
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#arquitectura-__codelineno-0-11"></a>├── clinico/                   ← Administración de HISTORIAL_CLINICO y recetas médicas
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#arquitectura-__codelineno-0-12"></a>├── laboratorio/               ← Solicitudes y resultados de EXAMEN_LABORATORIO
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#arquitectura-__codelineno-0-13"></a>├── farmacia/                  ← Inventario FIFO: MEDICAMENTO, PROVEEDOR, LOTE, COMPRA, RECETA
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#arquitectura-__codelineno-0-14"></a>├── facturacion/               ← Cargos financieros: FACTURA, DETALLE, PAGO, CONFIG_IMPUESTO
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#arquitectura-__codelineno-0-15"></a>├── auditoria/                 ← Tablas de sistema de solo lectura para rastrear cambios (AUDITORIA_SISTEMA)
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#arquitectura-__codelineno-0-16"></a>└── reportes/                  ← Generación de exportables Excel/CSV vía Pandas
+</span></code></pre></div>
+<h2 id="arquitectura-patron-de-desarrollo-viewsets-routers">Patrón de Desarrollo (ViewSets &amp; Routers)</h2>
+<p>En lugar de utilizar vistas tradicionales de Django basadas en funciones o <code>APIView</code> para cada endpoint, el sistema hace un uso intensivo de <strong>ModelViewSets</strong>. </p>
+<p>Esto provee automáticamente las acciones estándar de creación, lectura, actualización y eliminación (CRUD).</p>
+<h3 id="arquitectura-ejemplo-de-flujo-de-peticion">Ejemplo de Flujo de Petición</h3>
+<ol>
+<li><strong>Router (<code>urls.py</code>):</strong> El router recibe <code>/api/v1/pacientes/</code> y lo enruta al <code>PacienteViewSet</code>.</li>
+<li><strong>Permisos y Autenticación:</strong> Se evalúa si el usuario porta un token JWT válido y si su rol (ej. <code>IsRecepcionista</code>) está autorizado para la acción.</li>
+<li><strong>Serializer:</strong> Se valida el cuerpo del JSON recibido contra el <code>PacienteSerializer</code>.</li>
+<li><strong>Base de Datos:</strong> Se invoca a los métodos ORM (<code>.save()</code>), lo cual a su vez puede activar Triggers en MySQL para lógica automática.</li>
+<li><strong>Respuesta:</strong> El Serializer emite los datos guardados de vuelta al cliente.</li>
+</ol>
+<h2 id="arquitectura-acciones-personalizadas-action">Acciones Personalizadas (<code>@action</code>)</h2>
+<p>Cuando el CRUD estándar no es suficiente, se definen acciones extras decoradas con <code>@action</code>. Ejemplos en este sistema incluyen:</p>
+<ul>
+<li><code>POST /api/v1/facturas/consolidar/</code> (consolida deudas y emite una factura nueva)</li>
+<li><code>POST /api/v1/facturas/{id}/pagos/</code> (añade un abono a una factura existente)</li>
+<li><code>GET /api/v1/camas/disponibles/</code> (filtra el catálogo para listar solo camas libres)</li>
+<li><code>POST /api/v1/hospitalizaciones/{id}/alta/</code> (marca la salida de un paciente y libera su cama)</li>
+</ul></section><section class="print-page" id="base_datos" heading-number="5"><h1 id="base_datos-modelo-de-base-de-datos">Modelo de Base de Datos</h1>
+<p>El backend de la Clínica SIIH emplea una arquitectura <strong>"Database First"</strong>, donde la base de datos (MySQL) es la verdadera dueña de la integridad referencial y de ciertas reglas de negocio automatizadas.</p>
+<h2 id="base_datos-uso-del-parametro-managed-false">Uso del parámetro <code>managed = False</code></h2>
+<p>Prácticamente todos los modelos definidos en las aplicaciones del negocio (pacientes, hospitalización, citas, etc.) contienen la propiedad <code>managed = False</code> en su clase <code>Meta</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#base_datos-__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Paciente</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#base_datos-__codelineno-0-2"></a>    <span class="c1"># ... campos ...</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#base_datos-__codelineno-0-3"></a>    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#base_datos-__codelineno-0-4"></a>        <span class="n">managed</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#base_datos-__codelineno-0-5"></a>        <span class="n">db_table</span> <span class="o">=</span> <span class="s2">&quot;PACIENTE&quot;</span>
+</span></code></pre></div>
+<p><strong>¿Qué significa esto?</strong>
+- Django <strong>NO</strong> creará, modificará, ni eliminará estas tablas al ejecutar <code>python manage.py makemigrations</code> o <code>migrate</code>.
+- Django confía en que las tablas, las claves primarias (PK), foráneas (FK) y las restricciones existen exactamente como están descritas en el ORM.
+- Cualquier modificación a la estructura de la base de datos debe hacerse manualmente mediante scripts SQL (como <code>db.sql</code>) y luego reflejarse en los modelos de Django de manera coordinada.</p>
+<h2 id="base_datos-logica-delegada-a-mysql-triggers-y-procedimientos">Lógica delegada a MySQL (Triggers y Procedimientos)</h2>
+<p>Gracias a este enfoque, gran parte de la seguridad de datos se encuentra directamente en el motor MySQL:</p>
+<ul>
+<li><strong>Auditoría automática:</strong> Triggers que escuchan <code>INSERT</code>, <code>UPDATE</code>, y <code>DELETE</code> en tablas importantes y llenan automáticamente la tabla <code>AUDITORIA_SISTEMA</code>. Por esta razón, el módulo de Django de auditoría es estrictamente de <em>solo lectura</em> (<code>ReadOnlyModelViewSet</code>).</li>
+<li><strong>Estados derivados y Subtotales:</strong> Muchos valores monetarios (como el cálculo de impuestos de una factura o el subtotal de un detalle de compra) se calculan automáticamente a nivel de base de datos como columnas generadas (GENERATED) o actualizadas mediante Triggers. Por ende, desde Django estos campos son ignorados en las operaciones de escritura (definidos como <code>read_only=True</code> en los serializadores).</li>
+</ul>
+<h2 id="base_datos-reglas-de-integridad-criticas">Reglas de Integridad Críticas</h2>
+<p>Es crucial respetar los nombres exactos de columnas (<code>db_column="id_paciente"</code>) y los tipos de datos. Alterar un <code>IntegerField</code> a un <code>CharField</code> en Django provocará errores severos en tiempo de ejecución debido a desajustes con el esquema subyacente.</p></section><section class="print-page" id="diagrama_er" heading-number="6"><h1 id="diagrama_er-diagrama-entidad-relacion">Diagrama Entidad-Relación</h1>
+<p>A continuación se presenta el diagrama ER del sistema, representando todas las entidades del negocio y sus relaciones. El diagrama está generado con Mermaid y refleja el esquema real de la base de datos MySQL.</p>
+<h2 id="diagrama_er-diagrama-general-del-sistema">Diagrama General del Sistema</h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#diagrama_er-__codelineno-0-1"></a>erDiagram
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#diagrama_er-__codelineno-0-2"></a>    ESPECIALIDAD {
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#diagrama_er-__codelineno-0-3"></a>        int id_especialidad PK
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#diagrama_er-__codelineno-0-4"></a>        varchar nombre_especialidad UK
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#diagrama_er-__codelineno-0-5"></a>    }
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#diagrama_er-__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#diagrama_er-__codelineno-0-7"></a>    MEDICO {
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#diagrama_er-__codelineno-0-8"></a>        int id_medico PK
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#diagrama_er-__codelineno-0-9"></a>        varchar nombre_medico
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#diagrama_er-__codelineno-0-10"></a>        int id_especialidad FK
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#diagrama_er-__codelineno-0-11"></a>        varchar telefono
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#diagrama_er-__codelineno-0-12"></a>    }
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#diagrama_er-__codelineno-0-13"></a>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#diagrama_er-__codelineno-0-14"></a>    HORARIO_MEDICO {
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#diagrama_er-__codelineno-0-15"></a>        int id_horario PK
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#diagrama_er-__codelineno-0-16"></a>        int id_medico FK
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#diagrama_er-__codelineno-0-17"></a>        varchar dia_semana
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#diagrama_er-__codelineno-0-18"></a>        time hora_inicio
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#diagrama_er-__codelineno-0-19"></a>        time hora_fin
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#diagrama_er-__codelineno-0-20"></a>        varchar estado_turno
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#diagrama_er-__codelineno-0-21"></a>    }
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#diagrama_er-__codelineno-0-22"></a>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#diagrama_er-__codelineno-0-23"></a>    PACIENTE {
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#diagrama_er-__codelineno-0-24"></a>        int id_paciente PK
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#diagrama_er-__codelineno-0-25"></a>        varchar cedula_paciente UK
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#diagrama_er-__codelineno-0-26"></a>        varchar nombre
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#diagrama_er-__codelineno-0-27"></a>        varchar apellido
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#diagrama_er-__codelineno-0-28"></a>        date fecha_nacimiento
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#diagrama_er-__codelineno-0-29"></a>        varchar telefono
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#diagrama_er-__codelineno-0-30"></a>        varchar direccion
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#diagrama_er-__codelineno-0-31"></a>        varchar seguro_medico
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#diagrama_er-__codelineno-0-32"></a>        varchar estado_baja
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#diagrama_er-__codelineno-0-33"></a>    }
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#diagrama_er-__codelineno-0-34"></a>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#diagrama_er-__codelineno-0-35"></a>    REGISTRO_BAJA {
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#diagrama_er-__codelineno-0-36"></a>        int id_baja PK
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#diagrama_er-__codelineno-0-37"></a>        int id_paciente FK
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#diagrama_er-__codelineno-0-38"></a>        datetime fecha_baja
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#diagrama_er-__codelineno-0-39"></a>        text motivo_baja
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#diagrama_er-__codelineno-0-40"></a>        varchar usuario_autoriza
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41" href="#diagrama_er-__codelineno-0-41"></a>    }
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42" href="#diagrama_er-__codelineno-0-42"></a>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43" href="#diagrama_er-__codelineno-0-43"></a>    CITA {
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44" href="#diagrama_er-__codelineno-0-44"></a>        int id_cita PK
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45" href="#diagrama_er-__codelineno-0-45"></a>        int id_paciente FK
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46" href="#diagrama_er-__codelineno-0-46"></a>        int id_medico FK
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47" href="#diagrama_er-__codelineno-0-47"></a>        date fecha_cita
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48" href="#diagrama_er-__codelineno-0-48"></a>        time hora_cita
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49" href="#diagrama_er-__codelineno-0-49"></a>        varchar estado_cita
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50" href="#diagrama_er-__codelineno-0-50"></a>    }
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51" href="#diagrama_er-__codelineno-0-51"></a>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52" href="#diagrama_er-__codelineno-0-52"></a>    EMERGENCIA {
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53" href="#diagrama_er-__codelineno-0-53"></a>        int id_emergencia PK
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54" href="#diagrama_er-__codelineno-0-54"></a>        int id_paciente FK
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55" href="#diagrama_er-__codelineno-0-55"></a>        int id_medico_guardia FK
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56" href="#diagrama_er-__codelineno-0-56"></a>        datetime fecha_hora_ingreso
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57" href="#diagrama_er-__codelineno-0-57"></a>        varchar nivel_triage
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58" href="#diagrama_er-__codelineno-0-58"></a>        text descripcion_urgencia
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59" href="#diagrama_er-__codelineno-0-59"></a>        varchar destino_paciente
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60" href="#diagrama_er-__codelineno-0-60"></a>    }
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61" href="#diagrama_er-__codelineno-0-61"></a>
+</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62" href="#diagrama_er-__codelineno-0-62"></a>    TARIFA_HABITACION {
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63" href="#diagrama_er-__codelineno-0-63"></a>        int id_tarifa PK
+</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64" href="#diagrama_er-__codelineno-0-64"></a>        varchar tipo_habitacion
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65" href="#diagrama_er-__codelineno-0-65"></a>        decimal costo_por_dia
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66" href="#diagrama_er-__codelineno-0-66"></a>    }
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67" href="#diagrama_er-__codelineno-0-67"></a>
+</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68" href="#diagrama_er-__codelineno-0-68"></a>    CAMA {
+</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69" href="#diagrama_er-__codelineno-0-69"></a>        int id_cama PK
+</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70" href="#diagrama_er-__codelineno-0-70"></a>        varchar nro_habitacion
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71" href="#diagrama_er-__codelineno-0-71"></a>        varchar nro_cama
+</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72" href="#diagrama_er-__codelineno-0-72"></a>        int id_tarifa FK
+</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73" href="#diagrama_er-__codelineno-0-73"></a>        varchar estado_cama
+</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74" href="#diagrama_er-__codelineno-0-74"></a>    }
+</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75" href="#diagrama_er-__codelineno-0-75"></a>
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76" href="#diagrama_er-__codelineno-0-76"></a>    HOSPITALIZACION {
+</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77" href="#diagrama_er-__codelineno-0-77"></a>        int id_hospitalizacion PK
+</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78" href="#diagrama_er-__codelineno-0-78"></a>        int id_cita FK
+</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79" href="#diagrama_er-__codelineno-0-79"></a>        int id_emergencia FK
+</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80" href="#diagrama_er-__codelineno-0-80"></a>        int id_paciente FK
+</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81" href="#diagrama_er-__codelineno-0-81"></a>        int id_medico_responsable FK
+</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82" href="#diagrama_er-__codelineno-0-82"></a>        int id_cama FK
+</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83" href="#diagrama_er-__codelineno-0-83"></a>        datetime fecha_ingreso
+</span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84" href="#diagrama_er-__codelineno-0-84"></a>        datetime fecha_egreso
+</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85" href="#diagrama_er-__codelineno-0-85"></a>        text diagnostico_ingreso
+</span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86" href="#diagrama_er-__codelineno-0-86"></a>        varchar estado_internacion
+</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87" href="#diagrama_er-__codelineno-0-87"></a>    }
+</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88" href="#diagrama_er-__codelineno-0-88"></a>
+</span><span id="__span-0-89"><a id="__codelineno-0-89" name="__codelineno-0-89" href="#diagrama_er-__codelineno-0-89"></a>    HISTORIAL_CLINICO {
+</span><span id="__span-0-90"><a id="__codelineno-0-90" name="__codelineno-0-90" href="#diagrama_er-__codelineno-0-90"></a>        int id_historial PK
+</span><span id="__span-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91" href="#diagrama_er-__codelineno-0-91"></a>        int id_cita FK
+</span><span id="__span-0-92"><a id="__codelineno-0-92" name="__codelineno-0-92" href="#diagrama_er-__codelineno-0-92"></a>        int id_hospitalizacion FK
+</span><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93" href="#diagrama_er-__codelineno-0-93"></a>        int id_emergencia FK
+</span><span id="__span-0-94"><a id="__codelineno-0-94" name="__codelineno-0-94" href="#diagrama_er-__codelineno-0-94"></a>        datetime fecha_registro
+</span><span id="__span-0-95"><a id="__codelineno-0-95" name="__codelineno-0-95" href="#diagrama_er-__codelineno-0-95"></a>        text motivo_consulta
+</span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96" href="#diagrama_er-__codelineno-0-96"></a>        text tratamiento
+</span><span id="__span-0-97"><a id="__codelineno-0-97" name="__codelineno-0-97" href="#diagrama_er-__codelineno-0-97"></a>        text diagnostico
+</span><span id="__span-0-98"><a id="__codelineno-0-98" name="__codelineno-0-98" href="#diagrama_er-__codelineno-0-98"></a>        varchar medico_tratante
+</span><span id="__span-0-99"><a id="__codelineno-0-99" name="__codelineno-0-99" href="#diagrama_er-__codelineno-0-99"></a>    }
+</span><span id="__span-0-100"><a id="__codelineno-0-100" name="__codelineno-0-100" href="#diagrama_er-__codelineno-0-100"></a>
+</span><span id="__span-0-101"><a id="__codelineno-0-101" name="__codelineno-0-101" href="#diagrama_er-__codelineno-0-101"></a>    EXAMEN_LABORATORIO {
+</span><span id="__span-0-102"><a id="__codelineno-0-102" name="__codelineno-0-102" href="#diagrama_er-__codelineno-0-102"></a>        int id_examen PK
+</span><span id="__span-0-103"><a id="__codelineno-0-103" name="__codelineno-0-103" href="#diagrama_er-__codelineno-0-103"></a>        int id_historial FK
+</span><span id="__span-0-104"><a id="__codelineno-0-104" name="__codelineno-0-104" href="#diagrama_er-__codelineno-0-104"></a>        varchar tipo_examen
+</span><span id="__span-0-105"><a id="__codelineno-0-105" name="__codelineno-0-105" href="#diagrama_er-__codelineno-0-105"></a>        text resultado_texto
+</span><span id="__span-0-106"><a id="__codelineno-0-106" name="__codelineno-0-106" href="#diagrama_er-__codelineno-0-106"></a>        varchar estado_examen
+</span><span id="__span-0-107"><a id="__codelineno-0-107" name="__codelineno-0-107" href="#diagrama_er-__codelineno-0-107"></a>        decimal costo_examen
+</span><span id="__span-0-108"><a id="__codelineno-0-108" name="__codelineno-0-108" href="#diagrama_er-__codelineno-0-108"></a>    }
+</span><span id="__span-0-109"><a id="__codelineno-0-109" name="__codelineno-0-109" href="#diagrama_er-__codelineno-0-109"></a>
+</span><span id="__span-0-110"><a id="__codelineno-0-110" name="__codelineno-0-110" href="#diagrama_er-__codelineno-0-110"></a>    PROVEEDOR {
+</span><span id="__span-0-111"><a id="__codelineno-0-111" name="__codelineno-0-111" href="#diagrama_er-__codelineno-0-111"></a>        int id_proveedor PK
+</span><span id="__span-0-112"><a id="__codelineno-0-112" name="__codelineno-0-112" href="#diagrama_er-__codelineno-0-112"></a>        varchar nombre_proveedor
+</span><span id="__span-0-113"><a id="__codelineno-0-113" name="__codelineno-0-113" href="#diagrama_er-__codelineno-0-113"></a>        varchar nit_proveedor
+</span><span id="__span-0-114"><a id="__codelineno-0-114" name="__codelineno-0-114" href="#diagrama_er-__codelineno-0-114"></a>        varchar telefono
+</span><span id="__span-0-115"><a id="__codelineno-0-115" name="__codelineno-0-115" href="#diagrama_er-__codelineno-0-115"></a>        varchar direccion
+</span><span id="__span-0-116"><a id="__codelineno-0-116" name="__codelineno-0-116" href="#diagrama_er-__codelineno-0-116"></a>    }
+</span><span id="__span-0-117"><a id="__codelineno-0-117" name="__codelineno-0-117" href="#diagrama_er-__codelineno-0-117"></a>
+</span><span id="__span-0-118"><a id="__codelineno-0-118" name="__codelineno-0-118" href="#diagrama_er-__codelineno-0-118"></a>    MEDICAMENTO {
+</span><span id="__span-0-119"><a id="__codelineno-0-119" name="__codelineno-0-119" href="#diagrama_er-__codelineno-0-119"></a>        int id_medicamento PK
+</span><span id="__span-0-120"><a id="__codelineno-0-120" name="__codelineno-0-120" href="#diagrama_er-__codelineno-0-120"></a>        varchar nombre_comercial
+</span><span id="__span-0-121"><a id="__codelineno-0-121" name="__codelineno-0-121" href="#diagrama_er-__codelineno-0-121"></a>        int stock_actual
+</span><span id="__span-0-122"><a id="__codelineno-0-122" name="__codelineno-0-122" href="#diagrama_er-__codelineno-0-122"></a>        int stock_minimo
+</span><span id="__span-0-123"><a id="__codelineno-0-123" name="__codelineno-0-123" href="#diagrama_er-__codelineno-0-123"></a>        decimal precio_unitario
+</span><span id="__span-0-124"><a id="__codelineno-0-124" name="__codelineno-0-124" href="#diagrama_er-__codelineno-0-124"></a>    }
+</span><span id="__span-0-125"><a id="__codelineno-0-125" name="__codelineno-0-125" href="#diagrama_er-__codelineno-0-125"></a>
+</span><span id="__span-0-126"><a id="__codelineno-0-126" name="__codelineno-0-126" href="#diagrama_er-__codelineno-0-126"></a>    COMPRA {
+</span><span id="__span-0-127"><a id="__codelineno-0-127" name="__codelineno-0-127" href="#diagrama_er-__codelineno-0-127"></a>        int id_compra PK
+</span><span id="__span-0-128"><a id="__codelineno-0-128" name="__codelineno-0-128" href="#diagrama_er-__codelineno-0-128"></a>        int id_proveedor FK
+</span><span id="__span-0-129"><a id="__codelineno-0-129" name="__codelineno-0-129" href="#diagrama_er-__codelineno-0-129"></a>        date fecha_compra
+</span><span id="__span-0-130"><a id="__codelineno-0-130" name="__codelineno-0-130" href="#diagrama_er-__codelineno-0-130"></a>        varchar numero_factura_compra
+</span><span id="__span-0-131"><a id="__codelineno-0-131" name="__codelineno-0-131" href="#diagrama_er-__codelineno-0-131"></a>        decimal total_compra
+</span><span id="__span-0-132"><a id="__codelineno-0-132" name="__codelineno-0-132" href="#diagrama_er-__codelineno-0-132"></a>    }
+</span><span id="__span-0-133"><a id="__codelineno-0-133" name="__codelineno-0-133" href="#diagrama_er-__codelineno-0-133"></a>
+</span><span id="__span-0-134"><a id="__codelineno-0-134" name="__codelineno-0-134" href="#diagrama_er-__codelineno-0-134"></a>    LOTE_MEDICAMENTO {
+</span><span id="__span-0-135"><a id="__codelineno-0-135" name="__codelineno-0-135" href="#diagrama_er-__codelineno-0-135"></a>        int id_lote PK
+</span><span id="__span-0-136"><a id="__codelineno-0-136" name="__codelineno-0-136" href="#diagrama_er-__codelineno-0-136"></a>        int id_medicamento FK
+</span><span id="__span-0-137"><a id="__codelineno-0-137" name="__codelineno-0-137" href="#diagrama_er-__codelineno-0-137"></a>        int id_compra FK
+</span><span id="__span-0-138"><a id="__codelineno-0-138" name="__codelineno-0-138" href="#diagrama_er-__codelineno-0-138"></a>        varchar numero_lote
+</span><span id="__span-0-139"><a id="__codelineno-0-139" name="__codelineno-0-139" href="#diagrama_er-__codelineno-0-139"></a>        int cantidad_inicial
+</span><span id="__span-0-140"><a id="__codelineno-0-140" name="__codelineno-0-140" href="#diagrama_er-__codelineno-0-140"></a>        int cantidad_actual
+</span><span id="__span-0-141"><a id="__codelineno-0-141" name="__codelineno-0-141" href="#diagrama_er-__codelineno-0-141"></a>        decimal precio_compra_unitario
+</span><span id="__span-0-142"><a id="__codelineno-0-142" name="__codelineno-0-142" href="#diagrama_er-__codelineno-0-142"></a>        date fecha_ingreso
+</span><span id="__span-0-143"><a id="__codelineno-0-143" name="__codelineno-0-143" href="#diagrama_er-__codelineno-0-143"></a>        date fecha_vencimiento
+</span><span id="__span-0-144"><a id="__codelineno-0-144" name="__codelineno-0-144" href="#diagrama_er-__codelineno-0-144"></a>    }
+</span><span id="__span-0-145"><a id="__codelineno-0-145" name="__codelineno-0-145" href="#diagrama_er-__codelineno-0-145"></a>
+</span><span id="__span-0-146"><a id="__codelineno-0-146" name="__codelineno-0-146" href="#diagrama_er-__codelineno-0-146"></a>    COMPRA_DETALLE {
+</span><span id="__span-0-147"><a id="__codelineno-0-147" name="__codelineno-0-147" href="#diagrama_er-__codelineno-0-147"></a>        int id_compra_detalle PK
+</span><span id="__span-0-148"><a id="__codelineno-0-148" name="__codelineno-0-148" href="#diagrama_er-__codelineno-0-148"></a>        int id_compra FK
+</span><span id="__span-0-149"><a id="__codelineno-0-149" name="__codelineno-0-149" href="#diagrama_er-__codelineno-0-149"></a>        int id_lote FK
+</span><span id="__span-0-150"><a id="__codelineno-0-150" name="__codelineno-0-150" href="#diagrama_er-__codelineno-0-150"></a>        int cantidad
+</span><span id="__span-0-151"><a id="__codelineno-0-151" name="__codelineno-0-151" href="#diagrama_er-__codelineno-0-151"></a>        decimal precio_unitario
+</span><span id="__span-0-152"><a id="__codelineno-0-152" name="__codelineno-0-152" href="#diagrama_er-__codelineno-0-152"></a>        decimal subtotal_linea
+</span><span id="__span-0-153"><a id="__codelineno-0-153" name="__codelineno-0-153" href="#diagrama_er-__codelineno-0-153"></a>    }
+</span><span id="__span-0-154"><a id="__codelineno-0-154" name="__codelineno-0-154" href="#diagrama_er-__codelineno-0-154"></a>
+</span><span id="__span-0-155"><a id="__codelineno-0-155" name="__codelineno-0-155" href="#diagrama_er-__codelineno-0-155"></a>    RECETA_DETALLE {
+</span><span id="__span-0-156"><a id="__codelineno-0-156" name="__codelineno-0-156" href="#diagrama_er-__codelineno-0-156"></a>        int id_detalle_receta PK
+</span><span id="__span-0-157"><a id="__codelineno-0-157" name="__codelineno-0-157" href="#diagrama_er-__codelineno-0-157"></a>        int id_historial FK
+</span><span id="__span-0-158"><a id="__codelineno-0-158" name="__codelineno-0-158" href="#diagrama_er-__codelineno-0-158"></a>        int id_medicamento FK
+</span><span id="__span-0-159"><a id="__codelineno-0-159" name="__codelineno-0-159" href="#diagrama_er-__codelineno-0-159"></a>        int cantidad_recetada
+</span><span id="__span-0-160"><a id="__codelineno-0-160" name="__codelineno-0-160" href="#diagrama_er-__codelineno-0-160"></a>        varchar dosis
+</span><span id="__span-0-161"><a id="__codelineno-0-161" name="__codelineno-0-161" href="#diagrama_er-__codelineno-0-161"></a>        varchar frecuencia
+</span><span id="__span-0-162"><a id="__codelineno-0-162" name="__codelineno-0-162" href="#diagrama_er-__codelineno-0-162"></a>        varchar duracion
+</span><span id="__span-0-163"><a id="__codelineno-0-163" name="__codelineno-0-163" href="#diagrama_er-__codelineno-0-163"></a>        varchar estado_despacho
+</span><span id="__span-0-164"><a id="__codelineno-0-164" name="__codelineno-0-164" href="#diagrama_er-__codelineno-0-164"></a>    }
+</span><span id="__span-0-165"><a id="__codelineno-0-165" name="__codelineno-0-165" href="#diagrama_er-__codelineno-0-165"></a>
+</span><span id="__span-0-166"><a id="__codelineno-0-166" name="__codelineno-0-166" href="#diagrama_er-__codelineno-0-166"></a>    CONFIG_IMPUESTO {
+</span><span id="__span-0-167"><a id="__codelineno-0-167" name="__codelineno-0-167" href="#diagrama_er-__codelineno-0-167"></a>        int id_impuesto PK
+</span><span id="__span-0-168"><a id="__codelineno-0-168" name="__codelineno-0-168" href="#diagrama_er-__codelineno-0-168"></a>        varchar descripcion
+</span><span id="__span-0-169"><a id="__codelineno-0-169" name="__codelineno-0-169" href="#diagrama_er-__codelineno-0-169"></a>        decimal porcentaje
+</span><span id="__span-0-170"><a id="__codelineno-0-170" name="__codelineno-0-170" href="#diagrama_er-__codelineno-0-170"></a>    }
+</span><span id="__span-0-171"><a id="__codelineno-0-171" name="__codelineno-0-171" href="#diagrama_er-__codelineno-0-171"></a>
+</span><span id="__span-0-172"><a id="__codelineno-0-172" name="__codelineno-0-172" href="#diagrama_er-__codelineno-0-172"></a>    FACTURA {
+</span><span id="__span-0-173"><a id="__codelineno-0-173" name="__codelineno-0-173" href="#diagrama_er-__codelineno-0-173"></a>        int id_factura PK
+</span><span id="__span-0-174"><a id="__codelineno-0-174" name="__codelineno-0-174" href="#diagrama_er-__codelineno-0-174"></a>        int id_historial FK
+</span><span id="__span-0-175"><a id="__codelineno-0-175" name="__codelineno-0-175" href="#diagrama_er-__codelineno-0-175"></a>        int id_hospitalizacion FK
+</span><span id="__span-0-176"><a id="__codelineno-0-176" name="__codelineno-0-176" href="#diagrama_er-__codelineno-0-176"></a>        int id_impuesto FK
+</span><span id="__span-0-177"><a id="__codelineno-0-177" name="__codelineno-0-177" href="#diagrama_er-__codelineno-0-177"></a>        varchar nit_factura
+</span><span id="__span-0-178"><a id="__codelineno-0-178" name="__codelineno-0-178" href="#diagrama_er-__codelineno-0-178"></a>        varchar razon_social
+</span><span id="__span-0-179"><a id="__codelineno-0-179" name="__codelineno-0-179" href="#diagrama_er-__codelineno-0-179"></a>        decimal subtotal
+</span><span id="__span-0-180"><a id="__codelineno-0-180" name="__codelineno-0-180" href="#diagrama_er-__codelineno-0-180"></a>        decimal monto_impuesto
+</span><span id="__span-0-181"><a id="__codelineno-0-181" name="__codelineno-0-181" href="#diagrama_er-__codelineno-0-181"></a>        decimal total_pagar
+</span><span id="__span-0-182"><a id="__codelineno-0-182" name="__codelineno-0-182" href="#diagrama_er-__codelineno-0-182"></a>        varchar estado_pago
+</span><span id="__span-0-183"><a id="__codelineno-0-183" name="__codelineno-0-183" href="#diagrama_er-__codelineno-0-183"></a>        datetime fecha_emision
+</span><span id="__span-0-184"><a id="__codelineno-0-184" name="__codelineno-0-184" href="#diagrama_er-__codelineno-0-184"></a>        varchar cajero_responsable
+</span><span id="__span-0-185"><a id="__codelineno-0-185" name="__codelineno-0-185" href="#diagrama_er-__codelineno-0-185"></a>    }
+</span><span id="__span-0-186"><a id="__codelineno-0-186" name="__codelineno-0-186" href="#diagrama_er-__codelineno-0-186"></a>
+</span><span id="__span-0-187"><a id="__codelineno-0-187" name="__codelineno-0-187" href="#diagrama_er-__codelineno-0-187"></a>    FACTURA_DETALLE {
+</span><span id="__span-0-188"><a id="__codelineno-0-188" name="__codelineno-0-188" href="#diagrama_er-__codelineno-0-188"></a>        int id_factura_detalle PK
+</span><span id="__span-0-189"><a id="__codelineno-0-189" name="__codelineno-0-189" href="#diagrama_er-__codelineno-0-189"></a>        int id_factura FK
+</span><span id="__span-0-190"><a id="__codelineno-0-190" name="__codelineno-0-190" href="#diagrama_er-__codelineno-0-190"></a>        varchar concepto
+</span><span id="__span-0-191"><a id="__codelineno-0-191" name="__codelineno-0-191" href="#diagrama_er-__codelineno-0-191"></a>        int cantidad
+</span><span id="__span-0-192"><a id="__codelineno-0-192" name="__codelineno-0-192" href="#diagrama_er-__codelineno-0-192"></a>        decimal precio_unitario
+</span><span id="__span-0-193"><a id="__codelineno-0-193" name="__codelineno-0-193" href="#diagrama_er-__codelineno-0-193"></a>        decimal subtotal_linea
+</span><span id="__span-0-194"><a id="__codelineno-0-194" name="__codelineno-0-194" href="#diagrama_er-__codelineno-0-194"></a>    }
+</span><span id="__span-0-195"><a id="__codelineno-0-195" name="__codelineno-0-195" href="#diagrama_er-__codelineno-0-195"></a>
+</span><span id="__span-0-196"><a id="__codelineno-0-196" name="__codelineno-0-196" href="#diagrama_er-__codelineno-0-196"></a>    PAGO {
+</span><span id="__span-0-197"><a id="__codelineno-0-197" name="__codelineno-0-197" href="#diagrama_er-__codelineno-0-197"></a>        int id_pago PK
+</span><span id="__span-0-198"><a id="__codelineno-0-198" name="__codelineno-0-198" href="#diagrama_er-__codelineno-0-198"></a>        int id_factura FK
+</span><span id="__span-0-199"><a id="__codelineno-0-199" name="__codelineno-0-199" href="#diagrama_er-__codelineno-0-199"></a>        decimal monto
+</span><span id="__span-0-200"><a id="__codelineno-0-200" name="__codelineno-0-200" href="#diagrama_er-__codelineno-0-200"></a>        varchar metodo_pago
+</span><span id="__span-0-201"><a id="__codelineno-0-201" name="__codelineno-0-201" href="#diagrama_er-__codelineno-0-201"></a>        datetime fecha_pago
+</span><span id="__span-0-202"><a id="__codelineno-0-202" name="__codelineno-0-202" href="#diagrama_er-__codelineno-0-202"></a>        varchar cajero_responsable
+</span><span id="__span-0-203"><a id="__codelineno-0-203" name="__codelineno-0-203" href="#diagrama_er-__codelineno-0-203"></a>    }
+</span><span id="__span-0-204"><a id="__codelineno-0-204" name="__codelineno-0-204" href="#diagrama_er-__codelineno-0-204"></a>
+</span><span id="__span-0-205"><a id="__codelineno-0-205" name="__codelineno-0-205" href="#diagrama_er-__codelineno-0-205"></a>    AUDITORIA_SISTEMA {
+</span><span id="__span-0-206"><a id="__codelineno-0-206" name="__codelineno-0-206" href="#diagrama_er-__codelineno-0-206"></a>        int id_auditoria PK
+</span><span id="__span-0-207"><a id="__codelineno-0-207" name="__codelineno-0-207" href="#diagrama_er-__codelineno-0-207"></a>        varchar usuario_accion
+</span><span id="__span-0-208"><a id="__codelineno-0-208" name="__codelineno-0-208" href="#diagrama_er-__codelineno-0-208"></a>        varchar tabla_afectada
+</span><span id="__span-0-209"><a id="__codelineno-0-209" name="__codelineno-0-209" href="#diagrama_er-__codelineno-0-209"></a>        int id_registro_afectado
+</span><span id="__span-0-210"><a id="__codelineno-0-210" name="__codelineno-0-210" href="#diagrama_er-__codelineno-0-210"></a>        varchar tipo_operacion
+</span><span id="__span-0-211"><a id="__codelineno-0-211" name="__codelineno-0-211" href="#diagrama_er-__codelineno-0-211"></a>        text valores_anteriores
+</span><span id="__span-0-212"><a id="__codelineno-0-212" name="__codelineno-0-212" href="#diagrama_er-__codelineno-0-212"></a>        text valores_nuevos
+</span><span id="__span-0-213"><a id="__codelineno-0-213" name="__codelineno-0-213" href="#diagrama_er-__codelineno-0-213"></a>        datetime fecha_hora_evento
+</span><span id="__span-0-214"><a id="__codelineno-0-214" name="__codelineno-0-214" href="#diagrama_er-__codelineno-0-214"></a>        varchar direccion_ip
+</span><span id="__span-0-215"><a id="__codelineno-0-215" name="__codelineno-0-215" href="#diagrama_er-__codelineno-0-215"></a>    }
+</span><span id="__span-0-216"><a id="__codelineno-0-216" name="__codelineno-0-216" href="#diagrama_er-__codelineno-0-216"></a>
+</span><span id="__span-0-217"><a id="__codelineno-0-217" name="__codelineno-0-217" href="#diagrama_er-__codelineno-0-217"></a>    %% ── Relaciones ──────────────────────────────────
+</span><span id="__span-0-218"><a id="__codelineno-0-218" name="__codelineno-0-218" href="#diagrama_er-__codelineno-0-218"></a>
+</span><span id="__span-0-219"><a id="__codelineno-0-219" name="__codelineno-0-219" href="#diagrama_er-__codelineno-0-219"></a>    ESPECIALIDAD ||--o{ MEDICO : &quot;tiene&quot;
+</span><span id="__span-0-220"><a id="__codelineno-0-220" name="__codelineno-0-220" href="#diagrama_er-__codelineno-0-220"></a>    MEDICO ||--o{ HORARIO_MEDICO : &quot;tiene&quot;
+</span><span id="__span-0-221"><a id="__codelineno-0-221" name="__codelineno-0-221" href="#diagrama_er-__codelineno-0-221"></a>    MEDICO ||--o{ CITA : &quot;atiende&quot;
+</span><span id="__span-0-222"><a id="__codelineno-0-222" name="__codelineno-0-222" href="#diagrama_er-__codelineno-0-222"></a>    MEDICO ||--o{ EMERGENCIA : &quot;atiende guardia&quot;
+</span><span id="__span-0-223"><a id="__codelineno-0-223" name="__codelineno-0-223" href="#diagrama_er-__codelineno-0-223"></a>    MEDICO ||--o{ HOSPITALIZACION : &quot;responsable&quot;
+</span><span id="__span-0-224"><a id="__codelineno-0-224" name="__codelineno-0-224" href="#diagrama_er-__codelineno-0-224"></a>
+</span><span id="__span-0-225"><a id="__codelineno-0-225" name="__codelineno-0-225" href="#diagrama_er-__codelineno-0-225"></a>    PACIENTE ||--o{ REGISTRO_BAJA : &quot;puede tener&quot;
+</span><span id="__span-0-226"><a id="__codelineno-0-226" name="__codelineno-0-226" href="#diagrama_er-__codelineno-0-226"></a>    PACIENTE ||--o{ CITA : &quot;agenda&quot;
+</span><span id="__span-0-227"><a id="__codelineno-0-227" name="__codelineno-0-227" href="#diagrama_er-__codelineno-0-227"></a>    PACIENTE ||--o{ EMERGENCIA : &quot;ingresa&quot;
+</span><span id="__span-0-228"><a id="__codelineno-0-228" name="__codelineno-0-228" href="#diagrama_er-__codelineno-0-228"></a>    PACIENTE ||--o{ HOSPITALIZACION : &quot;se hospitaliza&quot;
+</span><span id="__span-0-229"><a id="__codelineno-0-229" name="__codelineno-0-229" href="#diagrama_er-__codelineno-0-229"></a>
+</span><span id="__span-0-230"><a id="__codelineno-0-230" name="__codelineno-0-230" href="#diagrama_er-__codelineno-0-230"></a>    TARIFA_HABITACION ||--o{ CAMA : &quot;aplica a&quot;
+</span><span id="__span-0-231"><a id="__codelineno-0-231" name="__codelineno-0-231" href="#diagrama_er-__codelineno-0-231"></a>    CAMA ||--o{ HOSPITALIZACION : &quot;asignada a&quot;
+</span><span id="__span-0-232"><a id="__codelineno-0-232" name="__codelineno-0-232" href="#diagrama_er-__codelineno-0-232"></a>
+</span><span id="__span-0-233"><a id="__codelineno-0-233" name="__codelineno-0-233" href="#diagrama_er-__codelineno-0-233"></a>    CITA ||--o| HOSPITALIZACION : &quot;puede generar&quot;
+</span><span id="__span-0-234"><a id="__codelineno-0-234" name="__codelineno-0-234" href="#diagrama_er-__codelineno-0-234"></a>    EMERGENCIA ||--o| HOSPITALIZACION : &quot;puede generar&quot;
+</span><span id="__span-0-235"><a id="__codelineno-0-235" name="__codelineno-0-235" href="#diagrama_er-__codelineno-0-235"></a>
+</span><span id="__span-0-236"><a id="__codelineno-0-236" name="__codelineno-0-236" href="#diagrama_er-__codelineno-0-236"></a>    CITA ||--o| HISTORIAL_CLINICO : &quot;genera&quot;
+</span><span id="__span-0-237"><a id="__codelineno-0-237" name="__codelineno-0-237" href="#diagrama_er-__codelineno-0-237"></a>    HOSPITALIZACION ||--o| HISTORIAL_CLINICO : &quot;genera&quot;
+</span><span id="__span-0-238"><a id="__codelineno-0-238" name="__codelineno-0-238" href="#diagrama_er-__codelineno-0-238"></a>    EMERGENCIA ||--o| HISTORIAL_CLINICO : &quot;genera&quot;
+</span><span id="__span-0-239"><a id="__codelineno-0-239" name="__codelineno-0-239" href="#diagrama_er-__codelineno-0-239"></a>
+</span><span id="__span-0-240"><a id="__codelineno-0-240" name="__codelineno-0-240" href="#diagrama_er-__codelineno-0-240"></a>    HISTORIAL_CLINICO ||--o{ EXAMEN_LABORATORIO : &quot;solicita&quot;
+</span><span id="__span-0-241"><a id="__codelineno-0-241" name="__codelineno-0-241" href="#diagrama_er-__codelineno-0-241"></a>    HISTORIAL_CLINICO ||--o{ RECETA_DETALLE : &quot;prescribe&quot;
+</span><span id="__span-0-242"><a id="__codelineno-0-242" name="__codelineno-0-242" href="#diagrama_er-__codelineno-0-242"></a>    HISTORIAL_CLINICO ||--o{ FACTURA : &quot;se factura&quot;
+</span><span id="__span-0-243"><a id="__codelineno-0-243" name="__codelineno-0-243" href="#diagrama_er-__codelineno-0-243"></a>
+</span><span id="__span-0-244"><a id="__codelineno-0-244" name="__codelineno-0-244" href="#diagrama_er-__codelineno-0-244"></a>    MEDICAMENTO ||--o{ LOTE_MEDICAMENTO : &quot;tiene lotes&quot;
+</span><span id="__span-0-245"><a id="__codelineno-0-245" name="__codelineno-0-245" href="#diagrama_er-__codelineno-0-245"></a>    MEDICAMENTO ||--o{ RECETA_DETALLE : &quot;se receta&quot;
+</span><span id="__span-0-246"><a id="__codelineno-0-246" name="__codelineno-0-246" href="#diagrama_er-__codelineno-0-246"></a>
+</span><span id="__span-0-247"><a id="__codelineno-0-247" name="__codelineno-0-247" href="#diagrama_er-__codelineno-0-247"></a>    PROVEEDOR ||--o{ COMPRA : &quot;suministra&quot;
+</span><span id="__span-0-248"><a id="__codelineno-0-248" name="__codelineno-0-248" href="#diagrama_er-__codelineno-0-248"></a>    COMPRA ||--o{ LOTE_MEDICAMENTO : &quot;ingresa lotes&quot;
+</span><span id="__span-0-249"><a id="__codelineno-0-249" name="__codelineno-0-249" href="#diagrama_er-__codelineno-0-249"></a>    COMPRA ||--o{ COMPRA_DETALLE : &quot;tiene detalles&quot;
+</span><span id="__span-0-250"><a id="__codelineno-0-250" name="__codelineno-0-250" href="#diagrama_er-__codelineno-0-250"></a>    LOTE_MEDICAMENTO ||--o{ COMPRA_DETALLE : &quot;referenciado en&quot;
+</span><span id="__span-0-251"><a id="__codelineno-0-251" name="__codelineno-0-251" href="#diagrama_er-__codelineno-0-251"></a>
+</span><span id="__span-0-252"><a id="__codelineno-0-252" name="__codelineno-0-252" href="#diagrama_er-__codelineno-0-252"></a>    CONFIG_IMPUESTO ||--o{ FACTURA : &quot;aplica a&quot;
+</span><span id="__span-0-253"><a id="__codelineno-0-253" name="__codelineno-0-253" href="#diagrama_er-__codelineno-0-253"></a>    HOSPITALIZACION ||--o{ FACTURA : &quot;se factura&quot;
+</span><span id="__span-0-254"><a id="__codelineno-0-254" name="__codelineno-0-254" href="#diagrama_er-__codelineno-0-254"></a>    FACTURA ||--o{ FACTURA_DETALLE : &quot;tiene líneas&quot;
+</span><span id="__span-0-255"><a id="__codelineno-0-255" name="__codelineno-0-255" href="#diagrama_er-__codelineno-0-255"></a>    FACTURA ||--o{ PAGO : &quot;recibe pagos&quot;
+</span></code></pre></div>
+<h2 id="diagrama_er-descripcion-de-las-relaciones-principales">Descripción de las Relaciones Principales</h2>
+<h3 id="diagrama_er-modulo-de-atencion">Módulo de Atención</h3>
+<ul>
+<li>Un <strong>PACIENTE</strong> puede agendar múltiples <strong>CITAS</strong> y tener múltiples ingresos de <strong>EMERGENCIA</strong>.</li>
+<li>Cada <strong>CITA</strong> o <strong>EMERGENCIA</strong> puede derivar en una <strong>HOSPITALIZACION</strong>.</li>
+<li>Toda atención (cita, emergencia u hospitalización) genera un <strong>HISTORIAL_CLINICO</strong>.</li>
+</ul>
+<h3 id="diagrama_er-modulo-clinico">Módulo Clínico</h3>
+<ul>
+<li>Cada <strong>HISTORIAL_CLINICO</strong> puede tener múltiples <strong>EXAMEN_LABORATORIO</strong> solicitados y múltiples <strong>RECETA_DETALLE</strong> prescritas.</li>
+</ul>
+<h3 id="diagrama_er-modulo-de-farmacia">Módulo de Farmacia</h3>
+<ul>
+<li>Un <strong>MEDICAMENTO</strong> tiene múltiples <strong>LOTE_MEDICAMENTO</strong> (control FIFO por fecha de vencimiento).</li>
+<li>Las <strong>COMPRAS</strong> a <strong>PROVEEDORES</strong> generan nuevos lotes y detalles de compra.</li>
+</ul>
+<h3 id="diagrama_er-modulo-de-facturacion">Módulo de Facturación</h3>
+<ul>
+<li>Una <strong>FACTURA</strong> consolida los cargos de un historial clínico y/o una hospitalización.</li>
+<li>Cada factura puede recibir múltiples <strong>PAGOS</strong> parciales hasta completarse.</li>
+<li>La configuración de <strong>CONFIG_IMPUESTO</strong> determina el porcentaje aplicado.</li>
+</ul>
+<h3 id="diagrama_er-auditoria">Auditoría</h3>
+<ul>
+<li>La tabla <strong>AUDITORIA_SISTEMA</strong> es independiente y se llena automáticamente mediante triggers de MySQL. No tiene relaciones de clave foránea con otras tablas.</li>
+</ul></section><section class="print-page" id="seguridad" heading-number="7"><h1 id="seguridad-seguridad-autenticacion-y-autorizacion">Seguridad, Autenticación y Autorización</h1>
+<p>La seguridad del sistema se divide fundamentalmente en tres pilares: autenticación basada en tokens sin estado (JWT), perfiles de usuario extendidos de Django, y Control de Acceso Basado en Roles (RBAC).</p>
+<h2 id="seguridad-autenticacion-mediante-jwt">Autenticación mediante JWT</h2>
+<p>El acceso a la API requiere autenticación en casi todos sus endpoints. Se ha implementado <strong>JSON Web Tokens (JWT)</strong> mediante la librería <code>djangorestframework-simplejwt</code>.</p>
+<p><strong>Flujo de Autenticación:</strong>
+1. El cliente envía sus credenciales (<code>username</code> y <code>password</code>) mediante un <code>POST</code> al endpoint <code>/api/v1/auth/login/</code>.
+2. El servidor valida las credenciales y devuelve un par de tokens:
+   - <strong>Access Token:</strong> Corta duración (ej. 1 hora). Es el que debe enviarse en el header <code>Authorization: Bearer &lt;token&gt;</code> en las subsecuentes peticiones.
+   - <strong>Refresh Token:</strong> Larga duración (ej. 1 día). Permite obtener un nuevo Access Token.
+3. Para renovar el Access Token, el cliente hace <code>POST</code> a <code>/api/v1/auth/refresh/</code> proporcionando el Refresh Token.</p>
+<h2 id="seguridad-perfiles-de-usuario">Perfiles de Usuario</h2>
+<p>Django gestiona usuarios a través de su modelo nativo <code>User</code>. Para expandir su uso, se utiliza un modelo <code>PerfilUsuario</code> (relación <code>OneToOneField</code>) dentro del módulo <code>accounts</code>, que permite asociar un <strong>cargo</strong> y <strong>teléfono</strong> a cada usuario, manteniendo intacto el flujo interno del administrador de Django.</p>
+<h2 id="seguridad-control-de-acceso-basado-en-roles-rbac">Control de Acceso Basado en Roles (RBAC)</h2>
+<p>Para que un médico no modifique las facturas o el cajero no asigne camas, se utiliza un sistema estricto de roles. Cada usuario en Django puede pertenecer a ciertos "Grupos", que en la clínica actúan como <strong>Roles</strong>.</p>
+<h3 id="seguridad-clases-de-permisos">Clases de Permisos</h3>
+<p>En <code>accounts/permissions.py</code> existen clases personalizadas derivadas de <code>BasePermission</code> de DRF:</p>
+<ul>
+<li><code>IsAdmin</code>: Verifica si el usuario pertenece al grupo "Admin".</li>
+<li><code>IsMedico</code>: Verifica el grupo "Medico".</li>
+<li><code>IsRecepcionista</code>: Verifica el grupo "Recepcionista".</li>
+<li><code>IsFarmaceutico</code>, <code>IsCajero</code>, <code>IsEnfermera</code>, <code>IsTecnicoLab</code>.</li>
+</ul>
+<p><strong>Uso en las Vistas (ViewSets):</strong>
+Estas clases se inyectan en el atributo <code>permission_classes</code> de los ViewSets:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#seguridad-__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">PacienteViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ModelViewSet</span><span class="p">):</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#seguridad-__codelineno-0-2"></a>    <span class="c1"># Solo el recepcionista puede crear, editar o dar de baja a pacientes</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#seguridad-__codelineno-0-3"></a>    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">IsRecepcionista</span><span class="p">]</span>
+</span></code></pre></div>
+<p>En algunos casos se combinan (utilizando operadores lógicos <code>|</code>):
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#seguridad-__codelineno-1-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">CamaViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ModelViewSet</span><span class="p">):</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#seguridad-__codelineno-1-2"></a>    <span class="c1"># Tanto médicos como enfermeras tienen acceso al control de camas</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#seguridad-__codelineno-1-3"></a>    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">IsMedico</span> <span class="o">|</span> <span class="n">IsEnfermera</span><span class="p">]</span>
+</span></code></pre></div></p>
+<p>Este esquema garantiza que cualquier endpoint esté inherentemente protegido, a menos que especifique lo contrario (como los de login público).</p></section><section class="print-page" id="endpoints" heading-number="8"><h1 id="endpoints-catalogo-de-endpoints">Catálogo de Endpoints</h1>
+<p>Referencia completa de todos los endpoints expuestos por la API REST del sistema. Se incluyen los métodos HTTP soportados, la descripción funcional y el rol autorizado.</p>
+<h2 id="endpoints-autenticacion-apiv1auth">Autenticación (<code>/api/v1/auth/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/auth/login/</code></td>
+<td>Obtener par de tokens JWT (access + refresh)</td>
+<td>Público</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/auth/refresh/</code></td>
+<td>Renovar access token con un refresh token válido</td>
+<td>Público</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-usuarios-apiv1usuarios">Usuarios (<code>/api/v1/usuarios/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/usuarios/</code></td>
+<td>Listar todos los usuarios</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/usuarios/</code></td>
+<td>Crear un nuevo usuario</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/usuarios/{id}/</code></td>
+<td>Detalle de un usuario</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/usuarios/{id}/</code></td>
+<td>Actualizar un usuario</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/usuarios/{id}/</code></td>
+<td>Eliminar un usuario</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/v1/usuarios/{id}/roles/</code></td>
+<td>Asignar/modificar roles de un usuario</td>
+<td>Admin</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-pacientes-apiv1pacientes">Pacientes (<code>/api/v1/pacientes/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/pacientes/</code></td>
+<td>Listar pacientes</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/pacientes/</code></td>
+<td>Registrar nuevo paciente</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/pacientes/{id}/</code></td>
+<td>Detalle de un paciente</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/pacientes/{id}/</code></td>
+<td>Actualizar datos de un paciente</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/pacientes/{id}/</code></td>
+<td>Eliminar un paciente</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/pacientes/{id}/historial/</code></td>
+<td>Historial clínico del paciente</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/pacientes/{id}/baja/</code></td>
+<td>Dar de baja a un paciente</td>
+<td>Recepcionista</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-especialidades-apiv1especialidades">Especialidades (<code>/api/v1/especialidades/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/especialidades/</code></td>
+<td>Listar especialidades médicas</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/especialidades/</code></td>
+<td>Crear especialidad</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/especialidades/{id}/</code></td>
+<td>Detalle de especialidad</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/especialidades/{id}/</code></td>
+<td>Actualizar especialidad</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/especialidades/{id}/</code></td>
+<td>Eliminar especialidad</td>
+<td>Admin</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-medicos-apiv1medicos">Médicos (<code>/api/v1/medicos/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/medicos/</code></td>
+<td>Listar médicos</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/medicos/</code></td>
+<td>Registrar nuevo médico</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/medicos/{id}/</code></td>
+<td>Detalle de un médico</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/medicos/{id}/</code></td>
+<td>Actualizar datos de un médico</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/medicos/{id}/</code></td>
+<td>Eliminar un médico</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/medicos/{id}/disponibilidad/</code></td>
+<td>Consultar disponibilidad del médico</td>
+<td>Recepcionista</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-horarios-medicos-apiv1horarios-medicos">Horarios Médicos (<code>/api/v1/horarios-medicos/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/horarios-medicos/</code></td>
+<td>Listar horarios</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/horarios-medicos/</code></td>
+<td>Crear horario</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/horarios-medicos/{id}/</code></td>
+<td>Detalle de horario</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/horarios-medicos/{id}/</code></td>
+<td>Actualizar horario</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/horarios-medicos/{id}/</code></td>
+<td>Eliminar horario</td>
+<td>Admin</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-citas-apiv1citas">Citas (<code>/api/v1/citas/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/citas/</code></td>
+<td>Listar citas</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/citas/</code></td>
+<td>Agendar nueva cita (valida solapamiento)</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/citas/{id}/</code></td>
+<td>Detalle de cita</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/citas/{id}/</code></td>
+<td>Actualizar cita</td>
+<td>Recepcionista</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/citas/{id}/</code></td>
+<td>Cancelar cita</td>
+<td>Recepcionista</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-emergencias-apiv1emergencias">Emergencias (<code>/api/v1/emergencias/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/emergencias/</code></td>
+<td>Listar emergencias</td>
+<td>Recepcionista, Médico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/emergencias/</code></td>
+<td>Registrar emergencia con triage</td>
+<td>Recepcionista, Médico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/emergencias/{id}/</code></td>
+<td>Detalle de emergencia</td>
+<td>Recepcionista, Médico</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/emergencias/{id}/</code></td>
+<td>Actualizar emergencia</td>
+<td>Recepcionista, Médico</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/emergencias/{id}/</code></td>
+<td>Eliminar emergencia</td>
+<td>Recepcionista, Médico</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-tarifas-de-habitacion-apiv1tarifas-habitacion">Tarifas de Habitación (<code>/api/v1/tarifas-habitacion/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/tarifas-habitacion/</code></td>
+<td>Listar tarifas</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/tarifas-habitacion/</code></td>
+<td>Crear tarifa</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/tarifas-habitacion/{id}/</code></td>
+<td>Detalle de tarifa</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/tarifas-habitacion/{id}/</code></td>
+<td>Actualizar tarifa</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/tarifas-habitacion/{id}/</code></td>
+<td>Eliminar tarifa</td>
+<td>Admin</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-camas-apiv1camas">Camas (<code>/api/v1/camas/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/camas/</code></td>
+<td>Listar todas las camas</td>
+<td>Médico, Enfermera</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/camas/</code></td>
+<td>Registrar nueva cama</td>
+<td>Médico, Enfermera</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/camas/{id}/</code></td>
+<td>Detalle de cama</td>
+<td>Médico, Enfermera</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/camas/{id}/</code></td>
+<td>Actualizar cama</td>
+<td>Médico, Enfermera</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/camas/{id}/</code></td>
+<td>Eliminar cama</td>
+<td>Médico, Enfermera</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/camas/disponibles/</code></td>
+<td>Listar solo camas disponibles</td>
+<td>Médico, Enfermera</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-hospitalizaciones-apiv1hospitalizaciones">Hospitalizaciones (<code>/api/v1/hospitalizaciones/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/hospitalizaciones/</code></td>
+<td>Listar hospitalizaciones</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/hospitalizaciones/</code></td>
+<td>Registrar hospitalización</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/hospitalizaciones/{id}/</code></td>
+<td>Detalle de hospitalización</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/hospitalizaciones/{id}/</code></td>
+<td>Actualizar hospitalización</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/hospitalizaciones/{id}/</code></td>
+<td>Eliminar hospitalización</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/hospitalizaciones/{id}/alta/</code></td>
+<td>Dar de alta al paciente (libera cama)</td>
+<td>Médico</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-historiales-clinicos-apiv1historiales">Historiales Clínicos (<code>/api/v1/historiales/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/historiales/</code></td>
+<td>Listar historiales</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/historiales/</code></td>
+<td>Crear historial clínico</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/historiales/{id}/</code></td>
+<td>Detalle de historial</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/historiales/{id}/</code></td>
+<td>Actualizar historial</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/historiales/{id}/</code></td>
+<td>Eliminar historial</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/historiales/{id}/recetas/</code></td>
+<td>Agregar receta al historial</td>
+<td>Médico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/historiales/{id}/examenes/</code></td>
+<td>Solicitar examen de laboratorio</td>
+<td>Médico</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-examenes-de-laboratorio-apiv1examenes">Exámenes de Laboratorio (<code>/api/v1/examenes/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/examenes/</code></td>
+<td>Listar exámenes</td>
+<td>Técnico Lab</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/examenes/</code></td>
+<td>Crear examen</td>
+<td>Técnico Lab</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/examenes/{id}/</code></td>
+<td>Detalle de examen</td>
+<td>Técnico Lab</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/examenes/{id}/</code></td>
+<td>Actualizar examen</td>
+<td>Técnico Lab</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/examenes/{id}/</code></td>
+<td>Eliminar examen</td>
+<td>Técnico Lab</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/v1/examenes/{id}/resultado/</code></td>
+<td>Registrar resultado del examen</td>
+<td>Técnico Lab</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-proveedores-apiv1proveedores">Proveedores (<code>/api/v1/proveedores/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/proveedores/</code></td>
+<td>Listar proveedores</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/proveedores/</code></td>
+<td>Registrar proveedor</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/proveedores/{id}/</code></td>
+<td>Detalle de proveedor</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/proveedores/{id}/</code></td>
+<td>Actualizar proveedor</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/proveedores/{id}/</code></td>
+<td>Eliminar proveedor</td>
+<td>Farmacéutico</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-medicamentos-apiv1medicamentos">Medicamentos (<code>/api/v1/medicamentos/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/medicamentos/</code></td>
+<td>Listar medicamentos</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/medicamentos/</code></td>
+<td>Registrar medicamento</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/medicamentos/{id}/</code></td>
+<td>Detalle de medicamento</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/medicamentos/{id}/</code></td>
+<td>Actualizar medicamento</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/medicamentos/{id}/</code></td>
+<td>Eliminar medicamento</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/medicamentos/alertas/</code></td>
+<td>Medicamentos con stock bajo el mínimo</td>
+<td>Farmacéutico</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-lotes-de-medicamentos-apiv1lotes-medicamentos">Lotes de Medicamentos (<code>/api/v1/lotes-medicamentos/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/lotes-medicamentos/</code></td>
+<td>Listar lotes</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/lotes-medicamentos/</code></td>
+<td>Registrar lote</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/lotes-medicamentos/{id}/</code></td>
+<td>Detalle de lote</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/lotes-medicamentos/{id}/</code></td>
+<td>Actualizar lote</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/lotes-medicamentos/{id}/</code></td>
+<td>Eliminar lote</td>
+<td>Farmacéutico</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-recetas-apiv1recetas">Recetas (<code>/api/v1/recetas/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/recetas/</code></td>
+<td>Listar recetas</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/recetas/{id}/</code></td>
+<td>Detalle de receta</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/recetas/pendientes/</code></td>
+<td>Recetas pendientes de despacho</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/recetas/{id}/despachar/</code></td>
+<td>Despachar receta (descuenta stock FIFO)</td>
+<td>Farmacéutico</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-compras-apiv1compras">Compras (<code>/api/v1/compras/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/compras/</code></td>
+<td>Listar compras</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/compras/</code></td>
+<td>Registrar compra atómica (compra + lote + detalle)</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/compras/{id}/</code></td>
+<td>Detalle de compra</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/compras/{id}/</code></td>
+<td>Actualizar compra</td>
+<td>Farmacéutico</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/compras/{id}/</code></td>
+<td>Eliminar compra</td>
+<td>Farmacéutico</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-config-impuestos-apiv1facturasconfig-impuesto">Config. Impuestos (<code>/api/v1/facturas/config-impuesto/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/facturas/config-impuesto/</code></td>
+<td>Listar configuraciones de impuesto</td>
+<td>Admin, Cajero</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/facturas/config-impuesto/</code></td>
+<td>Crear configuración</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/facturas/config-impuesto/{id}/</code></td>
+<td>Detalle de configuración</td>
+<td>Admin, Cajero</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/facturas/config-impuesto/{id}/</code></td>
+<td>Actualizar configuración</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/facturas/config-impuesto/{id}/</code></td>
+<td>Eliminar configuración</td>
+<td>Admin</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-facturas-apiv1facturas">Facturas (<code>/api/v1/facturas/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/facturas/</code></td>
+<td>Listar facturas (filtrable por estado_pago)</td>
+<td>Cajero</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/facturas/</code></td>
+<td>Crear factura manualmente</td>
+<td>Cajero</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/facturas/{id}/</code></td>
+<td>Detalle de factura con líneas y pagos</td>
+<td>Cajero</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/api/v1/facturas/{id}/</code></td>
+<td>Actualizar factura</td>
+<td>Cajero</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/facturas/{id}/</code></td>
+<td>Eliminar factura</td>
+<td>Cajero</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/facturas/consolidar/</code></td>
+<td>Consolidar cargos en una factura automática</td>
+<td>Cajero</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/facturas/{id}/pagos/</code></td>
+<td>Registrar pago parcial o total</td>
+<td>Cajero</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/facturas/{id}/pagos-lista/</code></td>
+<td>Listar todos los pagos de una factura</td>
+<td>Cajero</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints-auditoria-apiv1auditoria">Auditoría (<code>/api/v1/auditoria/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/auditoria/</code></td>
+<td>Listar registros de auditoría (filtrable)</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/auditoria/{id}/</code></td>
+<td>Detalle de registro</td>
+<td>Admin</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">Solo Lectura</p>
+<p>El módulo de auditoría es estrictamente de solo lectura (<code>ReadOnlyModelViewSet</code>). Los registros son creados automáticamente por triggers de MySQL.</p>
+</div>
+<h2 id="endpoints-reportes-apiv1reportes">Reportes (<code>/api/v1/reportes/</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Endpoint</th>
+<th>Descripción</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/reportes/pacientes-por-especialidad/</code></td>
+<td>Reporte de pacientes agrupados por especialidad</td>
+<td>Director</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/reportes/consumo-medicamentos/</code></td>
+<td>Reporte de consumo de medicamentos</td>
+<td>Director</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/reportes/ingresos/</code></td>
+<td>Reporte de ingresos financieros</td>
+<td>Director</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Exportación</p>
+<p>Todos los reportes soportan exportación a <strong>Excel</strong> (.xlsx) y <strong>CSV</strong> añadiendo el parámetro <code>?formato=excel</code> o <code>?formato=csv</code> en la URL.</p>
+</div></section><section class="print-page" id="guia_desarrollo" heading-number="9"><h1 id="guia_desarrollo-guia-de-desarrollo-para-nuevos-modulos">Guía de Desarrollo para Nuevos Módulos</h1>
+<p>Si necesitas expandir la funcionalidad del backend (por ejemplo, añadiendo un módulo de "Recursos Humanos" o "Inventario de Mantenimiento"), el proceso estandarizado sigue estos pasos.</p>
+<h2 id="guia_desarrollo-paso-1-disenar-y-crear-la-tabla-mysql">Paso 1: Diseñar y Crear la Tabla (MySQL)</h2>
+<p>Dado que se prioriza la filosofía "Database First", el diseño primario ocurre en MySQL:</p>
+<ol>
+<li>Modificar el archivo <code>db.sql</code> o añadir un nuevo script <code>ALTER TABLE</code>.</li>
+<li>Crear la tabla en tu entorno local.</li>
+<li>Asegurar que las llaves primarias/foráneas y los disparadores (triggers) existan de antemano.</li>
+</ol>
+<h2 id="guia_desarrollo-paso-2-crear-la-app-de-django">Paso 2: Crear la App de Django</h2>
+<p>Generar la nueva aplicación:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#guia_desarrollo-__codelineno-0-1"></a>python<span class="w"> </span>manage.py<span class="w"> </span>startapp<span class="w"> </span>recursos_humanos
+</span></code></pre></div>
+<p><strong>Registrar la App:</strong>
+Agrega <code>"recursos_humanos"</code> a la lista <code>INSTALLED_APPS</code> en <code>config/settings.py</code>.</p>
+<h2 id="guia_desarrollo-paso-3-mapear-el-modelo-modelspy">Paso 3: Mapear el Modelo (<code>models.py</code>)</h2>
+<p>Crea la representación en Python de tu tabla. Recuerda dos reglas de oro:
+1. Las relaciones y nombres de columnas deben ser explícitas si no coinciden.
+2. Añade <code>managed = False</code>.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#guia_desarrollo-__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">django.db</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#guia_desarrollo-__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#guia_desarrollo-__codelineno-1-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">Empleado</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#guia_desarrollo-__codelineno-1-4"></a>    <span class="n">id_empleado</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">AutoField</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#guia_desarrollo-__codelineno-1-5"></a>    <span class="n">nombre</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#guia_desarrollo-__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#guia_desarrollo-__codelineno-1-7"></a>    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#guia_desarrollo-__codelineno-1-8"></a>        <span class="n">managed</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#guia_desarrollo-__codelineno-1-9"></a>        <span class="n">db_table</span> <span class="o">=</span> <span class="s2">&quot;EMPLEADO&quot;</span>
+</span></code></pre></div>
+<h2 id="guia_desarrollo-paso-4-crear-el-serializador-serializerspy">Paso 4: Crear el Serializador (<code>serializers.py</code>)</h2>
+<p>El Serializador conectará tu modelo con el JSON del cliente. Si una columna es generada por base de datos, defínela como <code>read_only=True</code>.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#guia_desarrollo-__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework</span><span class="w"> </span><span class="kn">import</span> <span class="n">serializers</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#guia_desarrollo-__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Empleado</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#guia_desarrollo-__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#guia_desarrollo-__codelineno-2-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">EmpleadoSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#guia_desarrollo-__codelineno-2-5"></a>    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#guia_desarrollo-__codelineno-2-6"></a>        <span class="n">model</span> <span class="o">=</span> <span class="n">Empleado</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#guia_desarrollo-__codelineno-2-7"></a>        <span class="n">fields</span> <span class="o">=</span> <span class="s2">&quot;__all__&quot;</span>
+</span></code></pre></div>
+<h2 id="guia_desarrollo-paso-5-crear-el-viewset-viewspy">Paso 5: Crear el ViewSet (<code>views.py</code>)</h2>
+<p>Crea un ViewSet para proveer el CRUD. Enlázalo con tu Serializador y Modelo. Aplica los permisos requeridos importados de <code>accounts.permissions</code>.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#guia_desarrollo-__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework</span><span class="w"> </span><span class="kn">import</span> <span class="n">viewsets</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#guia_desarrollo-__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">accounts.permissions</span><span class="w"> </span><span class="kn">import</span> <span class="n">IsAdmin</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#guia_desarrollo-__codelineno-3-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Empleado</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#guia_desarrollo-__codelineno-3-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="n">EmpleadoSerializer</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#guia_desarrollo-__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#guia_desarrollo-__codelineno-3-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">EmpleadoViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ModelViewSet</span><span class="p">):</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#guia_desarrollo-__codelineno-3-7"></a>    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Empleado</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#guia_desarrollo-__codelineno-3-8"></a>    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">EmpleadoSerializer</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#guia_desarrollo-__codelineno-3-9"></a>    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">IsAdmin</span><span class="p">]</span>
+</span></code></pre></div>
+<h2 id="guia_desarrollo-paso-6-configurar-las-rutas-urlspy">Paso 6: Configurar las Rutas (<code>urls.py</code>)</h2>
+<p>Usa un <code>DefaultRouter</code> dentro de tu aplicación para exponer los endpoints:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#guia_desarrollo-__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.routers</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultRouter</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#guia_desarrollo-__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">.views</span><span class="w"> </span><span class="kn">import</span> <span class="n">EmpleadoViewSet</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#guia_desarrollo-__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#guia_desarrollo-__codelineno-4-4"></a><span class="n">router</span> <span class="o">=</span> <span class="n">DefaultRouter</span><span class="p">()</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#guia_desarrollo-__codelineno-4-5"></a><span class="n">router</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;empleados&quot;</span><span class="p">,</span> <span class="n">EmpleadoViewSet</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;empleado&quot;</span><span class="p">)</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#guia_desarrollo-__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#guia_desarrollo-__codelineno-4-7"></a><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">router</span><span class="o">.</span><span class="n">urls</span>
+</span></code></pre></div>
+<p><strong>Conectar a las Rutas Globales:</strong>
+Finalmente, ve a <code>config/urls.py</code> e integra tu nueva ruta, preferiblemente bajo <code>/api/v1/</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#guia_desarrollo-__codelineno-5-1"></a><span class="n">path</span><span class="p">(</span><span class="s2">&quot;api/v1/recursos-humanos/&quot;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s2">&quot;recursos_humanos.urls&quot;</span><span class="p">)),</span>
+</span></code></pre></div></section><section class="print-page" id="api" heading-number="10"><h1 id="api-documentacion-y-consumo-del-api">Documentación y Consumo del API</h1>
+<p>El proyecto incluye interfaces automáticas y explorables de documentación para que el equipo Frontend u otros desarrolladores puedan integrar la API sin necesidad de leer el código fuente.</p>
+<h2 id="api-interfaces-generadas-por-drf-spectacular">Interfaces Generadas por DRF-Spectacular</h2>
+<p>Aprovechando el estándar OpenAPI 3, la librería <code>drf-spectacular</code> provee rutas de documentación en tiempo real que inspeccionan los serializadores y viewsets.</p>
+<h3 id="api-1-swagger-ui">1. Swagger UI</h3>
+<ul>
+<li><strong>URL:</strong> <code>http://localhost:8000/api/docs/</code></li>
+<li><strong>Uso:</strong> Es la interfaz más versátil. Te permite ver todos los endpoints disponibles (agrupados por prefijo), leer su esquema esperado y, fundamentalmente, probar las peticiones directamente desde la web presionando <em>"Try it out"</em>.</li>
+<li><em>Nota:</em> Para probar rutas protegidas, primero utiliza el endpoint <code>/api/v1/auth/login/</code> en Swagger, copia tu token, presiona el botón <strong>"Authorize"</strong> (candado) e introduce: <code>Bearer &lt;tu_token&gt;</code>.</li>
+</ul>
+<h3 id="api-2-redoc">2. ReDoc</h3>
+<ul>
+<li><strong>URL:</strong> <code>http://localhost:8000/api/redoc/</code></li>
+<li><strong>Uso:</strong> Presenta la misma información de esquema que Swagger pero enfocada en la lectura lineal y profesional. Es ideal para leer la documentación de corrido, aunque no permite enviar peticiones interactivas.</li>
+</ul>
+<h3 id="api-3-esquema-openapi-raw-jsonyaml">3. Esquema OpenAPI RAW (JSON/YAML)</h3>
+<ul>
+<li><strong>URL:</strong> <code>http://localhost:8000/api/schema/</code></li>
+<li><strong>Uso:</strong> Emite el esquema crudo estandarizado. Puede ser usado para autogenerar clientes HTTP en JavaScript, TypeScript u otros lenguajes usando generadores automáticos.</li>
+</ul>
+<h2 id="api-el-api-browsable-nativo-de-drf">El API Browsable nativo de DRF</h2>
+<p>Adicionalmente, debido a que se usa Django REST Framework, si navegas a cualquier ruta válida de la API (ej. <code>http://localhost:8000/api/v1/pacientes/</code>) directamente desde tu navegador web, DRF detectará la cabecera HTML y renderizará el <strong>"Browsable API"</strong>.</p>
+<p>Desde allí podrás ver los datos renderizados (si tienes sesión iniciada como superusuario), e interactuar rellenando un formulario HTML equivalente a la petición POST o PATCH necesaria.</p></section></div><style>.print-site-enumerate-headings #index > h1:before { content: '1 ' }
+
+                .print-site-enumerate-headings #index h2:before { content: '1.' counter(counter-index-2) ' ' }
+                .print-site-enumerate-headings #index h2 {  counter-reset: counter-index-3 ;  counter-increment: counter-index-2 }
+            
+                .print-site-enumerate-headings #index h3:before { content: '1.' counter(counter-index-2) '.' counter(counter-index-3) ' ' }
+                .print-site-enumerate-headings #index h3 {  counter-increment: counter-index-3 }
+            
+.print-site-enumerate-headings #requerimientos > h1:before { content: '2 ' }
+
+                .print-site-enumerate-headings #requerimientos h2:before { content: '2.' counter(counter-requerimientos-2) ' ' }
+                .print-site-enumerate-headings #requerimientos h2 {  counter-reset: counter-requerimientos-3 ;  counter-increment: counter-requerimientos-2 }
+            
+                .print-site-enumerate-headings #requerimientos h3:before { content: '2.' counter(counter-requerimientos-2) '.' counter(counter-requerimientos-3) ' ' }
+                .print-site-enumerate-headings #requerimientos h3 {  counter-increment: counter-requerimientos-3 }
+            
+.print-site-enumerate-headings #configuracion > h1:before { content: '3 ' }
+
+                .print-site-enumerate-headings #configuracion h2:before { content: '3.' counter(counter-configuracion-2) ' ' }
+                .print-site-enumerate-headings #configuracion h2 {  counter-reset: counter-configuracion-3 ;  counter-increment: counter-configuracion-2 }
+            
+                .print-site-enumerate-headings #configuracion h3:before { content: '3.' counter(counter-configuracion-2) '.' counter(counter-configuracion-3) ' ' }
+                .print-site-enumerate-headings #configuracion h3 {  counter-increment: counter-configuracion-3 }
+            
+.print-site-enumerate-headings #arquitectura > h1:before { content: '4 ' }
+
+                .print-site-enumerate-headings #arquitectura h2:before { content: '4.' counter(counter-arquitectura-2) ' ' }
+                .print-site-enumerate-headings #arquitectura h2 {  counter-reset: counter-arquitectura-3 ;  counter-increment: counter-arquitectura-2 }
+            
+                .print-site-enumerate-headings #arquitectura h3:before { content: '4.' counter(counter-arquitectura-2) '.' counter(counter-arquitectura-3) ' ' }
+                .print-site-enumerate-headings #arquitectura h3 {  counter-increment: counter-arquitectura-3 }
+            
+.print-site-enumerate-headings #base_datos > h1:before { content: '5 ' }
+
+                .print-site-enumerate-headings #base_datos h2:before { content: '5.' counter(counter-base_datos-2) ' ' }
+                .print-site-enumerate-headings #base_datos h2 {  counter-reset: counter-base_datos-3 ;  counter-increment: counter-base_datos-2 }
+            
+                .print-site-enumerate-headings #base_datos h3:before { content: '5.' counter(counter-base_datos-2) '.' counter(counter-base_datos-3) ' ' }
+                .print-site-enumerate-headings #base_datos h3 {  counter-increment: counter-base_datos-3 }
+            
+.print-site-enumerate-headings #diagrama_er > h1:before { content: '6 ' }
+
+                .print-site-enumerate-headings #diagrama_er h2:before { content: '6.' counter(counter-diagrama_er-2) ' ' }
+                .print-site-enumerate-headings #diagrama_er h2 {  counter-reset: counter-diagrama_er-3 ;  counter-increment: counter-diagrama_er-2 }
+            
+                .print-site-enumerate-headings #diagrama_er h3:before { content: '6.' counter(counter-diagrama_er-2) '.' counter(counter-diagrama_er-3) ' ' }
+                .print-site-enumerate-headings #diagrama_er h3 {  counter-increment: counter-diagrama_er-3 }
+            
+.print-site-enumerate-headings #seguridad > h1:before { content: '7 ' }
+
+                .print-site-enumerate-headings #seguridad h2:before { content: '7.' counter(counter-seguridad-2) ' ' }
+                .print-site-enumerate-headings #seguridad h2 {  counter-reset: counter-seguridad-3 ;  counter-increment: counter-seguridad-2 }
+            
+                .print-site-enumerate-headings #seguridad h3:before { content: '7.' counter(counter-seguridad-2) '.' counter(counter-seguridad-3) ' ' }
+                .print-site-enumerate-headings #seguridad h3 {  counter-increment: counter-seguridad-3 }
+            
+.print-site-enumerate-headings #endpoints > h1:before { content: '8 ' }
+
+                .print-site-enumerate-headings #endpoints h2:before { content: '8.' counter(counter-endpoints-2) ' ' }
+                .print-site-enumerate-headings #endpoints h2 {  counter-reset: counter-endpoints-3 ;  counter-increment: counter-endpoints-2 }
+            
+                .print-site-enumerate-headings #endpoints h3:before { content: '8.' counter(counter-endpoints-2) '.' counter(counter-endpoints-3) ' ' }
+                .print-site-enumerate-headings #endpoints h3 {  counter-increment: counter-endpoints-3 }
+            
+.print-site-enumerate-headings #guia_desarrollo > h1:before { content: '9 ' }
+
+                .print-site-enumerate-headings #guia_desarrollo h2:before { content: '9.' counter(counter-guia_desarrollo-2) ' ' }
+                .print-site-enumerate-headings #guia_desarrollo h2 {  counter-reset: counter-guia_desarrollo-3 ;  counter-increment: counter-guia_desarrollo-2 }
+            
+                .print-site-enumerate-headings #guia_desarrollo h3:before { content: '9.' counter(counter-guia_desarrollo-2) '.' counter(counter-guia_desarrollo-3) ' ' }
+                .print-site-enumerate-headings #guia_desarrollo h3 {  counter-increment: counter-guia_desarrollo-3 }
+            
+.print-site-enumerate-headings #api > h1:before { content: '10 ' }
+
+                .print-site-enumerate-headings #api h2:before { content: '10.' counter(counter-api-2) ' ' }
+                .print-site-enumerate-headings #api h2 {  counter-reset: counter-api-3 ;  counter-increment: counter-api-2 }
+            
+                .print-site-enumerate-headings #api h3:before { content: '10.' counter(counter-api-2) '.' counter(counter-api-3) ' ' }
+                .print-site-enumerate-headings #api h3 {  counter-increment: counter-api-3 }
+            </style>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "/", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../js/print-site.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,28 @@
+site_name: Manual de Usuario - Clínica SIIH
+site_description: Documentación y guía de usuario final del sistema
+theme:
+  name: material
+  language: es
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: teal
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: teal
+
+plugins:
+  - search
+  - print-site:
+      add_to_navigation: true
+      print_page_title: 'Imprimir a PDF'
+
+nav:
+  - Guía del Sistema: index.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences

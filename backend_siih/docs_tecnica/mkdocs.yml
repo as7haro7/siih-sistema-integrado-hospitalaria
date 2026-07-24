@@ -27,6 +27,12 @@ theme:
     - search.suggest
     - search.highlight
 
+plugins:
+  - search
+  - print-site:
+      add_to_navigation: true
+      print_page_title: 'Imprimir a PDF'
+
 nav:
   - Inicio: index.md
   - Requerimientos Técnicos: requerimientos.md

@@ -50,7 +50,7 @@ class MedicamentoViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action in ("list", "retrieve", "alertas"):
-            return [(IsAdmin | IsFarmaceutico | IsDirector)()]
+            return [(IsAdmin | IsFarmaceutico | IsDirector | IsMedico)()]
         return [(IsAdmin | IsFarmaceutico)()]
 
     @action(detail=False, methods=["get"], url_path="alertas")

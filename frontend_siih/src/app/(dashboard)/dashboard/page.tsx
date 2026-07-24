@@ -330,24 +330,7 @@ export default function DashboardPage() {
         )}
       </div>
 
-      {/* ─── Info card ─── */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Sistema Integrado de Información Hospitalaria</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-sm text-muted-foreground space-y-2">
-            <ul className="list-disc pl-5 space-y-1">
-              <li><strong>Recepción:</strong> Pacientes, Citas Médicas y Emergencias (Triage).</li>
-              <li><strong>Médico:</strong> Consultorio Clínico, Historial, Camas y Hospitalizaciones.</li>
-              <li><strong>Laboratorio:</strong> Cola de exámenes médicos y resultados.</li>
-              <li><strong>Farmacia:</strong> Inventario, Proveedores, Compras y Despacho de Recetas.</li>
-              <li><strong>Caja:</strong> Facturación y consolidación de ingresos.</li>
-            </ul>
-            <p className="pt-2 text-primary font-medium">Accede a los módulos de tu rol desde el menú lateral.</p>
-          </div>
-        </CardContent>
-      </Card>
+
     </div>
   );
 }
